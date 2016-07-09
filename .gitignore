@@ -16,6 +16,8 @@ web/js
 web/uploads
 web/less
 web/fonts
+web/lib
+web/assetic
 
 web/_index.html
 web/index.html
