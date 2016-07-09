@@ -1,0 +1,15 @@
+NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\Configuration:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    oneToMany:
+        rows:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\Configuration\Row
+            mappedBy: configuration
+            orphanRemoval: true
+            cascade: [all]
+            fetch: EAGER

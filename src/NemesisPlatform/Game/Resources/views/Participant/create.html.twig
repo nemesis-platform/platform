@@ -1,0 +1,16 @@
+{% extends theme.layout('wide') %}
+
+{% block title %}
+    Регистрация на &laquo;{{ season.name }}&raquo;
+{% endblock %}
+
+{% block body %}
+    <h2>
+        {{ app.user.formattedName("%l %f %m") }}
+        <small>
+            {{ season.name }}
+        </small>
+    </h2>
+
+    {{ form(form) }}
+{% endblock %}

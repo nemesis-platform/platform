@@ -1,0 +1,12 @@
+services:
+
+  nemesis_platform.theme.boostrap_abstract:
+    abstract: true
+    class: NemesisPlatform\Core\CMS\Theme\NemesisBootstrapTheme
+    arguments: [@twig, @assetic.asset_factory, %assetic.write_to%, @file_locator, %kernel.root_dir%]
+
+  nemesis.theme_basic:
+    class: NemesisPlatform\Core\CMS\Theme\BasicTheme
+    parent: nemesis_platform.theme.boostrap_abstract
+    tags:
+      - { name: theme, alias: basic_bootstrap_theme }

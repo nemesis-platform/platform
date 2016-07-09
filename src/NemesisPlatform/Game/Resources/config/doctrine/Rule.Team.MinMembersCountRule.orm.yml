@@ -1,0 +1,5 @@
+NemesisPlatform\Game\Entity\Rule\Team\MinMembersCountRule:
+  type: entity
+  fields:
+    min:
+      type: integer

@@ -1,0 +1,8 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableValue:
+  type: entity
+  oneToMany:
+    rows:
+      targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableRow
+      mappedBy: table
+      cascade: [all]
+      orphanRemoval: true

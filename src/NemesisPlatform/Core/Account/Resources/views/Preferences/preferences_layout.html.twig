@@ -1,0 +1,19 @@
+{% extends theme.layout('wide') %}
+
+{% import 'CMSBundle::macros.html.twig' as macros %}
+
+{% block body %}
+    <h1 class="page-header">Профиль</h1>
+    <div class="row">
+        <div class="col-md-3 col-xs-12">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{{ path('site_user_preferences') }}">Обзор</a></li>
+                {{ macros.menu_block('profile_menu') }}
+            </ul>
+        </div>
+        <div class="col-md-9 col-xs-12">
+            {% block preferences_body %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

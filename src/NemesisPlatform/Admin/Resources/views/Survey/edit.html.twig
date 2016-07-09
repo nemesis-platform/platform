@@ -1,0 +1,12 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Опрос "{{ survey.alias }}" :: Опросы :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('admin_survey_list') }}">Опросы</a> &mdash; Редактировать опрос &laquo;{{ survey.alias }}&raquo;
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
+

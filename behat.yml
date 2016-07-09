@@ -1,0 +1,96 @@
+console:
+  gherkin:
+    filters:
+      tags: "~@javascript"
+
+gui:
+  gherkin:
+    filters:
+      tags: "@javascript"
+
+manual_gui:
+  gherkin:
+    filters:
+      tags: "@javascript"
+  mink:
+    browser_name: chrome
+
+coverage:
+  gherkin:
+    filters:
+      tags: "~@javascript"
+  extensions:
+    VIPSoft\CodeCoverageExtension\Extension:
+      drivers:
+        - local
+      report:
+          format:   html
+          options:
+            target: build/coverage/behat
+
+default:
+  formatters:
+    pretty:
+    junit:
+      output_path: build/junit
+  suites:
+     cms_bundle:
+        contexts:
+          - NemesisPlatform\Components\Test\Behat\Context\MinkContext
+          - Behat\MinkExtension\Context\MinkContext
+          - NemesisPlatform\Core\Account\Features\Context\CoreContext
+          - NemesisPlatform\Game\Features\Context\FixtureContext
+          - NemesisPlatform\Core\CMS\Features\Context\FixtureContext
+          - NemesisPlatform\Core\CMS\Features\Context\CMSContext
+        type: symfony_bundle
+        bundle: CMSBundle
+     core_bundle:
+        contexts:
+          - NemesisPlatform\Components\Test\Behat\Context\MinkContext
+          - Behat\MinkExtension\Context\MinkContext
+          - NemesisPlatform\Core\Account\Features\Context\CoreContext
+          - NemesisPlatform\Core\CMS\Features\Context\FixtureContext
+          - NemesisPlatform\Game\Features\Context\FixtureContext
+          - ScayTrase\SmsDeliveryBundle\Features\Context\FeatureContext
+        type: symfony_bundle
+        bundle: CoreBundle
+     game_bundle:
+        contexts:
+          - NemesisPlatform\Components\Test\Behat\Context\MinkContext
+          - Behat\MinkExtension\Context\MinkContext
+          - NemesisPlatform\Core\Account\Features\Context\CoreContext
+          - NemesisPlatform\Core\CMS\Features\Context\FixtureContext
+          - NemesisPlatform\Game\Features\Context\RulesFixtureContext
+          - NemesisPlatform\Game\Features\Context\FixtureContext
+          - NemesisPlatform\Game\Features\Context\GameContext
+          - ScayTrase\SmsDeliveryBundle\Features\Context\FeatureContext
+        type: symfony_bundle
+        bundle: GameBundle
+     admin_bundle:
+        contexts:
+          - NemesisPlatform\Components\Test\Behat\Context\MinkContext
+          - Behat\MinkExtension\Context\MinkContext
+          - NemesisPlatform\Core\CMS\Features\Context\FixtureContext
+          - NemesisPlatform\Core\Account\Features\Context\CoreContext
+          - NemesisPlatform\Game\Features\Context\FixtureContext
+          - NemesisPlatform\Game\Features\Context\RulesFixtureContext
+        type: symfony_bundle
+        bundle: AdminBundle
+  extensions:
+    Behat\Symfony2Extension:
+      kernel:
+        class: NemesisPlatform\AppKernel
+    Behat\MinkExtension:
+
+      base_url: http://localhost:8000/
+      browser_name: firefox
+      files_path: "%paths.base%"
+      default_session: symfony2
+      sessions:
+        symfony2:
+          symfony2: ~
+        sahi:
+          sahi: ~
+
+mink:
+    base_url: http://localhost:8000/

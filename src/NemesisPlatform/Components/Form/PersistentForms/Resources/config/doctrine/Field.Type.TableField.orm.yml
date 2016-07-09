@@ -1,0 +1,9 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TableField:
+    type: entity
+    manyToMany:
+      fields:
+        targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField
+        orphanRemoval: true
+        cascade: [all]
+
+

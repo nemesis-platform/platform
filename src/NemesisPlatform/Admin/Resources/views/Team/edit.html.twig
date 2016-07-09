@@ -1,0 +1,15 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Команда &laquo;{{ team.getName }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Команда &laquo;{{ team.getName }}&raquo;
+{% endblock %}
+
+{% block body %}
+    <div class=" col-md-6 col-sm-12">
+        {{ form_errors(form) }}
+
+        {{ form(form,{'style':'horizontal'}) }}
+    </div>
+{% endblock %}

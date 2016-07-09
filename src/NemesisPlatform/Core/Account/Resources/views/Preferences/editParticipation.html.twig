@@ -1,0 +1,20 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block preferences_body %}
+    <h2>Редактирование анкеты за &laquo;{{ s_data.season.name }}&raquo;</h2>
+    {{ form(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@ExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
+    '@ExtensionsBundle/Resources/public/js/jquery.hider.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+    '@CMSBundle/Resources/public/js/utils/jquery.countdown.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

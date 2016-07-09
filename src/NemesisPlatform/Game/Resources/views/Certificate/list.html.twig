@@ -1,0 +1,20 @@
+{% extends theme.layout('base') %}
+
+{% block title %}Сертификаты :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Мои сертификаты</h2>
+    {% if participant_certs | length %}
+        {% for season_certs in participant_certs %}
+            <h3>{{ season_certs[0].season.name }}</h3>
+            <ul>
+                {% for cert in season_certs %}
+                    <li><p><a href='{{ cert.link }}'>{{ cert.type.name }}</a></p></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>Участвуйте в чемпионате и выигрывайте, чтобы получить сертификаты
+            от &laquo;{{ site_manager.site.name }}&raquo;</p>
+    {% endif %}
+{% endblock %}

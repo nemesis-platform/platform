@@ -1,0 +1,12 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Создание тега :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_utils_tag_list') }}">Теги</a> &mdash;
+    Создание тега
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

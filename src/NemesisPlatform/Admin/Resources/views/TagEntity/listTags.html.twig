@@ -1,0 +1,39 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Теги :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Зарегистрированные теги
+    <small><a href="{{ path('tag_create') }}">Добавить</a></small>
+{% endblock %}
+
+{% block body %}
+    <h2>
+        <a class="btn btn-primary" href="{{ path('site_admin_utils_tag_user') }}"><i class="fa fa-user"></i> Маркировать
+            пользователей</a>
+        <a class="btn btn-primary" href="{{ path('site_admin_utils_tag_team') }}"><i class="fa fa-users"></i>
+            Маркировать команды</a>
+    </h2>
+    <ul>
+        {% for tag in tags %}
+            <li>
+                <a href="{{ path('tag_edit', {'tag': tag.id}) }}">{{ tag.name }}</a>
+                {% if count[tag.id]['users'] > 0 %}
+                    <a href="{{ path('site_admin_utils_tag_find_user',{'tag':tag.id}) }}">
+                        <i class="fa fa-user"></i> {{ count[tag.id]['users'] }}
+                    </a>
+                {% else %}
+                    <span class="text-muted" title="Нет пользователей"><i class="fa fa-user"></i></span>
+                {% endif %}
+                {% if count[tag.id]['teams'] > 0 %}
+                    <a href="{{ path('site_admin_utils_tag_find_team',{'tag':tag.id}) }}">
+                        <i class="fa fa-users"></i> {{ count[tag.id]['teams'] }}
+                    </a>
+                {% else %}
+                    <span class="text-muted" title="Нет команд"><i class="fa fa-users"></i></span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

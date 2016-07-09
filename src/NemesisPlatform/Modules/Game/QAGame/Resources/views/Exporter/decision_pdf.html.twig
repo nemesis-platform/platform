@@ -1,0 +1,85 @@
+{% set round = decision.round %}
+{% set q_list = decision.questionList %}
+{% set season = round.season %}
+{% set team = decision.team %}
+{% set captain = team.captain %}
+{% set captain_user = captain.user %}
+{% set submitter = decision.user %}
+
+{% macro print_answer(answer, question) %}
+    {% set r_value = answer.value %}
+    {% if r_value is iterable %}
+        {% if r_value.headers is defined %}
+            {# Table #}
+            {% set headers = r_value.headers %}
+            {% set values = r_value.renderValue %}
+            {% set keys = headers | keys %}
+            <table class="table table-responsive table-striped table-bordered">
+                <thead>
+                <tr>
+                    {% for key in keys %}
+                        <th>{{ headers[key] }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for id, row in values %}
+                    <tr>
+                        {% for key in keys %}
+                            {% if row[key] is defined %}
+                                <td>{{ row[key] }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            {# List#}
+            <ul>
+                {% for key,value in r_value.renderValue %}
+                    <li>{{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        {# Plain value #}
+        <p>{{ r_value.renderValue }}</p>
+    {% endif %}
+{% endmacro %}
+
+
+{% if site_manager.site.themeInstance %}
+    {% set theme = theme_registry.get(site_manager.site.themeInstance.theme) %}
+    {% if theme.setConfiguration is defined %}
+        {{ theme.setConfiguration(site_manager.site.themeInstance.config) }}
+    {% endif %}
+{% else %}
+    {% set theme = theme_registry.get(site_manager.site.theme) %}
+{% endif %}
+
+
+<style>
+    {% include '@web_dir/css/bootstrap.css' %}
+</style>
+
+<div class="container" style="font-size: 80%">
+    <h1 class="text-primary">{{ q_list.title }}
+        <small>{{ round.name }}</small>
+    </h1>
+
+    <h2>{{ team.name }}</h2>
+
+    <h3>Автор: {{ submitter.formattedName }}
+        <small class="text-muted">{{ decision.submissionTime | date('Y.m.d H:i:s') }}</small>
+    </h3>
+
+    {% for question in q_list.questions %}
+        <h3>{{ question.title }}</h3>
+        {% for answer in decision.answers if answer.value.field == question.field %}
+            {{ _self.print_answer(answer,question) }}
+        {% endfor %}
+    {% endfor %}
+</div>

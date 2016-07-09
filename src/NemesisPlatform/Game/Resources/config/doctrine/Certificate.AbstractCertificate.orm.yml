@@ -1,0 +1,17 @@
+NemesisPlatform\Game\Entity\Certificate\AbstractCertificate:
+    type: entity
+    table: Certificate
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            id: true
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        link:
+            type: string
+    manyToOne:
+        type:
+            targetEntity: NemesisPlatform\Game\Entity\Certificate\CertificateType
+            inversedBy: certificates

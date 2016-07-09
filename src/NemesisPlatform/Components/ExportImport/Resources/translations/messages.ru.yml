@@ -1,0 +1,5 @@
+importers:
+  do_import: Импортировать
+
+exporters:
+  do_export: Экспортировать

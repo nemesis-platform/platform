@@ -1,0 +1,29 @@
+services:
+
+  form_type.user_type:
+    class: NemesisPlatform\Core\Account\Form\Type\UserType
+    arguments: ["@security.encoder_factory"]
+    tags:
+    - { name: form.type, alias: user_type }
+
+  form_type.rules_checkbox:
+    class: NemesisPlatform\Core\Account\Form\Type\RulesCheckbox
+    arguments: [@router]
+    tags:
+    - { name: form.type, alias: rules_checkbox }
+
+  form_type.user_info_type:
+    class: NemesisPlatform\Core\Account\Form\Type\UserAdditionalDataType
+    tags:
+    - { name: form.type, alias: user_info_type }
+
+  form_type.phone_type:
+   class: NemesisPlatform\Core\Account\Form\Type\PhoneType
+   tags:
+   - { name: form.type, alias: phone_type }
+
+  form_type.private_message:
+    class: NemesisPlatform\Core\Account\Form\Type\PrivateMessageType
+    tags:
+    - { name: form.type, alias: private_message }
+

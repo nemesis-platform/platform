@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build.common" default="build.common.measure">
+
+    <property name="PhpUnit" value="bin/phpunit"/>
+    <property name="Composer" value="composer"/>
+
+    <property name="PhpUnitLoggingBasedir" value="build"/>
+
+    <property name="junit_failed" value="false"/>
+    <property name="behat_failed" value="false"/>
+
+    <target name="build.common.document" depends="build.common.phpunit,build.common.phpdox"/>
+
+    <target name="build.common.install-dependencies">
+        <property name="dev" value="--no-dev"/>
+        <property name="dist" value="--prefer-dist"/>
+        <exec passthru="true" command="${Composer} install -n --optimize-autoloader ${dev} ${dist}" checkreturn="true"/>
+    </target>
+
+    <target name="build.common.measure"
+            description="Run all measure tasks for project"
+            depends="
+                build.common.phploc,
+                build.common.pdepend,
+                build.common.phpmd-ci,
+                build.common.phpcs-ci,
+                build.common.phpcpd"
+            />
+
+    <target name="build.common.clean">
+        <delete dir="${project.basedir}/build/api"/>
+        <delete dir="${project.basedir}/build/coverage"/>
+        <delete dir="${project.basedir}/build/logs"/>
+        <delete dir="${project.basedir}/build/pdepend"/>
+        <delete dir="${project.basedir}/build/phpdox"/>
+        <delete dir="${project.basedir}/target"/>
+    </target>
+
+    <target name="build.common.prepare" description="Prepare for build">
+        <mkdir dir="${project.basedir}/build/api"/>
+        <mkdir dir="${project.basedir}/build/coverage"/>
+        <mkdir dir="${project.basedir}/build/logs"/>
+        <mkdir dir="${project.basedir}/build/pdepend"/>
+        <mkdir dir="${project.basedir}/build/phpdox"/>
+        <mkdir dir="${project.basedir}/target"/>
+    </target>
+
+    <target name="build.common.zip-artifacts">
+        <zip destfile="${project.basedir}/target/${JOB_NAME}-${VERSION}-build${BUILD_NUMBER}.zip">
+            <fileset dir="${project.basedir}">
+                <include name="app/"/>
+                <include name="web/"/>
+                <include name="src/"/>
+                <include name="composer.json/"/>
+                <include name="composer.lock/"/>
+                <exclude name="web/bundles/"/>
+                <exclude name="web/js/"/>
+                <exclude name="web/css/"/>
+                <exclude name="web/images/"/>
+                <exclude name="web/less/"/>
+                <exclude name="app/logs/"/>
+                <exclude name="app/cache/"/>
+                <exclude name="web/sessions/"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="build.common.lint" description="Perform syntax check of sourcecode files">
+        <apply executable="${PhpExecutable}" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="src/">
+                <include name="**/*.php"/>
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="build.common.phploc" description="Measure project size using PHPLOC">
+        <exec passthru="true" executable="phploc">
+            <arg value="--count-tests"/>
+            <arg value="--log-csv"/>
+            <arg value="${project.basedir}/build/logs/phploc.csv"/>
+            <arg value="--log-xml"/>
+            <arg value="${project.basedir}/build/logs/phploc.xml"/>
+            <arg path="${project.basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="build.common.pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec passthru="true" executable="pdepend">
+            <arg value="--jdepend-xml=${project.basedir}/build/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${project.basedir}/build/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${project.basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg path="${project.basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpmd"
+            description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec passthru="true" executable="phpmd">
+            <arg path="${project.basedir}/src"/>
+            <arg value="text"/>
+            <arg value="${project.basedir}/phpmd.xml"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpmd-ci"
+            description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec passthru="true" executable="phpmd">
+            <arg path="${project.basedir}/src"/>
+            <arg value="xml"/>
+            <arg value="${project.basedir}/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="${project.basedir}/build/logs/pmd.xml"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpcs"
+            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <exec passthru="true" executable="phpcs">
+            <arg value="--extensions=php"/>
+            <arg path="${project.basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpcs-ci"
+            description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <exec passthru="true" executable="phpcs" output="/dev/null">
+            <arg value="--extensions=php"/>
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${project.basedir}/build/logs/checkstyle.xml"/>
+            <arg path="${project.basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpcpd" description="Find duplicate code using PHPCPD">
+        <exec passthru="true" executable="phpcpd">
+            <arg value="--log-pmd"/>
+            <arg value="${project.basedir}/build/logs/pmd-cpd.xml"/>
+            <arg path="${project.basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="build.common.phpdox" description="Generate API documentation using phpDox">
+        <exec passthru="true" executable="phpdox"/>
+    </target>
+
+    <target name="build.common.phpunit" description="Run unit tests with PHPUnit">
+        <property name="logging" value="
+            --coverage-html ${PhpUnitLoggingBasedir}/coverage/phpunit
+            --coverage-clover ${PhpUnitLoggingBasedir}/clover/phpunit.xml
+        "/>
+        <exec passthru="true"
+              command="${PhpUnit} ${logging} --log-junit ${PhpUnitLoggingBasedir}/junit/phpunit.xml"
+              checkreturn="false"
+              returnProperty="junit_failed"
+              logoutput="true"/>
+    </target>
+
+    <target name="build.common.behat" description="Run test with behat">
+        <property name="profile" value="default"/>
+        <exec passthru="true"
+              executable="${PhpExecutable}"
+              checkreturn="false"
+              returnProperty="behat_failed"
+              logoutput="true">
+            <arg value="vendor/behat/behat/bin/behat"/>
+            <arg value="-c"/>
+            <arg value="behat.yml"/>
+            <arg value="-p"/>
+            <arg value="${profile}"/>
+        </exec>
+    </target>
+
+    <target name="build.common.check-tests">
+        <condition property="test_failed" value="false">
+            <or>
+                <istrue value="junit_failed"/>
+                <istrue value="behat_failed"/>
+            </or>
+        </condition>
+        <fail message="Some tests failed!" unless="test_failed"/>
+    </target>
+
+</project>
+

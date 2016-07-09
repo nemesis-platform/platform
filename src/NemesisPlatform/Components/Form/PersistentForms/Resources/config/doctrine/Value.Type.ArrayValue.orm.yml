@@ -1,0 +1,5 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\ArrayValue:
+  type: entity
+  fields:
+    arrayValue:
+      type: json_array

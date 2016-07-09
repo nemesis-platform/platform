@@ -1,0 +1,17 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block body %}
+    <ul>
+        {% for type in types %}
+            <li>
+                <a href="{{ path('admin_rule_create_typed_instance', {'type':type.type}) }}">{{ type.description }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('admin_rule_list') }}">Правила</a> &mdash; Список типов
+{% endblock %}
+
+{% block title %}Типовые правила :: {{ parent() }}{% endblock %}

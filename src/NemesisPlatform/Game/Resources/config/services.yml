@@ -1,0 +1,33 @@
+services:
+  nemesis.events.team_listener:
+    class: NemesisPlatform\Game\Repository\TeamListener
+    arguments: [@service_container]
+    tags:
+    - { name: doctrine.event_listener, event: preUpdate }
+
+  nemesis.events.team_updater:
+    class: NemesisPlatform\Game\Event\TeamUpdateEvent
+    arguments:
+    - @security.token_storage
+    - @doctrine.orm.entity_manager
+    - @site.manager
+    tags:
+    - { name: kernel.event_listener, event: kernel.request, method: updateUserTeams, priority: -255 }
+
+  nemesis.account_manager:
+    class: NemesisPlatform\Game\Service\AccountManagerService
+    arguments: [@site.manager, @doctrine.orm.entity_manager, @security.token_storage]
+
+  season.filter_converter:
+    class:    NemesisPlatform\Game\ParamConverter\SeasonParamConverter
+    arguments: [@doctrine,@site.manager]
+    tags:
+    - { name: request.param_converter, priority: 1, converter: season_converter }
+
+  nemesis.block.simple_team_widget:
+    class: NemesisPlatform\Game\Entity\Block\SimpleAccountTeamWidget
+    tags:
+    - { name: block_type, alias: simple_account_team }
+
+  nemesis.fallback_site_factory:
+    class: NemesisPlatform\Game\Service\FallbackSiteFactory

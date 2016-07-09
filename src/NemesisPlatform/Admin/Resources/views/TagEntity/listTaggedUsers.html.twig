@@ -1,0 +1,24 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Пользователи с тегом "{{ tag.name }}" :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_utils_tag_list') }}">Теги</a> &mdash;
+    Пользователи с тегом &laquo;<a href="{{ path('tag_edit', {'tag': tag.id}) }}">{{ tag.name }}</a>&raquo;
+{% endblock %}
+
+{% block body %}
+    <div class="list-group">
+        {% for user in users %}
+            <div class="list-group-item">
+                <a href="{{ path('site_admin_user_edit', {'user': user.id}) }}">
+                    {{ user.formattedName }}
+                </a>
+                <a class="text-danger" href="{{ path('admin_remove_tag_from_user', {'user':user.id,'tag':tag.id}) }}">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

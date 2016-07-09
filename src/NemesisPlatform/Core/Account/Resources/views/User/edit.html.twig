@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block preferences_body %}
+    <h1 class="page-header">Изменение анкеты</h1>
+    {{ form_errors(form) }}
+    {{ form(form) }}
+{% endblock %}

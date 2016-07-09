@@ -1,0 +1,30 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Пользователь &laquo;{{ user.email }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_user_list') }}">Пользователи</a> &mdash; {{ user.formattedName('%l %sf. %sm.') }}
+    <small>{{ user.email }}</small>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('site_account_show',{'_switch_user':user.email}) }}" class="btn btn-primary">
+            <i class="fa fa-sign-in"></i> Залогиниться
+        </a>
+    </div>
+    <h2>Данные аккаунта</h2>
+    {{ form(form) }}
+
+    <h2>Данные сезонов</h2>
+
+    <ul>
+        {% for data in user.participations %}
+            <li>
+                <h3>
+                    <a href="{{ path('site_admin_participant_edit',{'data':data.id}) }}">{{ data.season }}</a>
+                </h3>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

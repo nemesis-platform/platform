@@ -1,0 +1,8 @@
+NemesisPlatform\Game\Entity\Certificate\ParticipantCertificate:
+    type: entity
+    manyToOne:
+        owner:
+            targetEntity: NemesisPlatform\Core\Account\Entity\User
+        season:
+            targetEntity: NemesisPlatform\Game\Entity\Season
+

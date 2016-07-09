@@ -1,0 +1,28 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block body %}
+    <ul>
+        {% for rule in rules %}
+            <li>
+                <a href="{{ path('admin_rule_edit_instance', {'rule': rule.id}) }}">
+                    [{{ rule.id }}] {{ rule.description }}
+                </a>
+                <small class="text-muted">{{ rule.type }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block header %}
+    Список настраиваемых правил
+    <small>
+        <a href="{{ path('admin_rule_list_types') }}">
+            <i class="fa fa-plus-circle"></i> Добавить типовое правило
+        </a>
+    </small>
+{% endblock %}
+
+{% block title %}
+    Список правил
+{% endblock %}
+

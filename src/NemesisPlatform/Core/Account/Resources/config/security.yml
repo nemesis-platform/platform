@@ -1,0 +1,19 @@
+services:
+  nemesis_platform.user_provider:
+    class: NemesisPlatform\Core\Account\Security\UserProvider
+    arguments: ["@service_container","@doctrine.orm.entity_manager"]
+
+  nemesis.security.anonymous_voter:
+      class: NemesisPlatform\Core\Account\Security\Voters\AnonymousVoter
+      public:     false
+      arguments: [ @site.manager ]
+      tags:
+        - {name: security.voter}
+
+  nemesis.security.user_voter:
+      class: NemesisPlatform\Core\Account\Security\Voters\UserVoter
+      public:     false
+      arguments: [ @site.manager ]
+      tags:
+        - {name: security.voter}
+

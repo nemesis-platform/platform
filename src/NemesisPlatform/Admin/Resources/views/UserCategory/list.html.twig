@@ -1,0 +1,21 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}Категории{% endblock %}
+
+{% block body %}
+    <table class="table table-responsive table-bordered table-striped">
+        {% for category in categories %}
+            <tr class="{% if category.league.season.active %}success{% endif %}">
+                <td>#{{ category.id }}</td>
+                <td>
+                    <a href="{{ path('site_admin_usercategory_edit',{'category':category.id}) }}">
+                        {{ category.name }}
+                    </a>
+                </td>
+                <td>{{ category.league.name }}</td>
+                <td>{{ category.league.season }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

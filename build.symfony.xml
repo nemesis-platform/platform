@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build.symfony" default="build.common.measure">
+
+    <property name="PhpExecutable" value="php"/>
+    <property name="SymfonyConsole" value="bin/console"/>
+
+    <import file="build.common.xml"/>
+
+    <target name="build.symfony.dump-assets">
+        <property name="symfony-env" value="dev"/>
+        <exec passthru="true" command="${PhpExecutable} ${SymfonyConsole} assetic:dump --env=${symfony-env}"
+              checkreturn="true"/>
+    </target>
+
+    <target name="build.symfony.install-assets">
+        <property name="symfony-env" value="dev"/>
+        <exec passthru="true" command="${PhpExecutable} ${SymfonyConsole} assets:install --env=${symfony-env}"
+              checkreturn="true"/>
+    </target>
+
+    <target name="build.symfony.migrate-database">
+        <property name="symfony-env" value="dev"/>
+        <exec passthru="true"
+              command="${PhpExecutable} ${SymfonyConsole} doctrine:migrations:migrate --allow-no-migration --no-interaction --env=${symfony-env}"
+              checkreturn="true"/>
+    </target>
+
+    <target name="build.symfony.clear-cache">
+        <property name="symfony-env" value="dev"/>
+        <exec passthru="true"
+              command="${PhpExecutable} ${SymfonyConsole} cache:clear --no-interaction --no-warmup --env=${symfony-env}"
+              checkreturn="true"/>
+    </target>
+
+    <target name="build.symfony.warmup-cache">
+        <property name="symfony-env" value="dev"/>
+        <exec passthru="true" command="${PhpExecutable} ${SymfonyConsole} cache:warmup --no-interaction --env=${symfony-env}"
+              checkreturn="true"/>
+    </target>
+
+    <target name="build.symfony.twig-lint">
+        <apply executable="${PhpExecutable}" failonerror="true" passthru="true">
+            <arg value="${SymfonyConsole}"/>
+            <arg value="lint:twig"/>
+            <fileset dir="src/">
+                <include name="**/*.twig"/>
+            </fileset>
+        </apply>
+    </target>
+</project>

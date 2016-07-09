@@ -1,0 +1,14 @@
+NemesisPlatform\Modules\Game\QAGame\Entity\QARound:
+  type: entity
+  fields:
+    start:
+      type: datetime
+      nullable: true
+
+    finish:
+      type: datetime
+      nullable: true
+
+  manyToOne:
+    questionList:
+      targetEntity: NemesisPlatform\Modules\Game\QAGame\Entity\QuestionList

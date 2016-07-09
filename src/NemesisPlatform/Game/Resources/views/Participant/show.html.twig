@@ -1,0 +1,107 @@
+{% extends theme.layout('base') %}
+
+{% block title %}{{ l_user.formattedName('%l %f') }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-3">
+            {% if l_user.hasPhoto() %}
+                <img class="media-object thumbnail" style="max-width: 100%;"
+                     src='{{ asset(photo_storage) ~ l_user.getPhoto() }}'>
+            {% else %}
+                {% image "@CoreBundle/Resources/public/images/account/nouser.png" %}
+                <img class="media-object thumbnail" style="max-width: 100%;" src='{{ asset_url }}'>
+                {% endimage %}
+            {% endif %}
+            {% if true or is_granted('ROLE_CONFIRMED_PHONE') %}
+                <a href="{{ path('messaging_send',{'user':l_user.id}) }}"
+                   class="btn btn-primary form-control">
+                    <i class="fa fa-envelope"></i> Написать
+                </a>
+            {% else %}
+                <span class="btn btn-primary disabled form-control">
+                    <i class="fa fa-envelope"></i> Написать
+                </span>
+            {% endif %}
+        </div>
+        <div class="col-sm-9">
+            <h3>
+                {{ l_user.formattedName('%l %f') }}
+                <small>
+                    {{ l_user.birthdate | date('Y.m.d') }}
+                </small>
+            </h3>
+            <p>
+                {{ l_user.about }}
+            </p>
+        </div>
+    </div>
+    <hr/>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h3>
+                Участие в сезонах
+            </h3>
+            {% for participant in l_user.participations if (participant.belongsToSite(site_manager.site)) %}
+                {% for team in participant.teams %}
+                    <div class="panel panel-{% if participant.season.active %}success{% else %}default{% endif %}">
+                        <div class="panel-heading">
+                            <h4 style="margin-top: 0; margin-bottom: 0">
+                                {{ participant.season.name }}
+                                <small>
+                                    {% if team.captain == participant %}<i class="fa fa-star"
+                                                                           style="color: gold"></i> {% endif %}
+                                    <a href="{{ path('team_view',{'team':team.id}) }}">{{ team.name }}</a>,
+                                    {% if team.season.leagues | length %}{{ team.league.name }}{% endif %}
+                                </small>
+                            </h4>
+                        </div>
+                        {% if participant.values | length %}
+                            <div class="list-group">
+                                {% for value in participant.values %}
+                                    {% if value.field in participant.category.fields %}
+                                        <div class="list-group-item">
+                                            <b>{{ value.field.title }}</b>:
+                                            {{ value.renderValue }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="panel panel-{% if participant.season.active %}success{% endif %}">
+                        <div class="panel-heading">
+                            <h4 style="margin-top: 0; margin-bottom: 0">
+                                {{ participant.season.name }}
+                                <small>
+                                    Без команды,
+                                    {% if participant.season.leagues | length %},
+                                        {{ participant.category.name }}{% endif %}
+                                </small>
+                            </h4>
+                        </div>
+                        {% if participant.values | length %}
+                            <div class="list-group">
+                                {% for value in participant.values %}
+                                    {% if value.field in participant.category.fields %}
+                                        <div class="list-group-item">
+                                            <b>{{ value.field.title }}</b>:
+                                            {{ value.renderValue }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="panel">
+                    <div class="panel-heading">
+                        Не принимал участия
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

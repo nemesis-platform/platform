@@ -1,0 +1,147 @@
+{% extends theme.layout('wide') %}
+
+{% block title %}Рейтинг :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" id="ratingsForm">
+        <div class="panel-heading">
+            <div class="input-group">
+                <label for="round" class="input-group-addon">Раунд</label>
+                <select id="round" class="form-control" name="round">
+                    <option disabled selected>Выберите игру</option>
+                </select>
+                <label for="league" class="input-group-addon">Л</label>
+                <input id="league"
+                       type="number"
+                       name="league"
+                       min="1"
+                       value="1"
+                       max="10"
+                       class="form-control"/>
+                <label for="group" class="input-group-addon">Г</label>
+                <input id="group" type="number" name="group" min="1" max="64" value="1" class="form-control"/>
+        <span class="input-group-btn">
+            <button id="ratings-submit" class="btn btn-default" type="button">
+                <i class="fa fa-check"></i>
+            </button>
+        </span>
+            </div>
+        </div>
+        <div class="panel-body" id="RatingsWrapper"
+             data-ratings-source="{{ path('module_ratings_table') }}"
+             data-team-route="{{ path('team_view',{'team':'_id_'}) }}"
+             data-toggle="#ratings-submit"
+             data-league="#league"
+             data-group="#group"
+             data-round="#round"
+                >
+
+        </div>
+        <div class="panel-footer form-inlnie">
+            <label for="team_search">
+                Поиск команды
+            </label>
+            <input class="form-control" type="text" id="team_search">
+            <span class="help-block">Поиск команды в выбранном раунде.</span>
+        </div>
+
+    </div>
+
+    <div id="ratings-graph-wrapper">
+        <div id="ratings-graph" style="height: 500px">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@NemesisGameCoreBundle/Resources/public/less/ratings.less' filter='lessphp' %}
+    <LINK rel=stylesheet type=text/css href="{{ asset_url }}" media=all>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts '@NemesisGameCoreBundle/Resources/public/js/ratings.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(document).ready(function () {
+            $("#team_search").autocomplete({
+                        source: function (request, response) {
+                            $.ajax(
+                                    {
+                                        url: "{{ path('nemesis_rating_team_search',{'round':'_id_'}) }}".replace("_id_", $("#round").val()),
+                                        data: {
+                                            term: request.term
+                                        },
+                                        type: "POST",  // a jQuery ajax POST transmits in querystring format in utf-8
+                                        dataType: "json",   //return data in json format
+                                        success: function (data) {
+                                            response($.map(data, function (item) {
+                                                return {
+                                                    label: item.label,
+                                                    league: item.league,
+                                                    group: item.group
+                                                }
+                                            }));
+                                        }
+                                    });
+                        },
+                        select: function (event, ui) {
+                            if (ui.item) {
+                                $("#league").val(ui.item.league);
+                                $("#group").val(ui.item.group);
+                                $("#ratings-submit").click();
+                                $(this).val(ui.item.value);
+                            }
+
+                        },
+                        _renderItem: function (ul, item) {
+                            return $("<li></li>")
+                                    .data("item.autocomplete", item)
+                                    .append(item.label)
+                                    .appendTo(ul);
+                        },
+                        minLength: 2
+                    }
+            );
+        });
+    </script>
+
+
+    <script>
+        $.getJSON('{{ path('module_rounds_autocomplete') }}', function (data) {
+
+            var opt_groups = {};
+
+            $.each(data, function (i, value) {
+                if (!(value.season in opt_groups))
+                    opt_groups[value.season] = [];
+
+                var opt = $('<option/>');
+                opt.val(value.id);
+                opt.text(value.title);
+
+                opt_groups[value.season].push(opt);
+            });
+
+            for (var season in opt_groups) {
+                if (!opt_groups.hasOwnProperty(season)) continue;
+
+                var $opt_group = $("<optgroup/>", {'label': season});
+
+                opt_groups[season].forEach(function ($item) {
+                    $opt_group.append($item);
+                });
+
+                $('#round').append($opt_group);
+            }
+
+        })
+    </script>
+
+{% endblock %}

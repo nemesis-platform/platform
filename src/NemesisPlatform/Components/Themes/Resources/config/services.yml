@@ -1,0 +1,15 @@
+services:
+  scaytrase.theme_registry:
+    class:  NemesisPlatform\Components\Themes\Service\ThemeRegistry
+    tags:
+    - {name: autoregistry, tag: theme }
+
+  scaytrase.switchable_theme.theme_instance_type:
+    class: NemesisPlatform\Components\Themes\Form\Type\ThemeInstanceType
+    arguments: [ @scaytrase.theme_registry, @form.factory ]
+    tags:
+    - { name: form.type, alias: switchable_theme_instance }
+
+  site_theme:
+    class: NemesisPlatform\Components\Themes\Service\SiteThemeService
+    autowire: true

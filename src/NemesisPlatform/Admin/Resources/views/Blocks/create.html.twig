@@ -1,0 +1,11 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}<a href="{{ path('admin_blocks_list') }}">
+        Блоки</a> &mdash; Создать блок &laquo;{{ type }}&raquo;{% endblock %}
+
+{% block title %}Создать блок "{{ type }}" :: Блоки :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
+

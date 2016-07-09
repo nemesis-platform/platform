@@ -1,0 +1,22 @@
+services:
+  form_type.datetime_local:
+   class: NemesisPlatform\Components\Form\Extensions\Form\Type\DateTimeLocalType
+   tags:
+   - { name: form.type, alias: datetime_local }
+  form_type.key_value_collection:
+   class: NemesisPlatform\Components\Form\Extensions\Form\Type\KeyValueCollectionType
+   tags:
+   - { name: form.type, alias: key_value_collection }
+  form_type.key_value_entry:
+   class: NemesisPlatform\Components\Form\Extensions\Form\Type\KeyValueType
+   tags:
+   - { name: form.type, alias: key_value_entry }
+  form_type.entity_hidden:
+   class: NemesisPlatform\Components\Form\Extensions\Form\Type\EntityHiddenType
+   arguments: ["@doctrine.orm.entity_manager"]
+   tags:
+   - { name: form.type, alias: entity_hidden }
+  form_type.entity_autocomplete:
+   class: NemesisPlatform\Components\Form\Extensions\Form\Type\EntityAutocompleteType
+   tags:
+   - { name: form.type, alias: entity_autocomplete }

@@ -1,0 +1,21 @@
+services:
+  site.repository:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+    - NemesisPlatform\Components\MultiSite\Entity\SiteInterface
+
+  site.manager:
+    class: NemesisPlatform\Components\MultiSite\Service\SiteManagerService
+    arguments: ["%maintenance_url%", "@site.repository", "@site.fallback_factory"]
+    tags:
+        - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: -254 }
+
+  site.filter_converter:
+    class:    NemesisPlatform\Components\MultiSite\ParamConverter\SiteParamConverter
+    decorates: sensio_framework_extra.converter.doctrine.orm
+    arguments:
+      - "@site.filter_converter.inner"
+      - "@site.manager"
+    tags:
+    - { name: request.param_converter, priority: 2, converter: site_converter }

@@ -1,0 +1,42 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Раунд {{ round.name }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('module_qa_game_admin_dashboard') }}">Модуль &laquo;QA игры&raquo;</a> &mdash;
+    Раунд &laquo;{{ round.name }}&raquo;
+    <small class="text-muted">#{{ round.id }}</small>
+    <small>
+        <a href="{{ path('admin_module_qa_game_round_edit',{'round':round.id}) }}">
+            <i class="fa fa-pencil"></i>
+        </a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-3 col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {{ round.name }}
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <span class="text-muted">#{{ round.id }}</span> {{ round.season.site.shortName }} &mdash; {{ round.season.shortName }}
+                    </div>
+                    <div class="list-group-item">
+                        <span class="text-muted">#{{ round.questionList.id }}</span> {{ round.questionList.title }}
+                    </div>
+
+                    <div class="list-group-item">
+                        <b><i class="fa fa-fw fa-fast-forward"></i></b> {{ round.start ? round.start | date('Y.m.d H:i') : 'N/A' }}
+                    </div>
+                    <div class="list-group-item">
+                        <b><i class="fa fa-fw fa-fast-backward"></i></b> {{ round.finish ? round.finish | date('Y.m.d H:i') : 'N/A' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

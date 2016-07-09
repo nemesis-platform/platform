@@ -1,0 +1,27 @@
+theme:
+  layouts:
+    front: Главная страница
+    base: Основной
+    base_wide: Широкий
+    base_timeline: Временная лента
+
+exporter:
+  teams_simple_exporter: Экспорт команд
+  participant_simple_exporter: Экспорт участников
+  site_survey_exporter: Экспорт опросов
+  decision_exporter: Экспорт решений
+  businessbattle_teams_exporter: Экспорт команд Business Battle
+
+theme_instance:
+  clone: клонировать
+  edit: редактировать
+  delete: удалить
+  regenerate: регенерировать
+  create: создать
+  configure: настроить
+
+switchable_themes:
+  create: добавить настройки темы
+  list: список настроек
+  edit: редактировать
+

@@ -1,0 +1,18 @@
+NemesisPlatform\Modules\Game\Core\Entity\Decision:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        submissionTime:
+            type: datetime
+            default: CURRENT_TIMESTAMP
+    manyToOne:
+        author:
+            targetEntity: Symfony\Component\Security\Core\User\UserInterface
+        team:
+            targetEntity: NemesisPlatform\Game\Entity\Team

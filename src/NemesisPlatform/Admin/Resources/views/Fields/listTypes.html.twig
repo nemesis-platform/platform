@@ -1,0 +1,20 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}
+    Типы полей :: {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('storable_forms_field_list') }}">Поля</a> &mdash; Типы полей
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for type in types %}
+            <li>
+                <a href="{{ path('storable_forms_field_create', {'type':type.type}) }}">{{ type.type }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

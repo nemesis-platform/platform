@@ -1,0 +1,11 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Создать опрос :: Опросы :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('admin_survey_list') }}">Опросы</a> &mdash; Создать опрос
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

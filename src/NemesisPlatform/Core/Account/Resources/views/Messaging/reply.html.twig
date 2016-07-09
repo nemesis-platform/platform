@@ -1,0 +1,13 @@
+{% extends 'CoreBundle:Messaging:sendMessage.html.twig' %}
+
+{% block title %}Ответ на сообщение :: {{ parent() }}{% endblock %}
+
+{% block reply %}
+    <h4>Ответ на</h4>
+    <blockquote>
+        {{ message.body | nl2br }}
+        <small>
+            {{ message.sender.formattedName('%f') }} {{ message.created | date('d M Y H:i:s') }}
+        </small>
+    </blockquote>
+{% endblock %}

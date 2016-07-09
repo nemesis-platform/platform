@@ -1,0 +1,14 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        field:
+          targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField
+          joinColumn:
+            name: type

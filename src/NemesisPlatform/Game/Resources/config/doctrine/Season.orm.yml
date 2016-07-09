@@ -1,0 +1,37 @@
+NemesisPlatform\Game\Entity\Season:
+    type: entity
+    inheritanceType: JOINED
+    id:
+      id:
+        type: integer
+        id: true
+        generator:
+            strategy: IDENTITY
+    fields:
+      name:
+        type: string
+      short_name:
+        type: string
+      description:
+        type: text
+        nullable: true
+      active:
+        type: boolean
+      registration_open:
+        type: boolean
+
+    manyToOne:
+      site:
+        targetEntity: NemesisPlatform\Game\Entity\SeasonedSite
+        inversedBy: seasons
+    oneToMany:
+      leagues:
+        targetEntity: NemesisPlatform\Game\Entity\League
+        mappedBy: season
+        cascade: [all]
+      teams:
+        targetEntity: NemesisPlatform\Game\Entity\Team
+        mappedBy: season
+    manyToMany:
+      rules:
+        targetEntity: NemesisPlatform\Game\Entity\Rule\AbstractRuleEntity

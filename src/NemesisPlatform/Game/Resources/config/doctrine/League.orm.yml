@@ -1,0 +1,25 @@
+NemesisPlatform\Game\Entity\League:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+      name:
+        type: string
+      with_combined:
+        type: boolean
+
+    oneToMany:
+      categories:
+        targetEntity: NemesisPlatform\Game\Entity\UserCategory
+        mappedBy: league
+        cascade: [all]
+
+    manyToOne:
+      season:
+        targetEntity: NemesisPlatform\Game\Entity\Season
+        inversedBy: leagues
+        fetch: EAGER

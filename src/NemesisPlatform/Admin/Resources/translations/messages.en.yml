@@ -1,0 +1,13 @@
+theme_instance:
+  clone: clone
+  edit: edit
+  delete: delete
+  regenerate: regenerate
+  create: create
+  configure: configure
+
+switchable_themes:
+  create: create theme config
+  list: config list
+  edit: edit
+

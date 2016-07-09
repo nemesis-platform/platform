@@ -1,0 +1,21 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Прокси страницы :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    &laquo;<a
+        href="{{ path('site_admin_site_show', {'site': site.id}) }}">{{ site.shortName }}</a>&raquo; &mdash; Прокси-страницы
+    <small>
+        <a href="{{ path('admin_proxy_pages_create', {'site': site.id}) }}">Создать</a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for page in pages %}
+            <li>
+                <a href="{{ path('admin_proxy_pages_edit', {'page': page.id }) }}">{{ page.alias }} &rarr; {{ page.route }}</a>
+                with {{ page.data | json_encode }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

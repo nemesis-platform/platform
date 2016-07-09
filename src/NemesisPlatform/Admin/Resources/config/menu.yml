@@ -1,0 +1,23 @@
+services:
+    admin_menu.structure_menu:
+      class: NemesisPlatform\Admin\Menu\StructureMenuEntry
+      arguments: [@router]
+      tags:
+      - { name: menu_element, menu: admin_menu }
+
+    admin_menu.current_site:
+      class: NemesisPlatform\Admin\Menu\CurrentSiteEntry
+      arguments: [@site.manager, @router]
+      tags:
+      - { name: menu_element, menu: admin_menu }
+
+    admin_menu.modules_menu:
+      class: NemesisPlatform\Admin\Menu\ModulesMenu
+      tags:
+      - { name: menu_element, menu: admin_menu }
+
+    admin_menu.utils_menu:
+      class: NemesisPlatform\Admin\Menu\UtilsMenuEntry
+      arguments: [@router]
+      tags:
+      - { name: menu_element, menu: admin_menu }

@@ -1,0 +1,26 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}&laquo;/{{ page.alias }}&raquo; &mdash; Ревизия #{{ revision.id }} от {{ revision.createdTime | date('Y.m.d H:i:s') }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    &laquo;/{{ page.alias }}&raquo; &mdash; Ревизия #{{ revision.id }}
+    <small>
+        {{ revision.author ? revision.author.formattedName('%l %sf. %sm.') : 'Система' }}
+    </small>
+    <small>
+        {{ revision.createdTime | date('Y.m.d H:i:s') }}
+    </small>
+{% endblock %}
+
+{% block body %}
+    <div class="well">
+        <a href="#code" data-toggle="collapse">Показать исходник</a>
+
+        <div id="code" class="collapse">
+            <pre>{{ revision.content }}</pre>
+        </div>
+    </div>
+    <div>
+        {{ revision.content | raw }}
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+services:
+
+  nemesis_admin.exporter.teamexporter:
+    class: NemesisPlatform\Admin\Exporter\TeamExporter
+    arguments:
+    - @doctrine.orm.entity_manager
+    - @form.factory
+    tags:
+    - { name: exporter }
+
+
+  nemesis_admin.exporter.participant_simple:
+    class: NemesisPlatform\Admin\Exporter\ParticipantExporter
+    arguments:
+    - @doctrine.orm.entity_manager
+    tags:
+    - { name: exporter }
+
+  nemesis.survey.exporter:
+    class: NemesisPlatform\Admin\Exporter\SurveyExporter
+    arguments:
+    - @site.manager
+    tags:
+    - { name: exporter }
+
+  nemesis.tags.exporter:
+    class: NemesisPlatform\Admin\Exporter\TagExporter
+    arguments:
+    - @doctrine.orm.entity_manager
+    tags:
+    - { name: exporter }

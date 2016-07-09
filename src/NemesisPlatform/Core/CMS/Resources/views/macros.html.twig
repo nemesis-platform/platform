@@ -1,0 +1,214 @@
+{% macro menu_block(menu_name) %}
+    {{ _self.render_menu(menu_registry.menu(menu_name)) }}
+{% endmacro %}
+
+{% macro render_menu(menu_elements) %}
+    {% for element in menu_elements if not element.disabled %}
+
+        {% set badge_counter = null %}
+        {% set alerts_number = null %}
+
+        {% for child in element.children if not child.disabled %}
+            {% if child.badge and child.badge.is_number %}
+                {% set badge_counter = badge_counter + child.badge.value %}
+            {% endif %}
+        {% endfor %}
+        {% for child in element.children if not child.disabled %}
+            {% if child.badge and not child.badge.is_number %}
+                {% set alerts_number = alerts_number + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        {% if element.delimiter %}
+            <li class="divider"></li>
+        {% elseif element.dropdown %}
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{ element.title }}">
+                    {% if element.icon %}<i
+                        class="fa fa-fw fa-{{ element.icon }}"></i> {% endif %}{{ element.label }}
+                    {% if element.badge %}
+                        {% if element.badge.is_number %}
+                            <span class="badge text-{{ element.badge.type }}">{{ element.badge.value }}</span>
+                        {% else %}
+                            <i class="fa fa-fw fa-{{ element.badge.value }} text-{{ element.badge.type }}"></i>
+                        {% endif %}
+                    {% endif %}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    {{ _self.render_menu(element.children) }}
+                </ul>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ asset(element.link) }}"
+                   title="{{ element.title }}">
+                    {% if element.icon %}<i
+                        class="fa fa-fw fa-{{ element.icon }}"></i> {% endif %}{{ element.label }}
+                    {% if element.badge %}
+                        {% if element.badge.is_number %}
+                            <span class="badge text-{{ element.badge.type }}">{{ element.badge.value }}</span>
+                        {% else %}
+                            <i class="fa fa-fw fa-{{ element.badge.value }} text-{{ element.badge.type }}"></i>
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+{% endmacro %}
+
+{% macro account_menu() %}
+    {% block account_menu %}
+        {% if app.user and is_granted('ROLE_USER') %}
+            <li class='dropdown'>
+                {% set user = app.user %}
+
+                {% set badge_counter = null %}
+                {% set alerts_number = null %}
+
+                {% for menu_el in menu_registry.menu('account_menu') if not menu_el.disabled %}
+                    {% if menu_el.badge and menu_el.badge.is_number %}
+                        {% set badge_counter = badge_counter + menu_el.badge.value %}
+                    {% endif %}
+                {% endfor %}
+
+                {% for menu_el in menu_registry.menu('account_menu') if not menu_el.disabled %}
+                    {% if menu_el.badge and not menu_el.badge.is_number %}
+                        {% set alerts_number = alerts_number + 1 %}
+                    {% endif %}
+                {% endfor %}
+
+                <a class="dropdown-toggle" data-toggle="dropdown" href='#'>
+
+                    {% if alerts_number %}
+                        <i class="fa fa-fw fa-warning text-warning pulse">{{ badge_counter }}</i>
+                    {% endif %}
+
+                    {{ user.email }}
+                    {% if badge_counter %}
+                        <span class="badge">{{ badge_counter }}</span>
+                    {% endif %}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    {{ _self.menu_block('account_menu') }}
+                    <li class="divider"></li>
+                    <li><a href='{{ path('logout') }}'>{{ 'global.log out' | trans({},'menu') | capitalize }}</a></li>
+                </ul>
+            </li>
+        {% else %}
+            {% if is_granted('register') %}
+                <li><a href="{{ path('site_register') }}"><span
+                                class=""><b>Регистрация</b></span></a>
+                </li>
+            {% endif %}
+            <li class='dropdown'>
+                <a class="dropdown-toggle" data-toggle="dropdown" href='#'>
+                    {{ 'global.sign in' | trans({},'menu') | capitalize }} <b class="caret"></b>
+                </a>
+
+                <div class="dropdown-menu" style="padding: 10px;min-width:240px;">
+                    <form method="post" role="login" action="{{ path('login_check') }}">
+                        <div class="form-group">
+                            <label class="control-label"
+                                   for="username">{{ 'global.username' | trans({},'menu') | capitalize }}</label>
+                            <input id="username" class="form-control" name="_username" value=""
+                                   title="username"
+                                   tabindex="4" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"
+                                   for="password">{{ 'global.password' | trans({},'menu') | capitalize }}</label>
+                            <input class="form-control" id="password" name="_password" value=""
+                                   title="password"
+                                   tabindex="5" type="password">
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-primary form-control" id="signin_submit" tabindex="6"
+                                    type="submit">{{ 'global.sign in' | trans({},'menu') | capitalize }}
+                            </button>
+                            <span>
+                                <small>
+                                    <a href="{{ path('site_service_password_restore_request') }}">Забыли пароль?</a>
+                                </small>
+                            </span>
+                        </div>
+                    </form>
+
+                </div>
+            </li>
+        {% endif %}
+    {% endblock %}
+{% endmacro %}
+
+{% macro js_trackers() %}
+{% endmacro %}
+
+{% macro js_menu_activator() %}
+    <script>
+        $("a").each(function () {
+            if (
+                    $(this).attr("href") === window.location.pathname ||
+                    $(this).attr("href") === window.location.href
+            ) {
+                $(this).parent('li').addClass('active');
+                $(this).addClass('active');
+            }
+        });
+    </script>
+{% endmacro %}
+
+{% macro js_scripts() %}
+    {% javascripts '@jquery' '@jquery_ui' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+    '@ExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
+    '@ExtensionsBundle/Resources/public/js/jquery.hider.js'
+    '@CMSBundle/Resources/public/js/utils/jquery.countdown.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+        $.widget.bridge('uibutton', $.ui.button);
+        $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    {% javascripts '@bootstrap_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        })
+    </script>
+{% endmacro %}
+
+{% macro render_ruleset(ruleset,subject,context) %}
+    {% set context = context | default(null) %}
+    {% for rule in ruleset if rule.enabled %}
+        {% if rule.applicable(subject) and not rule.valid(subject, context) %}
+            {% if rule.renderedMessage(subject) | default(false) %}
+                <div class="bs-callout bs-callout-{{ rule.urgency | default('default') }}">
+                    {{ rule.renderedMessage(subject) }}
+                    {% if rule.callToFixMessage(subject) | default(false) %}
+                        <a href="{{ path(rule.fixRouteName(subject), rule.fixRouteParams(subject)) }}"
+                           class="btn btn-default pull-right">
+                            {{ rule.callToFixMessage(subject) }}
+                        </a>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+

@@ -1,0 +1,21 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block body %}
+    <ul>
+        {% for type in types %}
+            <li>
+                <a href="{{ path('admin_certificates_types_edit', {'type': type.id}) }}">{{ type.name }}</a>
+                <small class="badge">{{ type.certificates | length }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-info" href="{{ path('admin_certificates_types_create') }}"><i class="fa fa-plus"></i> Создать</a>
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('admin_certificates_types_list') }}">Типы сертификатов</a>
+{% endblock %}
+
+{% block title %}
+    Типы сертификатов :: {{ parent() }}
+{% endblock %}

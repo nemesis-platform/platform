@@ -1,0 +1,23 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}Генерация данных{% endblock %}
+
+{% block title %}Генерация данных :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% for type,generator in generators %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <span class="label label-lg label-default pull-right">{{ type }}</span>
+                    {{ generator.description }}
+                </h4>
+            </div>
+            <div class="panel-body">
+                {{ render(controller('AdminBundle:Generator:form',{'type':generator.type})) }}
+            </div>
+        </div>
+    {% else %}
+        <h3>Не зарегистрировано генераторов</h3>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,87 @@
+NemesisPlatform\Core\Account\Entity\User:
+    type: entity
+    table: users
+    uniqueConstraints:
+        email:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        status:
+            type: integer
+        email:
+            type: string
+        password:
+            type: string
+            length: 512
+            column: hash
+        registerDate:
+            type: datetime
+            column: register_date
+        code:
+            type: string
+            nullable: true
+            length: 128
+        pwdCode:
+            type: string
+            nullable: true
+            length: 128
+            column: pwd_code
+        lastname:
+            type: string
+            nullable: true
+        firstname:
+            type: string
+            nullable: true
+        middlename:
+            type: string
+            nullable: true
+        avatar:
+            type: string
+            nullable: true
+        birth_date:
+            type: date
+            column: birthdate
+            nullable: true
+        encoder:
+            type: string
+            nullable: true
+        about:
+            type: text
+            nullable: true
+            column: about
+        social_vkontakte:
+            type: string
+            nullable: true
+        social_twitter:
+            type: string
+            nullable: true
+        social_facebook:
+            type: string
+            nullable: true
+        admin_comment:
+            type: string
+            nullable: true
+    oneToMany:
+        phones:
+            targetEntity: NemesisPlatform\Core\Account\Entity\Phone
+            mappedBy: user
+        participations:
+            targetEntity: NemesisPlatform\Game\Entity\Participant
+            mappedBy: user
+            orderBy:
+              id: DESC
+    manyToOne:
+        phone:
+            targetEntity: NemesisPlatform\Core\Account\Entity\Phone
+    manyToMany:
+        tags:
+            targetEntity: NemesisPlatform\Core\Account\Entity\Tag
+            cascade: [persist]
+
+    repositoryClass: NemesisPlatform\Core\Account\Repository\UserRepository

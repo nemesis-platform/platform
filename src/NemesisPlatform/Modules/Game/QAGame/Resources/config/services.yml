@@ -1,0 +1,35 @@
+services:
+  nemesis.qa_game.module_menu:
+    class: NemesisPlatform\Modules\Game\QAGame\Menu\QAGameAdminMenu
+    arguments: [@router, @admin_menu.modules_menu ]
+    tags:
+    - {name: game_module_menu}
+
+  nemesis.qa_game.round_type:
+    class: NemesisPlatform\Modules\Game\QAGame\Form\Type\QARoundType
+    tags:
+    - { name: form.type, alias: module_qa_game_round }
+
+  nemesis.qa_game.question_list_type:
+    class: NemesisPlatform\Modules\Game\QAGame\Form\Type\QAQuestionListType
+    tags:
+    - { name: form.type, alias: module_qa_game_question_list }
+
+  nemesis.qa_game.question_type:
+    class: NemesisPlatform\Modules\Game\QAGame\Form\Type\QAQuestionType
+    tags:
+    - { name: form.type, alias: module_qa_game_question }
+
+  nemesis.qa_game.decision:
+    class: NemesisPlatform\Modules\Game\QAGame\Form\Type\QADecisionFormType
+    arguments: [@doctrine.orm.entity_manager, @security.token_storage]
+    tags:
+    - { name: form.type, alias: qa_decision }
+
+  nemesis.qa_game.pdf_exporter:
+    class: NemesisPlatform\Modules\Game\QAGame\Exporter\QADecisionPDFExporter
+    arguments:
+    - @doctrine.orm.entity_manager
+    - @twig
+    tags:
+    - { name: exporter }

@@ -1,0 +1,15 @@
+{% extends theme.layout('wide') %}
+
+{% import 'CMSBundle::macros.html.twig' as macros %}
+
+{% block title %}Кабинет :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2 class="page-header">Здравствуйте, {{ user.getFormattedName('%f %m') }}!</h2>
+
+    {% for block in site_manager.site.blocks('account') %}
+        {% set options = block.block.options | default({}) %}
+        {% include block.block.template ignore missing with options %}
+    {% endfor %}
+
+{% endblock %}

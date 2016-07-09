@@ -1,0 +1,16 @@
+NemesisPlatform\Components\Themes\Entity\ThemeInstance:
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: IDENTITY
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  fields:
+    description:
+      type: string
+    theme:
+      type: string
+    config:
+      type: json_array

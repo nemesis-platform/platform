@@ -1,0 +1,22 @@
+NemesisPlatform\Modules\Game\Core\Entity\DraftRecord:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        round:
+            associationKey: true
+        team:
+            associationKey: true
+    fields:
+        league:
+            type: integer
+        group:
+            type: integer
+            column: `group`
+        company:
+            type: integer
+    manyToOne:
+      team:
+        targetEntity: NemesisPlatform\Game\Entity\Team
+      round:
+        targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Round\DraftRound
+        inversedBy: draft

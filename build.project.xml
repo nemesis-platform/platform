@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build.project" default="build.project.install-themes">
+
+    <property name="PhpExecutable" value="php"/>
+    <property name="SymfonyConsole" value="bin/console"/>
+
+    <target name="build.project.install-themes">
+        <exec passthru="true" command="${PhpExecutable} ${SymfonyConsole} nemesis:themes:generate"/>
+    </target>
+</project>

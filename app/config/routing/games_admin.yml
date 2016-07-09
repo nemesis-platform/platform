@@ -1,0 +1,9 @@
+_core_admin:
+    resource: "@NemesisGameCoreBundle/Controller/Admin"
+    type:     annotation
+    prefix:   /
+
+_qa_game_admin:
+    resource: "@QAGameBundle/Controller/Admin"
+    type:     annotation
+    prefix:   /module/qa_game

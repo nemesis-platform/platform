@@ -1,0 +1,19 @@
+NemesisPlatform\Modules\Game\Core\Entity\RatingRecord:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        value:
+            type: float
+    manyToOne:
+        period:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Period
+            inversedBy: rating
+        team:
+            targetEntity: NemesisPlatform\Game\Entity\Team
+            fetch: EAGER
+    repositoryClass: NemesisPlatform\Modules\Game\Core\Repository\RatingRepository

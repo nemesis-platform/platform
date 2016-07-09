@@ -1,0 +1,24 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block title %}Профиль :: {{ parent() }}{% endblock %}
+
+{% block preferences_body %}
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object thumbnail" style="max-height: 128px; max-width: 128px;"
+                 src="{% if app.user.photo %}{{ asset(photo_storage ~ app.user.photo) }}{% else %}{% endif %}"
+                 alt="user avatar">
+        </a>
+
+        <div class="media-body">
+            <h4 class="media-heading">
+                {{ app.user.formattedName }}
+                <small>
+                    {{ app.user.email }}
+                    {% if app.user.enabled %}<i class="fa fa-check-circle text-success"></i>{% endif %}
+                </small>
+            </h4>
+            <p>Зарегистрирован: {{ app.user.registerDate | date('Y.m.d H:i') }}</p>
+        </div>
+    </div>
+{% endblock %}

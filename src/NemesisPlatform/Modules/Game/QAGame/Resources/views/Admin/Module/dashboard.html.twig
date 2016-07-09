@@ -1,0 +1,57 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Модуль "QA игры" :: {{ parent() }}{% endblock %}
+
+{% block header %}Модуль &laquo;QA игры&raquo;{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <h2>
+                Раунды
+                <small>
+                    <a href="{{ path('admin_module_qa_game_round_create') }}">
+                        <i class="fa fa-plus"></i> Создать раунд
+                    </a>
+                </small>
+            </h2>
+            <ul class="list-group">
+                {% for round in rounds %}
+                    {% set state = 'default' %}
+                    {% if round.active %}
+                        {% if not round.finished %}
+                            {% set state = 'success' %}
+                        {% endif %}
+                    {% endif %}
+                    <li class="list-group-item list-group-item-{{ state }}">
+                        <small class="text-muted">#{{ round.id }}</small>
+                        <small {% if not round.season.active %}class="text-muted"{% endif %}>{{ round.season.shortname }}</small>
+                        <a href="{{ path('admin_module_qa_game_round_view', {'round': round.id}) }}">{{ round.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h2>
+                Опросники
+                <small>
+                    <a href="{{ path('admin_module_qa_game_qlist_create') }}">
+                        <i class="fa fa-plus"></i> Создать опросник
+                    </a>
+                </small>
+            </h2>
+            <ul class="list-group">
+                {% for list in question_lists %}
+                    <li class="list-group-item">
+                        <small class="text-muted">#{{ list.id }}</small>
+                        <small class="text-muted">{{ list.questions | length }}</small>
+                        <a href="{{ path('admin_module_qa_game_qlist_edit', {'list': list.id}) }}">{{ list.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4 col-xs-12">
+
+        </div>
+    </div>
+{% endblock %}

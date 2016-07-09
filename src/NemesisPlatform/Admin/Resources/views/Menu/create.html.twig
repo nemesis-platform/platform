@@ -1,0 +1,11 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Меню :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Создать меню
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

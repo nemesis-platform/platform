@@ -1,0 +1,26 @@
+{% extends theme.layout('base') %}
+
+{% block title %}{{ newsEntry.title }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div itemscope itemtype="http://schema.org/NewsArticle">
+        <h2 class="page-header" itemprop="headline">
+            {{ newsEntry.title }}
+        </h2>
+
+        <h3>
+            <small>
+                {{ newsEntry.season.name }}
+                &mdash;
+                <span>
+                    <time itemprop="datePublished"
+                          datetime="{{ newsEntry.getDate | date('Y-m-d\\TH:i:sO') }}">{{ newsEntry.getDate | localizeddate('long', 'none', app.request.locale ) }}
+                    </time>
+                </span>
+            </small>
+        </h3>
+        <div itemprop="articleBody">
+            {{ newsEntry.body | raw }}
+        </div>
+    </div>
+{% endblock %}

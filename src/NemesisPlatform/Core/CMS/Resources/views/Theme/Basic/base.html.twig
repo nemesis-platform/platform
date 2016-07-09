@@ -1,0 +1,115 @@
+{% import 'CMSBundle::macros.html.twig' as macros %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ site_manager.site.fullName }}{% endblock %}</title>
+
+    {% image '@CoreBundle/Resources/public/images/favicon.ico' %}
+    <link href="{{ asset_url }}" rel="SHORTCUT ICON">
+    {% endimage %}
+
+    {% block stylesheets %}
+        <link href="{{ asset(theme.getCssFile) }}" rel="stylesheet" type="text/css"/>
+        {% stylesheets '@font_awesome' %}
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
+        {% endstylesheets %}
+        <style>
+            .ui-autocomplete-loading {
+                background: url('{% image '@CoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+
+<div class="navbar brandbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">{% block site_name %}<i
+                        class="fa fa-globe"></i> {{ site_manager.site.shortName }}{% endblock %}</a>
+            <button type="button" class="navbar-toggle pull-right" data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {{ macros.menu_block('main_menu') }}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user and is_granted('ROLE_USER') %}
+                    {{ macros.menu_block('game_menu') }}
+                {% endif %}
+                {{ macros.account_menu() }}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% if app.session %}
+        {% for type,messages in app.session.flashBag.all %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <div class="row" style="min-height: 400px;">
+        {% block main_content %}
+            {% set has_sidebar = site_manager.site.blocks('sidebar') | length > 0 %}
+            {% if has_sidebar %}
+                <div class="col-md-4 hidden-sm hidden-xs" id="main-sidebar">
+                    {% if site_manager.site.logo %}
+                        <div class="thumbnail" style="border: none">
+                            <img class="img-responsive" src="{{ site_manager.site.logo }}"/>
+                        </div>
+                    {% endif %}
+
+                    {% block sidebar %}
+                        {% for block in site_manager.site.blocks('sidebar') %}
+                            {% set options = block.block.options | default({}) %}
+                            {% include block.block.template ignore missing with options %}
+                        {% endfor %}
+
+                    {% endblock %}
+                </div>
+            {% endif %}
+            <div class="col-sm-12 col-md-{{ has_sidebar ? 8 : 12 }}" id="main-content">
+                {% block body %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+</div>
+<div id="footer">
+    {% block footer %}
+        {% for block in site_manager.site.blocks('footer') %}
+            {% set options = block.block.options | default({}) %}
+            {% include block.block.template ignore missing with options %}
+        {% endfor %}
+    {% endblock %}
+    <div>
+        <div class="container">
+            <hr/>
+            <p>
+                {{ site_manager.site.fullName }} © {{ 'now' | date('Y') }}
+                {% if theme.theme.configuration.contacts_path is defined %}
+                    <a href="{{ path('page_by_alias',{'alias':theme.theme.configuration.contacts_path }) }}">Наши
+                        контакты</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ macros.js_scripts() }}
+    {{ macros.js_trackers() }}
+    {{ macros.js_menu_activator() }}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+services:
+
+  nemesis.block_registry:
+    class: NemesisPlatform\Core\CMS\Registry\BlockTypesRegistry
+    tags:
+     - {name: autoregistry, tag: block_type }
+
+  nemesis.block.sidebar_news:
+    class: NemesisPlatform\Core\CMS\Entity\Block\SideBarNewsWidget
+    tags:
+    - { name: block_type, alias: sidebar_news }
+
+  nemesis.block.custom_content:
+    class: NemesisPlatform\Core\CMS\Entity\Block\CustomContentBlock
+    tags:
+    - { name: block_type, alias: custom_content }

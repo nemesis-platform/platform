@@ -1,0 +1,15 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block preferences_body %}
+    {% for participation in seasons if participation.checkSite(site_manager.site) %}
+        <p>
+            {% if not participation.frozen and participation.season.active %}
+                <a href="{{ path('site_user_seasons_edit',{'participant':participation.id}) }}"><b>{{ participation.season.name }}</b></a>
+            {% else %}
+                <b>{{ participation.season.name }}</b>
+            {% endif %}
+            &mdash; {% if participation.category %}{{ participation.category.name }} {% endif %}
+
+        </p>
+    {% endfor %}
+{% endblock %}

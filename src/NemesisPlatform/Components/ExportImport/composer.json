@@ -1,0 +1,24 @@
+{
+  "name": "scaytrase/symfony-exporters",
+  "description": "Simple bundle with configurable exporters",
+  "minimum-stability": "dev",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Pavel Batanov",
+      "email": "pavel@batanov.me"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/framework-bundle": "~2.3",
+    "symfony/form": "~2.3",
+    "scaytrase/symfony-autoregistry": "~2.0",
+    "sensio/framework-extra-bundle": "~3.0"
+  }
+}

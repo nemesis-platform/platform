@@ -1,0 +1,6 @@
+NemesisPlatform\Game\Entity\Certificate\TeamCertificate:
+    type: entity
+    manyToOne:
+        team:
+            targetEntity: NemesisPlatform\Game\Entity\Team
+

@@ -1,0 +1,8 @@
+NemesisPlatform\Modules\Game\Core\Entity\Round\DraftRound:
+    type: entity
+    oneToMany:
+      draft:
+        targetEntity: NemesisPlatform\Modules\Game\Core\Entity\DraftRecord
+        mappedBy: round
+        fetch: EXTRA_LAZY
+    repositoryClass: NemesisPlatform\Modules\Game\Core\Repository\DraftRoundRepository

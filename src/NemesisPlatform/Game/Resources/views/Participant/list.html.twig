@@ -1,0 +1,103 @@
+{% extends theme.layout('base') %}
+
+{% block title %}Участники :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Список участников &laquo;{{ season.name }}&raquo;</h1>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-12">
+            <div class="input-group form-group">
+                <select title="Сезон" class="form-control" onchange="location.href = $(this).find(':selected').val()">
+                    {% for site_season in site_manager.site.seasons %}
+                        <option value="{{ path('site_user_list',{'season':site_season.id}) }}"
+                                {% if season == site_season %}selected{% endif %}>{{ site_season.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table id='users_new' class='table table-striped table-bordered table-responsive datatable'>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Город</th>
+            <th>Регион</th>
+            <th>Категория</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'lib/datatables/datatables.bootstrap.less' filter="lessphp" %}
+    <LINK rel=stylesheet type=text/css href="{{ asset_url }}" media=all>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('lib/datatables/jquery.datatables.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.bootstrap.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.filtering_delay.js') }}"></script>
+    <script type="text/javascript">
+        var player_template = '{{ path('site_user_view',{'id':'_id_'}) }}';
+
+        $(document).ready(
+                function () {
+                    $('#users_new').dataTable(
+                            {
+                                "aaSorting": [
+                                    [0, "asc"]
+                                ],
+                                "aoColumns": [
+                                    {"bVisible": false, "bSortable": false},
+                                    {"bSortable": false},
+                                    {"bVisible": false, "bSortable": false},
+                                    {"bVisible": false, "bSortable": false},
+                                    {"bSortable": false}
+                                ],
+                                "bProcessing": true,
+                                "bServerSide": true,
+                                "sAjaxSource": "{{ path('site_user_datatable',{season:season.id}) }}",
+                                "oLanguage": {
+                                    "sProcessing": "Подождите...",
+                                    "sLengthMenu": "На странице _MENU_",
+                                    "sZeroRecords": "Участники отсутствуют.",
+                                    "sInfo": "Пользователи с _START_ до _END_ из _TOTAL_ участников",
+                                    "sInfoEmpty": "Пользователи с 0 до 0 из 0 участников",
+                                    "sInfoFiltered": "(отфильтровано из _MAX_ участников)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Поиск: ",
+                                    "sUrl": "",
+                                    "oPaginate": {
+                                        "sFirst": "Первая",
+                                        "sPrevious": "",
+                                        "sNext": "",
+                                        "sLast": "Последняя"
+                                    }
+                                },
+                                "fnRowCallback": function (nRow, aData) {
+                                    $('td:eq(0)', nRow).html(
+                                            '<a href="' + player_template.replace(
+                                                    '_id_',
+                                                    aData[0]
+                                            ) + '">' + aData[1] + '</a> ' + aData[2] + ' <small>' + aData[3] + '</small>'
+                                    );
+
+                                    return nRow;
+                                }
+                            }
+                    ).fnSetFilteringDelay(300);
+
+                }
+        );
+
+    </script>
+{% endblock %}
+

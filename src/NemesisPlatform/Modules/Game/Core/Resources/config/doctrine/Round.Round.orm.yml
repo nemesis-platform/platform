@@ -1,0 +1,19 @@
+NemesisPlatform\Modules\Game\Core\Entity\Round\Round:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+        active:
+            type: boolean
+            column: isActive
+    manyToOne:
+      season:
+        targetEntity: NemesisPlatform\Game\Entity\Season
+    repositoryClass: NemesisPlatform\Modules\Game\Core\Repository\RoundRepository

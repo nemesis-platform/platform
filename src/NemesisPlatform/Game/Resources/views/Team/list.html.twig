@@ -1,0 +1,101 @@
+{% extends theme.layout('base') %}
+
+{% block title %}Команды :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Команды &laquo;{{ season.name }}&raquo;</h1>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-12">
+            <div class="input-group form-group">
+                <select title="Сезон" class="form-control" onchange="location.href = $(this).find(':selected').val()">
+                    {% for site_season in site_manager.site.seasons %}
+                        <option value="{{ path('team_list',{'season':site_season.id}) }}"
+                                {% if season == site_season %}selected{% endif %}>{{ site_season.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table id='teams' class='table table-striped table-bordered table-responsive'>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Название</th>
+            <th>Капитан</th>
+            <th>Капитан ID</th>
+            <th>Лига</th>
+            <th>Регион</th>
+            <th>ИД</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('lib/datatables/jquery.datatables.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.bootstrap.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.filtering_delay.js') }}"></script>
+
+    <script type="text/javascript">
+        var team_template = '{{ path('team_view',{'team':'_id_'}) }}';
+        var user_template = '{{ path('site_user_view',{'id':'_id_'}) }}';
+        $('#teams').dataTable(
+                {
+                    "aoColumns": [
+                        {"bVisible": false, "bSortable": false},
+                        {"bVisible": false, "bSortable": false},
+                        {"bSortable": true},
+                        {"bSortable": true},
+                        {"bVisible": false, "bSortable": false},
+                        {"bSortable": true},
+                        {"bSortable": true},
+                        {"bSortable": true}
+                    ],
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "{{ path('site_team_datatable',{'season':season.id}) }}",
+                    "oLanguage": {
+                        "sProcessing": "Подождите...",
+                        "sLengthMenu": "На странице: _MENU_",
+                        "sZeroRecords": "Команды отсутствуют.",
+                        "sInfo": "Команды с _START_ до _END_ из _TOTAL_",
+                        "sInfoEmpty": "Команды с 0 до 0 из 0",
+                        "sInfoFiltered": "(отфильтровано из _MAX_ команд)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Поиск: ",
+                        "sUrl": "",
+                        "oPaginate": {
+                            "sFirst": "Первая",
+                            "sPrevious": "",
+                            "sNext": "",
+                            "sLast": "Последняя"
+                        }
+                    },
+                    "fnRowCallback": function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(
+                                '<a href="' + team_template.replace('_id_', aData[0]) + '">' + aData[2] + '</a>'
+                        );
+                        $('td:eq(1)', nRow).html(
+                                '<a href="' + user_template.replace('_id_', aData[4]) + '">' + aData[3] + '</a>'
+                        );
+                        return nRow;
+                    }
+                }
+        ).fnSetFilteringDelay(1000);
+
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'lib/datatables/datatables.bootstrap.less' filter="lessphp" %}
+    <LINK rel=stylesheet type=text/css href="{{ asset_url }}" media=all>
+    {% endstylesheets %}
+{% endblock %}
+

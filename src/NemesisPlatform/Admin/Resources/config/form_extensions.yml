@@ -1,0 +1,29 @@
+services:
+  nemesis_admin.form_extension.phone_type:
+      class: NemesisPlatform\Admin\Form\Extension\PhoneTypeExtension
+      arguments: [ @security.authorization_checker, @doctrine.orm.entity_manager ]
+      tags:
+          - { name: form.type_extension, alias: phone_type }
+
+  nemesis_admin.form_extension.participant_type:
+    class: NemesisPlatform\Admin\Form\Extension\ParticipantTypeExtension
+    arguments: [ @security.authorization_checker ]
+    tags:
+    - { name: form.type_extension, alias: season_data_type }
+
+  nemesis_admin.form_extension.team_type:
+    class: NemesisPlatform\Admin\Form\Extension\TeamTypeExtension
+    arguments: [@security.authorization_checker, @router ]
+    tags:
+    - { name: form.type_extension, alias: team_type }
+
+  nemesis_admin.form_extension.user_type:
+    class: NemesisPlatform\Admin\Form\Extension\UserTypeExtension
+    arguments: [@security.authorization_checker]
+    tags:
+    - { name: form.type_extension, alias: user_type }
+
+  nemesis_admin.form_extension.site_survey_extension:
+    class: NemesisPlatform\Admin\Form\Extension\SiteSurveyExtension
+    tags:
+    - { name: form.type_extension, alias: survey_form }

@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Новости</div>
+    <div class="list-group">
+        {% for news_entry in news %}
+            <div class="list-group-item not-auto-active" itemscope itemtype="http://schema.org/NewsArticle">
+                <a class="" itemprop="url" href='{{ path('site_news_show',{'id':news_entry.getID}) }}'>
+                    <h5 class="list-group-item-heading">
+                        <span class="text-primary" itemprop="name">{{ news_entry.getTitle }}</span>
+                    </h5>
+                </a>
+
+                <p class="list-group-item-text">
+                    <time itemprop="datePublished" datetime="{{ news_entry.getDate | date('Y-m-d\\TH:i:sO') }}">
+                        {{ news_entry.getDate | date('Y.m.d') }}
+                    </time>
+                    <small class="text-muted">&mdash; {{ news_entry.season.name }}</small>
+
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</div>

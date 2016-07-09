@@ -1,0 +1,35 @@
+{% extends 'CoreBundle::email.html.twig' %}
+
+{% block title %}
+    Подтверждение регистрации &mdash; {{ parent() }}
+{% endblock %}
+
+{% block greetings %}
+    Здравствуйте, {{ user.getFormattedName('%f %m') }}!
+{% endblock %}
+
+{% block body %}
+    <p>Поздравляем вас с регистрацией в <a href="{{ path('display_front_page') }}">{{ site_manager.site.fullname }}</a>!</p>
+    <p>Для завершения регистрации вам нужно подтвердить адрес электронной почты.</p>
+{% endblock %}
+
+{% block subbody %}
+    <table class="row callout">
+        <tr>
+            <td class="wrapper last">
+
+                <table class="twelve columns">
+                    <tr>
+                        <td class="panel">
+                            <p>Для подтверждения регистрации Вам необходимо пройти по ссылке <a id="confirmation-link"
+                                                                                                href="{{ url | raw }}">{{ url | raw }}</a>.
+                            </p>
+                        </td>
+                        <td class="expander"></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+{% endblock %}

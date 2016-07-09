@@ -1,0 +1,10 @@
+{% extends theme.layout('base') %}
+
+{% block body %}
+    <h1 class="page-header">Регистрация</h1>
+    {% if form is defined %}
+        {{ form(form) }}
+    {% else %}
+        <div class="alert alert-warning">На данный момент регистрация закрыта</div>
+    {% endif %}
+{% endblock %}

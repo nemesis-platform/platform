@@ -1,0 +1,25 @@
+services:
+  scaytrase.storable_forms.field_choice:
+    class: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceField
+    tags:
+    - { name: storable_field, alias: choice }
+
+  scaytrase.storable_forms.field_string:
+    class: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\StringField
+    tags:
+    - { name: storable_field, alias: string }
+
+  scaytrase.storable_forms.field_number:
+    class: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\NumberField
+    tags:
+    - { name: storable_field, alias: number }
+
+  scaytrase.storable_forms.field_textare:
+    class: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TextAreaField
+    tags:
+    - { name: storable_field, alias: textarea }
+
+  scaytrase.storable_forms.field_table:
+    class: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TableField
+    tags:
+    - { name: storable_field, alias: table }

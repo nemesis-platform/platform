@@ -1,0 +1,22 @@
+{
+  "name": "nemesis-platform/multisite-bundle",
+  "description": "Bundle for splitting content depending on the request Host",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pavel Batanov",
+      "email": "pavel@batanov.me"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "NemesisPlatform\\Components\\MultiSite\\": "./"
+    }
+  },
+  "require": {
+    "symfony/framework-bundle": "~2.3 || ~3.0",
+    "doctrine/orm": "~2.3",
+    "doctrine/doctrine-bundle": "~1.2"
+  }
+}

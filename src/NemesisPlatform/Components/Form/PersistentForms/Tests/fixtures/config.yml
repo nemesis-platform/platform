@@ -1,0 +1,5 @@
+framework:
+  test: ~
+  form: ~
+  csrf_protection: false
+  validation:      { enable_annotations: true }

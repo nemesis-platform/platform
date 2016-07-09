@@ -1,0 +1,16 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Создание раунда :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('module_qa_game_admin_dashboard') }}">Модуль &laquo;QA игры&raquo;</a> &mdash;
+    Создание раунда
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

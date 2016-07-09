@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build.test" default="build.test.run-tests">
+
+    <property name="PhpExecutable" value="php"/>
+
+    <import file="build.common.xml"/>
+    <import file="build.symfony.xml"/>
+
+    <target name="build.test.run-tests"
+            depends="
+            build.common.clean,
+            build.common.prepare
+            "
+            description="Full deployment of applcation with all assets regeneration [LONG]">
+        <phingcall target="build.common.install-dependencies">
+            <property name="dev" value="--dev"/>
+        </phingcall>
+        <delete file="build/test.db"/>
+        <phingcall target="build.symfony.clear-cache">
+            <property name="symfony-env" value="test"/>
+        </phingcall>
+        <phingcall target="build.symfony.warmup-cache">
+            <property name="symfony-env" value="test"/>
+        </phingcall>
+        <phingcall target="build.common.lint"/>
+        <phingcall target="build.symfony.twig-lint"/>
+        <phingcall target="build.common.phpunit">
+            <property name="logging" value=""/>
+        </phingcall>
+        <phingcall target="build.common.behat">
+            <property name="profile" value="console"/>
+        </phingcall>
+        <phingcall target="build.common.check-tests"/>
+        <phingcall target="build.common.zip-artifacts"/>
+    </target>
+
+    <target name="build.test.measure-tests" depends="build.common.clean,build.common.prepare"
+            description="Full code measurement">
+        <phingcall target="build.common.install-dependencies">
+            <property name="dev" value="--dev"/>
+        </phingcall>
+        <delete file="build/test.db"/>
+        <delete file="build/test.db"/>
+        <phingcall target="build.symfony.clear-cache">
+            <property name="symfony-env" value="test"/>
+        </phingcall>
+        <phingcall target="build.symfony.warmup-cache">
+            <property name="symfony-env" value="test"/>
+        </phingcall>
+        <phingcall target="build.common.lint"/>
+        <phingcall target="build.symfony.twig-lint"/>
+        <phingcall target="build.common.measure"/>
+        <phingcall target="build.common.document"/>
+        <phingcall target="build.common.behat">
+            <property name="profile" value="console"/>
+        </phingcall>
+        <phingcall target="build.common.check-tests"/>
+        <phingcall target="build.common.zip-artifacts"/>
+    </target>
+</project>

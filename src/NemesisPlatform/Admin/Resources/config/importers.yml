@@ -1,0 +1,6 @@
+services:
+  nemesis.importer.certificate:
+    class: NemesisPlatform\Admin\Importer\ParticipantCertificateImporter
+    arguments: [ @site.manager, @form.factory, @doctrine.orm.entity_manager ]
+    tags:
+    - {name: importer}

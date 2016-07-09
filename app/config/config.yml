@@ -1,0 +1,162 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+parameters:
+  vendor_dir: "%kernel.root_dir%/../vendor"
+  web_dir: "%kernel.root_dir%/../web"
+
+framework:
+    #esi:             ~
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+      save_path: "%kernel.cache_dir%/sessions"
+      cookie_lifetime: 604800
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        photo_storage: "%photo_path%"
+        ckeditor_uploads: "%ckeditor_uploads%"
+    form:
+         resources: ['bootstrap_3_horizontal_layout.html.twig']
+    paths:
+      "%kernel.root_dir%/../web/": web_dir
+      "%kernel.root_dir%/../vendor/": vendor_dir
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: true
+    filters:
+        lessphp:
+             file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
+             apply_to: "\.less$"
+        cssrewrite: ~
+    assets:
+        bootstrap_js: "%vendor_dir%/npm-asset/bootstrap/dist/js/bootstrap.js"
+        bootstrap_css:
+          inputs:
+           - "%vendor_dir%/npm-asset/bootstrap/dist/css/bootstrap.css"
+           - "%vendor_dir%/npm-asset/bootstrap/dist/css/bootstrap-theme.css"
+          output: "css/bootstrap.css"
+        font_awesome: "%vendor_dir%/npm-asset/font-awesome/css/font-awesome.css"
+        font_awesome_ttf:
+          inputs:
+           - "%vendor_dir%/npm-asset/font-awesome/fonts/fontawesome-webfont.ttf"
+          output: "fonts/fontawesome-webfont.ttf"
+        font_awesome_woff:
+          inputs:
+           - "%vendor_dir%/npm-asset/font-awesome/fonts/fontawesome-webfont.woff"
+          output: "fonts/fontawesome-webfont.woff"
+        font_awesome_woff2:
+          inputs:
+           - "%vendor_dir%/npm-asset/font-awesome/fonts/fontawesome-webfont.woff2"
+          output: "fonts/fontawesome-webfont.woff2"
+        jquery: "%vendor_dir%/npm-asset/jquery/dist/jquery.js"
+        jquery_ui:
+          inputs:
+          - '%vendor_dir%/npm-asset/jquery-ui/ui/jquery.ui.autocomplete.js'
+          - '%vendor_dir%/npm-asset/jquery-ui/ui/jquery.ui.tooltip.js'
+        jasny:
+          inputs:
+          - '%vendor_dir%/npm-asset/jasny-bootstrap/js/fileinput.js'
+          - '%vendor_dir%/npm-asset/jasny-bootstrap/js/inputmask.js'
+          - '%vendor_dir%/npm-asset/jasny-bootstrap/js/offcanvas.js'
+          - '%vendor_dir%/npm-asset/jasny-bootstrap/js/rowlink.js'
+          - '%vendor_dir%/npm-asset/jasny-bootstrap/js/transition.js'
+        bootstrap_switch: '%vendor_dir%/npm-asset/bootstrap-switch/dist/js/bootstrap-switch.js'
+
+# Doctrine Configuration
+doctrine:
+    orm:
+        dql:
+            string_functions:
+                GROUP_CONCAT: ScayTrase\Doctrine\Query\Mysql\GroupConcat
+        resolve_target_entities:
+           NemesisPlatform\Components\MultiSite\Entity\SiteInterface: NemesisPlatform\Core\CMS\Entity\NemesisSite
+           NemesisPlatform\Core\Account\Entity\NamedUserInterface: NemesisPlatform\Core\Account\Entity\User
+           Symfony\Component\Security\Core\User\UserInterface: NemesisPlatform\Core\Account\Entity\User
+
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:
+        type: memory
+        path: "%kernel.cache_dir%/swiftmailer/spool"
+
+web_sms:
+  connection:
+    login: test
+    secret: test
+#    template: %websms.template%
+#    default_alias: %websms.default_alias%
+#    base_url: %websms.base_url%
+
+#enable intl extensions
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+ivory_ck_editor:
+  default_config: default
+  plugins:
+    youtube:
+      path: lib/ckeditor/plugins/youtube/
+      filename: plugin.js
+    codemirror:
+      path: lib/ckeditor/plugins/codemirror/
+      filename: plugin.js
+  configs:
+    default:
+      toolbar: "default"
+      protectedSources: ['/<i[^>]*><\/i>/g','/<span[^>]*><\/span>/g']
+      FormatOutput: false
+      FillEmptyBlocks: false
+      allowedContent: true
+      extraPlugins: 'templates,youtube,codemirror'
+      filebrowserBrowseRoute: ckeditor_browse
+      filebrowserUploadRoute: ckeditor_upload
+      filebrowserWindowWidth: 400
+      filebrowserWindowHeight: 400
+      uiColor: "#FFFFFF"
+      contentsCss:
+        - 'css/bootstrap.css'
+        - 'bundles/bmatznerfontawesome/css/font-awesome.min.css'
+  toolbars:
+    configs:
+      default: ['@document','@clipboard','@insert','@links','@styles','@basicstyles','@paragraph']
+    items:
+      document: ['Source', '-', 'Save']
+      clipboard: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+      insert: ['Youtube', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']
+      links: ['Link', 'Unlink', 'Anchor']
+      styles: ['Format']
+      basicstyles: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+      paragraph: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']

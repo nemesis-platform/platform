@@ -1,0 +1,11 @@
+{{ form_start(form,{'attr':{'class':'form-inline','style':'display:inline' }}) }}
+<div class="form-group">
+    <div class="input-group input-group-sm">
+
+        {{ form_widget(form.code,{'attr':{'class':'','placeholder':'Введите код' }}) }}
+        <div class="input-group-btn">
+            {{ form_widget(form.submit,{'attr':{'class':'btn-sm' }}) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,120 @@
+{% if is_granted('ROLE_ADMIN') %}
+    {% set theme = theme_registry.get('admin_bootstrap_theme') %}
+    {% import 'CMSBundle::macros.html.twig' as macros %}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Панель управления{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'less/admin_bootstrap_theme.less' filter='lessphp' %}
+            <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
+            {% endstylesheets %}
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT Sans:400,700">
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:100,300">
+            {% stylesheets '@font_awesome' %}
+            <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
+            {% endstylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('site_admin_dashboard') }}">Панель
+                    управления</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a title="Обзор" href="{{ path('display_front_page') }}">
+                            <i class='fa fa-globe text-info'></i> На сайт
+                        </a>
+                    </li>
+                    {{ macros.menu_block('admin_menu') }}
+                    {{ macros.menu_block('admin_modules_list') }}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li title="Logged in as {{ app.user.getEmail }}">
+                        <p class="navbar-text">{{ app.user.getEmail }}</p>
+                    </li>
+                    <li title="Log out">
+                        <a class="text-danger" href="{{ path('logout') }}"><i class="fa fa-fw fa-sign-out"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h1 class="page-header">{% block header %}{% endblock %}</h1>
+        <div class="row">
+            <div class="col-sm-12 col-md-4 sidebar options-bar">{% block panel %}{% endblock %}</div>
+            <div class="col-sm-12 col-md-8 main" style="padding-right: 2em">
+                {% for type,messages in app.session.flashbag.all %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}">{{ message }}</div>
+                    {% endfor %}
+                {% endfor %}
+                {% block body %}
+                {% endblock %}
+            </div>
+
+        </div>
+    </div>
+    {% block javascripts %}
+
+        {% javascripts '@jquery' '@jquery_ui' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@bootstrap_js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts
+        '@ExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
+        '@ExtensionsBundle/Resources/public/js/jquery.hider.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts
+        '@CMSBundle/Resources/public/js/utils/jquery.countdown.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@jasny' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@bootstrap_switch' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script>
+            $().ready(function () {
+                var oBar = $('.options-bar').first();
+                var cBar = $('.main').first();
+                if (oBar.html() == '') {
+                    oBar.remove();
+                    cBar.removeClass('col-md-8');
+                    cBar.addClass('col-md-12');
+                }
+            });
+        </script>
+        <script src="{{ asset('lib/ckeditor/ckeditor.defaults.js') }}"></script>
+        <script type="text/javascript">
+            $('.fileinput').fileinput();
+            $(".switch-checkbox").bootstrapSwitch();
+        </script>
+
+    {% endblock %}
+    </body>
+    </html>
+{% endif %}

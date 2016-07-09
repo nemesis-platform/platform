@@ -1,0 +1,37 @@
+NemesisPlatform\Core\CMS\Entity\NemesisSite:
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  id:
+    id:
+      type: guid
+      id: true
+  fields:
+    fullName:
+      type: string
+    shortName:
+      type: string
+    baseUrl:
+      type: string
+    supportEmail:
+      type: string
+    active:
+      type: boolean
+    logoUrl:
+      type: string
+      nullable: true
+    faviconUrl:
+      type: string
+      nullable: true
+    theme:
+     type: string
+     nullable: true
+  oneToMany:
+    blocks:
+      targetEntity: NemesisPlatform\Core\CMS\Entity\Block\SiteBlock
+      mappedBy: site
+      cascade: [all]
+      orderBy:
+        weight: ASC
+  manyToOne:
+    themeInstance:
+      targetEntity: NemesisPlatform\Components\Themes\Entity\ThemeInstance

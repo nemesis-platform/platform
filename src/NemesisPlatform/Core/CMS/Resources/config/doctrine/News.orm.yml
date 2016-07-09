@@ -1,0 +1,28 @@
+NemesisPlatform\Core\CMS\Entity\News:
+    type: entity
+    table: news
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        body:
+            type: text
+            nullable: false
+            column: text
+        date:
+            type: datetime
+        title:
+            type: text
+            column: name
+        type:
+            type: integer
+        imageLink:
+            type: string
+            nullable: true
+    manyToOne:
+        season:
+          targetEntity: NemesisPlatform\Game\Entity\Season
+    repositoryClass: NemesisPlatform\Core\CMS\Repository\NewsRepository

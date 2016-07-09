@@ -1,0 +1,11 @@
+NemesisPlatform\Modules\Game\Core\Entity\Report:
+  type: entity
+  manyToOne:
+    team:
+      targetEntity: NemesisPlatform\Game\Entity\Team
+    period:
+      targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Period
+      inversedBy: reports
+  lifecycleCallbacks:
+    postRemove: [ remove ]
+  repositoryClass: NemesisPlatform\Modules\Game\Core\Repository\ReportRepository

@@ -1,0 +1,8 @@
+NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\ArrayDecision:
+    type: entity
+    oneToMany:
+      data:
+        targetEntity: NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\ArrayDecisionDataRecord
+        mappedBy: decision
+        fetch: EAGER
+        cascade: [all]

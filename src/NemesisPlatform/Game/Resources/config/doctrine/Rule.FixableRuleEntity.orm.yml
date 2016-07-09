@@ -1,0 +1,7 @@
+NemesisPlatform\Game\Entity\Rule\FixableRuleEntity:
+  type: entity
+  fields:
+    callToFixMessage:
+      type: string
+    fixRouteName:
+      type: string

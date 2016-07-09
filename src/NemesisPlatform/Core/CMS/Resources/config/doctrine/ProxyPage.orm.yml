@@ -1,0 +1,19 @@
+NemesisPlatform\Core\CMS\Entity\ProxyPage:
+  type: entity
+  id:
+      id:
+          type: integer
+          id: true
+          generator:
+              strategy: IDENTITY
+  fields:
+    alias:
+      type: string
+    route:
+      type: string
+    data:
+      type: json_array
+      nullable: true
+  manyToOne:
+    site:
+      targetEntity: NemesisPlatform\Components\MultiSite\Entity\SiteInterface

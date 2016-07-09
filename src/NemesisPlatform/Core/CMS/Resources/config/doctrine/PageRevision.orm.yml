@@ -1,0 +1,24 @@
+NemesisPlatform\Core\CMS\Entity\PageRevision:
+  type: entity
+  table: PageRevision
+  id:
+      id:
+          type: integer
+          id: true
+          generator:
+              strategy: IDENTITY
+  fields:
+    content:
+      type: text
+    createdTime:
+      type: datetime
+  manyToOne:
+    page:
+      targetEntity: NemesisPlatform\Core\CMS\Entity\Page
+      inversedBy: revisions
+      joinColumn:
+        onDelete: CASCADE
+      cascade: ["remove"]
+    author:
+      targetEntity: NemesisPlatform\Core\Account\Entity\User
+      fetch: EAGER

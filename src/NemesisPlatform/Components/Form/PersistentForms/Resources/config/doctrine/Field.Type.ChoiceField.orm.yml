@@ -1,0 +1,9 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceField:
+    type: entity
+    fields:
+        choices:
+          type: json_array
+        multiple:
+          type: boolean
+        expanded:
+          type: boolean

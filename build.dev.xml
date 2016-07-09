@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build.dev" default="build.dev.deploy">
+
+    <import file="build.symfony.xml"/>
+    <import file="build.project.xml"/>
+
+    <target name="build.dev.deploy" description="Full deployment of applcation with all assets regeneration [LONG]">
+        <phingcall target="build.common.install-dependencies">
+            <property name="dev" value="--dev"/>
+        </phingcall>
+        <phingcall target="build.symfony.migrate-database"/>
+        <phingcall target="build.symfony.install-assets">
+            <property name="symfony-env" value="dev"/>
+        </phingcall>
+        <phingcall target="build.project.install-themes"/>
+        <phingcall target="build.symfony.dump-assets">
+            <property name="symfony-env" value="dev"/>
+        </phingcall>
+    </target>
+
+    <target name="build.dev.refresh">
+        <phingcall target="build.common.install-dependencies">
+            <property name="dev" value="--dev"/>
+        </phingcall>
+        <phingcall target="build.symfony.install-assets">
+            <property name="symfony-env" value="dev"/>
+        </phingcall>
+        <phingcall target="build.symfony.migrate-database"/>
+        <phingcall target="build.symfony.clear-cache">
+            <property name="symfony-env" value="prod"/>
+        </phingcall>
+    </target>
+
+</project>

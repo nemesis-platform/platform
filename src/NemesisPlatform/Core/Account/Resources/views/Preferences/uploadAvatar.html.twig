@@ -1,0 +1,16 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block title %}Аватар :: {{ parent() }}{% endblock %}
+
+{% block preferences_body %}
+    <div class="row">
+        <div class="col-md-2 col-xs-12">
+            <img class="media-object thumbnail" style="max-height: 128px; max-width: 128px;"
+                 src="{% if app.user.photo %}{{ asset(photo_storage ~ app.user.photo) }}{% else %}{% endif %}"
+                 alt="user avatar">
+        </div>
+        <div class="col-md-10 col-xs-12">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

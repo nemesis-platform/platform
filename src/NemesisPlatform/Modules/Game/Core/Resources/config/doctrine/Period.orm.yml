@@ -1,0 +1,37 @@
+NemesisPlatform\Modules\Game\Core\Entity\Period:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        start:
+            type: datetime
+            default: CURRENT_TIMESTAMP
+        end:
+            type: datetime
+            default: '0000-00-00 00:00:00'
+
+        position:
+            type: integer
+        ratingsPublished:
+            type: boolean
+            column: ratings_published
+        reportsPublished:
+            type: boolean
+            column: reports_published
+    oneToMany:
+        rating:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\RatingRecord
+            mappedBy: period
+        reports:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Report
+            mappedBy: period
+    manyToOne:
+        round:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Round\PeriodicRound
+            inversedBy: periods
+

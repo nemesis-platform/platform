@@ -1,0 +1,17 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Раунд #{{ round.id }} {{ round.name }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('module_qa_game_admin_dashboard') }}">Модуль &laquo;QA игры&raquo;</a> &mdash;
+    Редактирование раунда #{{ round.id }} {{ round.name }}
+{% endblock %}
+
+{% block body %}
+    {{ form(form, {'style':'horizontal'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('lib/sortable/nested.sortable.js') }}"></script>
+{% endblock %}

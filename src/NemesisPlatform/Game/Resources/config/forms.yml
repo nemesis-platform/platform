@@ -1,0 +1,30 @@
+services:
+
+  form_type.participant_type:
+    class: NemesisPlatform\Game\Form\Type\ParticipantType
+    tags:
+    - { name: form.type, alias: participant }
+
+  form_type.profile_type:
+    class: NemesisPlatform\Game\Form\Type\ProfileFormType
+    arguments: [@scaytrase.stored_forms.fields_registry, @form.factory]
+    tags:
+    - { name: form.type, alias: profile_type }
+
+  form_type.game.team_type:
+    class: NemesisPlatform\Game\Form\Type\TeamType
+    arguments:
+    - "@security.token_storage"
+    tags:
+    - { name: form.type, alias: team_type }
+
+  storable_forms.fields.team_description:
+    class: NemesisPlatform\Game\Entity\Field\TeamField
+    tags:
+    - { name: storable_field }
+
+  storable_forms.fields.team_description_type:
+    class: NemesisPlatform\Game\Form\Type\MemberDescriptionFormType
+    arguments: [ @security.token_storage, @site.manager ]
+    tags:
+    - { name: form.type, alias: team_members_description }

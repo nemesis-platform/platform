@@ -1,0 +1,7 @@
+services:
+
+#  page_widgets.log.recent_admin_actions_widget:
+#    class: NemesisPlatform\Admin\Widget\LogWidget
+#    arguments: [@service_container]
+#    tags:
+#    - { name: page_widget, group: admin_dashboard }

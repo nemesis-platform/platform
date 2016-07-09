@@ -1,0 +1,9 @@
+admin_bundle:
+    resource: "@AdminBundle/Controller"
+    type:     annotation
+    prefix:   /
+
+exporters_module:
+    resource: "@ExportImportBundle/Controller"
+    type:     annotation
+    prefix:   /utils

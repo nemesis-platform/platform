@@ -1,0 +1,33 @@
+{% extends theme.layout('wide') %}
+
+{% block title %}Лента сообщений{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Лента сообщений</h1>
+    {% for message in messages | reverse %}
+        <div class="well well-sm">
+            <blockquote>
+                {% if not message.read %}
+                    <span class="label label-info">Новое</span>
+                {% endif %}
+                <p>{{ message.body | nl2br }}</p>
+
+                {% if message.parentMessage %}
+                    <blockquote>
+                        {{ message.parentMessage.body | nl2br }}
+                        <small>
+                            <a href="{{ path('messaging_send',{'user':message.parentMessage.sender.id}) }}">{{ message
+                                .parentMessage.sender.formattedName('%f') }}</a>
+                            {{ message.parentMessage.created | localizeddate('full', 'none', app.request.locale) }}
+                        </small>
+                    </blockquote>
+                {% endif %}
+                <small>
+                    <a href="{{ path('messaging_send',{'user':message.sender.id}) }}">{{ message.sender.formattedName('%f') }}</a>
+                    {{ message.created  | localizeddate('full', 'none', app.request.locale) }}
+                    <a href="{{ path('messaging_reply',{'message':message.id}) }}">Ответить</a>
+                </small>
+            </blockquote>
+        </div>
+    {% endfor %}
+{% endblock %}

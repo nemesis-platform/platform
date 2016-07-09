@@ -1,0 +1,16 @@
+{% extends 'AdminBundle:CertificateType:list.html.twig' %}
+
+{% block header %}
+    {{ parent() }} &mdash; Редактирование &laquo;{{ type.name }}&raquo;
+    <small>
+        <a style="color: red;" class="text-danger" href="{{ path('admin_certificates_types_delete', {'type': 'x'}) }}">
+            <i class="fa fa-fw fa-trash-o"></i>
+        </a>
+    </small>
+{% endblock %}
+
+{% block title %}Редактирование {{ type.name }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

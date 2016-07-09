@@ -1,0 +1,11 @@
+NemesisPlatform\Modules\Game\Core\Entity\Round\PeriodicRound:
+    type: entity
+    oneToMany:
+      periods:
+        targetEntity: NemesisPlatform\Modules\Game\Core\Entity\Period
+        mappedBy: round
+        orderBy:
+          position: ASC
+        cascade: [persist]
+        fetch: EAGER
+    repositoryClass: NemesisPlatform\Modules\Game\Core\Repository\PeriodicRoundRepository

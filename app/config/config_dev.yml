@@ -1,0 +1,52 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    channels: ['access_log']
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+
+assetic:
+    use_controller: false
+
+swiftmailer:
+    delivery_address: scaytrase@gmail.com
+    disable_delivery: true
+
+sms_delivery:
+    disable_delivery: true
+    delivery_recipient: 9260711574
+
+web_sms:
+  connection:
+    mode: 1
+
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        metadata_cache_driver: apcu
+        result_cache_driver: apcu
+        query_cache_driver: apcu

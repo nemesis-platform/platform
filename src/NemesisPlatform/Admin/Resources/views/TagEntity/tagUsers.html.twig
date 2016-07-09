@@ -1,0 +1,14 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Теггирование пользователей :: Утилиты :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_utils_tag_list') }}">Теги</a> &mdash;
+    Теггирование пользователей
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
+
+

@@ -1,0 +1,18 @@
+NemesisPlatform\Components\Form\Survey\Entity\SurveyAnswer:
+  type: entity
+  id:
+    value:
+        associationKey: true
+    parent:
+        associationKey: true
+
+  oneToOne:
+    value:
+      targetEntity: \NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
+      cascade: [all]
+      fetch: EAGER
+
+  manyToOne:
+    parent:
+      targetEntity: NemesisPlatform\Components\Form\Survey\Entity\SurveyResult
+      inversedBy: answers

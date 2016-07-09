@@ -1,0 +1,26 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Опросы :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Опросы
+    <small>
+        <a class="" href="{{ path('admin_survey_create') }}"><i class="fa fa-plus"></i> Создать</a>
+    </small>
+{% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% for survey in surveys %}
+            <li>
+                <small>#{{ survey.id }} {{ survey.alias }}</small>
+                <a href="{{ path('admin_survey_edit', {'survey':survey.id}) }}">{{ survey.title }}</a>
+                <a href="{{ path('user_survey_take_by_alias', {'alias': survey.alias}) }}">
+                    <i class="fa fa-fw fa-external-link"></i>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

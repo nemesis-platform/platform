@@ -1,0 +1,69 @@
+NemesisPlatform\Game\Entity\Team:
+    type: entity
+    inheritanceType: JOINED
+    table: teams
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+        date:
+            type: datetime
+            default: CURRENT_TIMESTAMP
+        advert:
+            type: text
+            column: adv
+            nullable: true
+        frozen:
+            type: boolean
+            nullable: true
+        admin_comment:
+            type: string
+            nullable: true
+        persistent_tag:
+            type: string
+            nullable: true
+        form_date:
+            type: datetime
+            nullable: true
+    manyToMany:
+        members:
+            targetEntity: NemesisPlatform\Game\Entity\Participant
+            inversedBy: teams
+            joinTable:
+              name: team_members
+            fetch: EXTRA_LAZY
+        requests:
+            targetEntity: NemesisPlatform\Game\Entity\Participant
+            inversedBy: teamRequests
+            joinTable:
+              name: team_requests
+        invites:
+            targetEntity: NemesisPlatform\Game\Entity\Participant
+            inversedBy: teamInvites
+            joinTable:
+              name: team_invites
+        tags:
+            targetEntity: NemesisPlatform\Core\Account\Entity\Tag
+            joinTable:
+              name: team_tags
+            cascade: [persist]
+    manyToOne:
+        season:
+            targetEntity: NemesisPlatform\Game\Entity\Season
+            inversedBy: teams
+        captain:
+            targetEntity: NemesisPlatform\Game\Entity\Participant
+            joinColumn:
+              name: captain_id
+              nullable: true
+        league:
+            targetEntity: NemesisPlatform\Game\Entity\League
+            joinColumn:
+              nullable: true
+
+    repositoryClass: NemesisPlatform\Game\Repository\TeamRepository

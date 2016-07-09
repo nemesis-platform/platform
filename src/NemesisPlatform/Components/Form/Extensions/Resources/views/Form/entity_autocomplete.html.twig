@@ -1,0 +1,7 @@
+{% block entity_autocomplete_row %}
+    {% block entity_autocomplete_widget %}
+        {{ form_row(form.children.helper,{'attr':{'data-autocomplete-storage':'#' ~ form.children.storage.vars.id} }) }}
+        {{ form_row(form.children.storage) }}
+    {% endblock %}
+{% endblock %}
+

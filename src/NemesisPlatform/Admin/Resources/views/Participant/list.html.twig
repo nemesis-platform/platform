@@ -1,0 +1,163 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Пользователи :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    {% if season %}
+        Участники сезона {{ season.name }} &mdash; {{ season.site.fullName }}
+    {% else %}
+        Все участники
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon" for="season_selector">Выбор сезона</label>
+                    <select class="form-control" id="season_selector"
+                            onchange="window.location.href = this.options[this.selectedIndex].value">
+                        <option {% if not season %}selected{% endif %}
+                                value="{{ path('site_admin_participant_list') }}">Все
+                            сезоны
+                        </option>
+                        {% for site in sites %}
+                            <optgroup label="{{ site.name }}">
+                                {% for p_season in site.seasons %}
+                                    <option {% if season == p_season %}selected{% endif %}
+                                            value="{{ path('site_admin_participant_list',app.request.query.all | merge({'season':p_season.id}) ) }}">{{ p_season.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+
+                    <div class="input-group-btn">
+                        {% if app.request.query.get('everyone') %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge(app.request.query.all) | merge({'everyone':0}) ) }}"
+                               class="btn btn-danger">Показать только подтвержденных</a>
+                        {% else %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge(app.request.query.all) | merge({'everyone':1 }) ) }}"
+                               class="btn btn-success">Показать всех</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <table id='users' class='table table-striped table-bordered table-responsive table-condensed'>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>E-mail</th>
+            <th>Сезон</th>
+            <th>Сайт</th>
+            <th>Дата регистрации</th>
+            <th>Статус</th>
+            <th>Телефон</th>
+            <th>Город</th>
+            <th>Регион</th>
+            <th>Категория</th>
+            <th>Команды</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('lib/datatables/jquery.datatables.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.bootstrap.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.filtering_delay.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var participant_template = '{{ path('site_admin_participant_edit',{'data':'_id_'}) }}';
+            var team_template = '{{ path('site_admin_team_edit',{'id':'_id_'}) }}';
+            var impersonate_template = '{{ path('site_account_show',{'_switch_user':'_email_'}) }}';
+
+            $('#users').dataTable({
+                "aoColumns": [
+                    {"bVisible": false},
+                    null,
+                    {"bVisible": false},
+                    null,
+                    {"bVisible": false},
+                    {"bSearchable": false},
+                    {"bVisible": false},
+                    null,
+                    null,
+                    {"bVisible": false},
+                    {"bVisible": false},
+                    {"bSortable": false, "bSearchable": false}
+                ],
+                "iDisplayLength": 25,
+                "aLengthMenu": [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"]
+                ],
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "{{ path('site_admin_participant_datatable',{'season': (season ? season.id : null),
+                'everyone':app.request.query.get('everyone',false)}) | raw }}",
+                "oLanguage": {
+                    "sProcessing": "Подождите...",
+                    "sLengthMenu": "Показать _MENU_ участников",
+                    "sZeroRecords": "Участники отсутствуют.",
+                    "sInfo": "Пользователи с _START_ до _END_ из _TOTAL_ участников",
+                    "sInfoEmpty": "Пользователи с 0 до 0 из 0 участников",
+                    "sInfoFiltered": "(отфильтровано из _MAX_ участников)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Поиск:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Первая",
+                        "sPrevious": "",
+                        "sNext": "",
+                        "sLast": "Последняя"
+                    }
+                },
+                "fnRowCallback": function (nRow, aData) {
+
+
+                    $('td:eq(0)', nRow).html(
+                            '<span style="white-space: nowrap;">' +
+                            '<a href="' + participant_template.replace('_id_', aData[0]) + '">' +
+                            aData[1] + '</a>' +
+                            ' <small>' + aData[2] + '</small>' +
+                            ' <small class="text-muted">' + aData[0] + '</small>' +
+                            ' <i class="fa fa-check text-' + (aData[6] == 2 ? 'success' : 'danger') + '"></i> ' +
+                            ' <i class="fa fa-phone text-' + (aData[7] > 0 ? 'success' : 'danger') + '"></i> ' +
+                            '<a href="' + impersonate_template.replace('_email_', encodeURIComponent(aData[2])) + '" title="Войти как пользователь"><i class="fa fa-user"></i></a> ' +
+                            '</span>'
+                    );
+                    $('td:eq(1)', nRow).html(aData[3] + ' <small class="text-muted">' + aData[4] + '</small>');
+                    $('td:eq(2)', nRow).html('<span title="' + aData[5] + '">' + aData[5].split(' ')[0] + '</span>');
+
+                    $('td:eq(4)', nRow).html(aData[8] + ' <small class="text-muted">' + aData[9] + '</small>');
+
+                    $('td:eq(5)', nRow).html('');
+
+                    $.each(aData[11], function (i, t_data) {
+                        if (i > 0) {
+                            $('td:eq(5)', nRow).append(', ');
+                        }
+                        $('td:eq(5)', nRow).append($('<a/>', {
+                            "href": team_template.replace('_id_', t_data.team_id),
+                            "html": t_data.team_name
+                        }));
+
+                    });
+
+
+                    return nRow;
+                }
+            }).fnSetFilteringDelay(300);
+        });
+    </script>
+{% endblock %}
+

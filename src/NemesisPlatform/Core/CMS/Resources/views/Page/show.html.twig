@@ -1,0 +1,16 @@
+{% extends theme.layout(page.template) %}
+
+{% block title %}{{ page.title }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% if page.template == 'front' %}
+        {{ page.body | raw }}
+    {% elseif page.template == 'special' %}
+        {{ page.body | raw }}
+    {% else %}
+        <h1 class="page-header {% if page.template == 'timeline' %}text-center{% endif %}">{{ page.title }}</h1>
+        <div class="page-body">
+            {{ page.body | raw }}
+        </div>
+    {% endif %}
+{% endblock %}

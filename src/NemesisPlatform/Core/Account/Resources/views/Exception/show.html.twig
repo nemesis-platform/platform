@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ status_code }} - {{ status_text | trans({},'exception') }}{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Ошибочка!</h1>
+
+    <div class="jumbotron">
+        <h2 class="text-center">{{ status_code }} &mdash; {{ status_text | trans({},'exception') }}
+            <br/>
+            {% if exception %}
+                <small>{{ exception.message | trans({},'exception') }}</small>
+            {% endif %}
+        </h2>
+        <div class="text-center">
+            <button onclick="history.go(-1)" class="btn btn-success">Вернуться назад</button>
+        </div>
+    </div>
+{% endblock %}

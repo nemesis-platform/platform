@@ -1,0 +1,7 @@
+NemesisPlatform\Game\Entity\Rule\AlertRuleEntity:
+  type: entity
+  fields:
+    message:
+      type: string
+    urgency:
+      type: string

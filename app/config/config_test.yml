@@ -1,0 +1,41 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: true
+        only_exceptions: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+    delivery_address: null
+
+sms_delivery:
+    disable_delivery: true
+
+web_sms:
+  connection:
+    mode: -1
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        path:     "%kernel.root_dir%/../build/test.db"
+        #memory:   true
+        charset:  UTF8
+    orm:
+        metadata_cache_driver: array
+        result_cache_driver: apcu
+        query_cache_driver: apcu
+
+parameters:
+    maintenance_url: [localhost]
+    admin_usernames:
+      - admin@test

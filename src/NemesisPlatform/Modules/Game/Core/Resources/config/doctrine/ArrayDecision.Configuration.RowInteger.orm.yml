@@ -1,0 +1,10 @@
+NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\Configuration\RowInteger:
+    type: entity
+    fields:
+      min:
+        type: integer
+      max:
+        type: integer
+      default:
+        name: `default`
+        type: integer

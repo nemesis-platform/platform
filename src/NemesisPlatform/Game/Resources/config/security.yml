@@ -1,0 +1,19 @@
+services:
+  nemesis.security.participant_voter:
+      class: NemesisPlatform\Game\Security\Voters\Team\ParticipantVoter
+      public:     false
+      arguments: [ @site.manager ]
+      tags:
+        - {name: security.voter}
+
+  nemesis.security.captain_voter:
+      class: NemesisPlatform\Game\Security\Voters\Team\CaptainTeamVoter
+      public:     false
+      tags:
+        - {name: security.voter}
+
+  nemesis.security.participant_team_voter:
+      class: NemesisPlatform\Game\Security\Voters\Team\ParticipantTeamVoter
+      public:     false
+      tags:
+        - {name: security.voter}

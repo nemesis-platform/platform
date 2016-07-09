@@ -1,0 +1,18 @@
+NemesisPlatform\Modules\Game\QAGame\Entity\DecisionAnswer:
+  type: entity
+  id:
+    value:
+        associationKey: true
+    decision:
+        associationKey: true
+
+  oneToOne:
+    value:
+      targetEntity: \NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
+      cascade: [all]
+      fetch: EAGER
+
+  manyToOne:
+    decision:
+      targetEntity: NemesisPlatform\Modules\Game\QAGame\Entity\QADecision
+      inversedBy: answers

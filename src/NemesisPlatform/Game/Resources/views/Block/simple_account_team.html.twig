@@ -1,0 +1,240 @@
+{% import 'CMSBundle::macros.html.twig' as macros %}
+
+{% set user = app.user %}
+
+{% if user and user.participations is defined %}
+    {% for season in site_manager.site.seasons if season.active %}
+        {% set data = user.participation(season) %}
+
+        {{ macros.render_ruleset(season.rules,user,season) }}
+
+        {% if data %}
+            {% for team in account_manager.invites %}
+                <div class="bs-callout bs-callout-info">
+                    <p>
+                        Вас пригласили в команду &laquo;<a
+                                href="{{ path('team_view',{'team':team.id}) }}">{{ team.name }}</a>&raquo;
+                        <small class="text-muted">
+                            {% if team.season.leagues | length %}{{ team.league.name }}{% endif %})
+                        </small>
+                    </p>
+                    {% if is_granted('accept_invite',team) %}
+                        <a href="{{ path('team_invite_accept',{'team':team.id}) }}" class="btn btn-success">
+                            <i class="fa fa-check-circle"></i> Принять
+                        </a>
+                    {% else %}
+                        <span class="btn btn-default disabled text-muted" title="Команда заполнена">Принять</span>
+                    {% endif %}
+                    {% if is_granted('decline_invite',team) %}
+                        <a href="{{ path('team_invite_reject',{'team':team.id}) }}" class="btn btn-danger">
+                            <i class="fa fa-times-circle"></i> Отклонить
+                        </a>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            {% endfor %}
+            {% for team in account_manager.requests %}
+                <div class="bs-callout bs-callout-info">
+                    <p>
+                        Вы подали заявку на вступление в команду &laquo;<a
+                                href="{{ path('team_view',{'team':team.id}) }}">{{ team.name }}</a>&raquo;
+                        <small class="text-muted">
+                            {% if team.season.leagues | length %}{{ team.league.name }}{% endif %}
+                        </small>
+                    </p>
+                    {% if is_granted('revoke_request',team) %}
+                        <a href="{{ path('team_request_revoke',{'team':team.id}) }}" class="btn btn-default">
+                            <i class="fa fa-times-circle"></i> Отозвать
+                        </a>
+                    {% endif %}
+
+                    <div class="clearfix"></div>
+                </div>
+            {% endfor %}
+
+            {{ macros.render_ruleset(data.season.rules,data,data.season) }}
+
+            {% for team in data.teams %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" class="pull-right" href="#team-{{ team.id }}"><i
+                                    class="fa fa-caret-down"></i></a>
+
+                        <h3 style="margin-top: 0; margin-bottom: 0">
+                            {% if is_granted('manage',team) %}
+                                <i style="color: gold" class="fa fa-star" title="Вы - капитан этой команды"></i>
+                            {% endif %}
+                            <a href='{{ path('team_view',{'team':team.id}) }}'>{{ team.getName }}</a>
+                            <small>
+                                {{ team.season.name }},
+                                {% if team.season.leagues | length %}{{ team.league.name }}{% endif %}
+                                {% if is_granted('leave',team) %}
+                                    <a href='{{ path('team_leave',{'team':team.id}) }}'
+                                       title="Покинуть команду"
+                                       onclick="return confirm('Вы уверены что хотите выйти их команды?')">
+                                        <i class="fa fa-sign-out text-danger"></i>
+                                    </a>
+                                {% endif %}
+                            </small>
+                        </h3>
+                    </div>
+                    <div id="team-{{ team.id }}" class="panel-collapse collapse {{ team.season.active ? 'in' : '' }}">
+                        <div class="panel-body">
+
+                            {{ macros.render_ruleset(team.season.rules,team,team.season) }}
+
+                            <h4><i class="fa fa-users"></i> Члены вашей команды:</h4>
+                            <ul>
+                                {% for member in team.members %}
+                                    <li>
+                                        <a href='{{ path('site_user_view',{'id':member.user.id }) }}'>{{ member.user.formattedName('%l %f %m') }}</a>
+
+                                        {% if not (member | check_ruleset(team.season.rules, team.season)) %}
+                                            <i class="fa fa-warning text-danger pulse"></i>
+                                        {% endif %}
+
+                                        {% if not (member.user | check_ruleset(team.season.rules, team.season)) %}
+                                            <i class="fa fa-warning text-danger pulse"></i>
+                                        {% endif %}
+
+                                        {% if team.captain == member %}
+                                            <b style="color:gold;" class="fa fa-star"></b>
+                                        {% elseif is_granted('kick',team) %}
+                                            <a href='{{ path('team_kick',{'team':team.id,'data':member.id}) }}'
+                                               onclick="return confirm('Вы уверены что хотите исключить члена команды?')"><i
+                                                        class="fa fa-trash-o" style="color: red"></i></a>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li>Нет</li>
+                                {% endfor %}
+                            </ul>
+                            {% if team.requests | length %}
+                                <h4><i class="fa fa-child"></i> Заявки на включение в команду:</h4>
+                                <ul>
+                                    {% for member in  team.requests %}
+                                        <li>
+                                            <a href='{{ path('site_user_view',{'id':member.user.id }) }}'>{{ member.user.formattedName('%l %f %m') }}</a>
+
+                                            {% if not (member | check_ruleset(team.season.rules, team.season)) %}
+                                                <i class="fa fa-warning text-danger pulse"></i>
+                                            {% endif %}
+
+                                            {% if is_granted('manage',team) %}
+                                                {% if is_granted('accept_request',team) %}
+                                                    <a title="Принять заявку"
+                                                       href='{{ path('team_request_accept', {'team':team.id,'data':member.id}) }}'>
+                                                        <i class="fa fa-check text-success"></i>
+                                                    </a>
+                                                {% endif %}
+                                                {% if is_granted('decline_request',team) %}
+                                                    <a title="Отклонить заявку"
+                                                       href='{{ path('team_request_decline', {'team':team.id, 'data':member.id}) }}'>
+                                                        <i class="fa fa-times text-warning"></i>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% if team.invites | length %}
+                                <h4><i class="fa fa-child"></i> Приглашения в команду</h4>
+                                <ul>
+                                    {% for member in  team.invites %}
+                                        <li>
+                                            <a href='{{ path('site_user_view',{'id':member.user.id }) }}'>{{ member.user.formattedName('%l %f %m') }}</a>
+
+                                            {% if not (member | check_ruleset(team.season.rules, team.season)) %}
+                                                <i class="fa fa-warning text-danger pulse"></i>
+                                            {% endif %}
+
+                                            {% if is_granted('manage',team) %}
+                                                <a title="Отозвать приглашение"
+                                                   href='{{ path ('team_invite_revoke',{'team':team.id,'data':member.id}) }}'>
+                                                    <i class="fa fa-times text-warning"></i>
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if is_granted('manage',team) %}
+                        <div class="panel-footer">
+                            <a href="{{ path('team_edit',{'team':team.id}) }}" title="Редактировать"
+                               class="btn btn-primary"><i class="fa fa-edit"></i> <span
+                                        class="hidden-xs">Редактировать</span></a>
+                            {% if is_granted('invite',team) %}
+                                <a href="{{ path('team_invite_send',{'team':team.id}) }}" title="Пригласить"
+                                   class="btn btn-success"><i class="fa fa-child"></i> <span
+                                            class="hidden-xs">Пригласить</span></a>
+                            {% else %}
+                                <span class="btn btn-success disabled"
+                                      title="Достингнут лимит участников">Пригласить</span>
+                            {% endif %}
+                            {% if is_granted('disband',team) %}
+                                <a href="{{ path('team_disband',{'team':team.id}) }}" title="Расформировать"
+                                   class="btn btn-danger pull-right"><i class="fa fa-ban"></i> <span class="hidden-xs">Расформировать</span></a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <div class="bs-callout bs-callout-info">
+                <a href="{{ path('site_service_update_profile',{'season':season.id}) }}"
+                   class="btn btn-default pull-right">Обновить анкету</a>
+                Вы не участвуете в сезоне &laquo;{{ season.name }}&raquo;. Для того, что иметь возможность принять
+                учатие,
+                обновите
+                анкету.
+                <div class="clearfix"></div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    {% for season in site_manager.site.seasons if not season.active %}
+        {% set data = user.participation(season) %}
+        {% if data %}
+            {% for team in data.teams %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" class="pull-right" href="#team-{{ team.id }}"><i
+                                    class="fa fa-caret-down"></i></a>
+
+                        <h3 style="margin-top: 0; margin-bottom: 0">
+                            {% if team.captain == data %}
+                                <i style="color: gold" class="fa fa-star" title="Вы - капитан этой команды"></i>
+                            {% endif %}
+                            <a href='{{ path('team_view',{'team':team.id}) }}'>{{ team.name }}</a>
+                            <small>
+                                {{ team.season.name }},
+                                {% if team.season.leagues | length %}{{ team_league_detector.rule(team.season.leagueRule).apply(team).name }}{% endif %}
+                            </small>
+                        </h3>
+                    </div>
+                    <div id="team-{{ team.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <h4><i class="fa fa-users"></i> Члены вашей команды:</h4>
+                            <ul>
+                                {% for member in team.members %}
+                                    <li>
+                                        <a href='{{ path('site_user_view',{'id':member.user.id }) }}'>{{ member.user.formattedName('%l %f %m') }}</a>
+                                        {% if team.captain == member %}
+                                            <b style="color:gold;" class="fa fa-star"></b>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li>Нет</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

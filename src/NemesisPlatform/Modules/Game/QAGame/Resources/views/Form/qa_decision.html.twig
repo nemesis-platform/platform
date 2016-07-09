@@ -1,0 +1,25 @@
+{% block qa_decision_widget %}
+
+    <h1 class="text-center text-primary">{{ question_list.title }}</h1>
+    <h2 class="text-center">
+        {{ round.name }}
+    </h2>
+    {% if last_submission is not null %}
+        <div class="alert alert-info">
+            Последнее сохранение формы в {{ last_submission.submissionTime | date('Y.m.d H:i:s') }}
+            (<a href="{{ path('site_user_view', {'id': last_submission.user.id}) }}">{{ last_submission.user.formattedName('%l %sf. %sm.') }}</a>)
+
+        </div>
+    {% else %}
+        <div class="alert alert-danger">
+            У вас нет сохраненных форм
+        </div>
+    {% endif %}
+
+
+    {% for name,child in form.children if name != 'submit' %}
+        {{ form_row(child) }}
+    {% endfor %}
+
+    <input class="center-block btn-lg btn btn-primary" type="submit" value="Сохранить"/>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'ExportImportBundle::base.html.twig' %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for type,description in exporters %}
+            <li class="list-group-item">
+                {{ render(controller('ExportBundle:Exporter:form',{'type':type})) }}
+            </li>
+        {% else %}
+            <li class="list-group-item">Не зарегистрировано экспортеров</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

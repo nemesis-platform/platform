@@ -1,0 +1,41 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}&laquo;/{{ page.alias }}&raquo; &mdash; Ревизии :: {{ parent() }}{% endblock %}
+
+{% block header %}&laquo;/{{ page.alias }}&raquo; &mdash; Ревизии{% endblock %}
+
+{% block body %}
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Дата</th>
+            <th>Автор</th>
+            <th>Превью</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        {% for revision in page.revisions | reverse %}
+            <tr>
+                <td>#{{ revision.id }}</td>
+                <td>{{ revision.createdTime |date('Y.m.d H:i:s') }}</td>
+                <td>{{ revision.author ? revision.author.formattedName('%l %sf. %sm.') : 'Система' }}</td>
+                <td>
+                    <a href="{{ path('site_admin_revisions_view',{'page':page.id,'revision':revision.id}) }}">
+                        {{ revision.content | slice(0,100) }}
+                    </a>
+                </td>
+                <td>
+                    {% if page.lastRevision != revision %}
+                        <a class="btn btn-info"
+                           href="{{ path('site_admin_revision_switch',{'page':page.id,'revision':revision.id}) }}"><i
+                                    class="fa fa-check"></i></a>
+                    {% else %}
+                        <span class="btn btn-success disabled"><i class="fa fa-check"></i></span>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

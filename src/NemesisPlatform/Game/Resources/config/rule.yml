@@ -1,0 +1,65 @@
+services:
+
+  nemesis.rule_registry:
+      class: NemesisPlatform\Game\Service\RuleTypesRegistry
+
+  nemesis.twig.extension.rule_checker:
+    class: NemesisPlatform\Game\Twig\Extension\RuleCheckerExtension
+    tags:
+    - { name: twig.extension }
+
+  nemesis.rule.team_valid_members:
+    class: NemesisPlatform\Game\Entity\Rule\Team\ValidMembersRule
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule.participant_phone:
+    class: NemesisPlatform\Game\Entity\Rule\Participant\ConfirmedPhoneRule
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule.team_max_members_count:
+    class: NemesisPlatform\Game\Entity\Rule\Team\MaxMembersCountRule
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule_form.team_max_members_count:
+    class: NemesisPlatform\Admin\Form\Type\Rule\Team\MaxMembersCountRuleFormType
+    tags:
+    - { name: form.type, alias: rule_form_team_max_members_count }
+
+  nemesis.rule.team_min_members_count:
+    class: NemesisPlatform\Game\Entity\Rule\Team\MinMembersCountRule
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule_form.team_min_members_count:
+    class: NemesisPlatform\Admin\Form\Type\Rule\Team\MinMembersCountRuleFormType
+    tags:
+    - { name: form.type, alias: rule_form_team_min_members_count }
+
+  nemesis.rule.team_draft_notification:
+    class: NemesisPlatform\Game\Entity\Rule\Team\DraftNotificationRule
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule.rule_notification_request_team_ability:
+    class: NemesisPlatform\Game\Entity\Rule\Participant\RequestTeamAbilityNotification
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule.rule_notification_create_team_ability:
+    class: NemesisPlatform\Game\Entity\Rule\Participant\CreateTeamAbilityNotification
+    tags:
+    - { name: rule_type }
+
+  nemesis.rule.rule_logic_single_team:
+    class: NemesisPlatform\Game\Entity\Rule\Participant\SingleTeamRule
+    tags:
+    - { name: rule_type }
+
+
+  nemesis.rule.team_validation_pass_notification:
+    class: NemesisPlatform\Game\Entity\Rule\Team\ValidationPassNotificationRule
+    tags:
+    - { name: rule_type }

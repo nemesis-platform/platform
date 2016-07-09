@@ -1,0 +1,65 @@
+services:
+  account_menu.show_account:
+    class: NemesisPlatform\Core\Account\Menu\Account\AccountMenuEntry
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: account_menu }
+
+  account_menu.first_delimiter:
+    class: NemesisPlatform\Core\Account\Menu\DividerMenuEntry
+    tags:
+    - { name: menu_element, menu: account_menu }
+
+  account_menu.show_preferences:
+    class: NemesisPlatform\Core\Account\Menu\Account\ProfileMenuEntry
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: account_menu }
+
+  profile_menu.view_user:
+    class: NemesisPlatform\Core\Account\Menu\Profile\ViewProfileLink
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.edit_user:
+    class: NemesisPlatform\Core\Account\Menu\Profile\EditProfileLink
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.manage_seasons:
+    class: NemesisPlatform\Core\Account\Menu\Profile\ViewSeasonsLink
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.manage_info:
+    class: NemesisPlatform\Core\Account\Menu\Profile\AdditionalInfoLink
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.change_password:
+    class: NemesisPlatform\Core\Account\Menu\Profile\ChangePasswordLink
+    arguments: [@router]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.manage_avatar:
+    class: NemesisPlatform\Core\Account\Menu\Profile\ChangeAvatarLink
+    arguments: [@router]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+
+  profile_menu.manage_phones:
+    class: NemesisPlatform\Core\Account\Menu\Profile\ManagePhonesLink
+    arguments: [@router, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: profile_menu }
+#
+#  profile_menu.oauth_list:
+#    class: NemesisPlatform\Core\Account\Menu\Profile\OAuthLink
+#    arguments: [@router, @security.token_storage, @security.authorization_checker]
+#    tags:
+#    - { name: menu_element, menu: profile_menu }

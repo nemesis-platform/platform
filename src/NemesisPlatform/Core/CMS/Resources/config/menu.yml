@@ -1,0 +1,11 @@
+services:
+
+  nemesis.registry.menu:
+    class: NemesisPlatform\Core\CMS\Registry\MenuRegistry
+    arguments: [@doctrine.orm.entity_manager, @site.manager]
+
+  menu_element.messaging_menu:
+    class: NemesisPlatform\Core\Account\Menu\Account\MessagingMenu
+    arguments: [@router, @doctrine.orm.entity_manager, @security.token_storage, @security.authorization_checker]
+    tags:
+    - { name: menu_element, menu: account_menu }

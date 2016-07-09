@@ -1,0 +1,15 @@
+NemesisPlatform\Core\Account\Entity\Tag:
+    type: entity
+    uniqueConstraints:
+        name:
+            columns:
+                - name
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+      name:
+        type: string

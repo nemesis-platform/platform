@@ -1,0 +1,58 @@
+services:
+  form_type.site_type:
+    class: NemesisPlatform\Admin\Form\Type\SiteType
+    arguments: ["@scaytrase.theme_registry"]
+    tags:
+    - { name: form.type, alias: site }
+
+  form_type.season_type:
+    class: NemesisPlatform\Admin\Form\Type\SeasonType
+    tags:
+    - { name: form.type, alias: season }
+
+  form_type.menu_type:
+    class: NemesisPlatform\Admin\Form\Type\MenuType
+    tags:
+    - { name: form.type, alias: menu_type }
+
+  form_type.news_entry_type:
+    class: NemesisPlatform\Admin\Form\Type\NewsEntryType
+    tags:
+    - { name: form.type, alias: news_entry_type }
+  form_type.user_category_type:
+    class: NemesisPlatform\Admin\Form\Type\UserCategoryType
+    tags:
+    - { name: form.type, alias: user_category_type }
+
+  form_type.menu_element:
+    class: NemesisPlatform\Admin\Form\Type\MenuElementType
+    tags:
+    - { name: form.type, alias: menu_element_type }
+
+  form_type.nemesis.tag:
+    class: NemesisPlatform\Admin\Form\Type\TagType
+    tags:
+    - { name: form.type, alias: tag }
+
+  form_type.jasny_fileinput:
+    class: NemesisPlatform\Admin\Form\Type\JasnyFileInputType
+    tags:
+    - { name: form.type, alias: jasny_fileinput }
+
+  form_type.nemesis.site_season:
+    class: NemesisPlatform\Admin\Form\Type\SiteFilteredSeasonType
+    arguments: [@site.manager]
+    tags:
+    - { name: form.type, alias: site_seasons }
+
+  form_type.current_site_type:
+    class: NemesisPlatform\Admin\Form\Type\CurrentSiteType
+    arguments: [@site.manager]
+    tags:
+    - { name: form.type, alias: current_site }
+
+  form_type.page_type:
+    class: NemesisPlatform\Admin\Form\Type\PageType
+    arguments: [@scaytrase.theme_registry, @security.token_storage]
+    tags:
+    - { name: form.type, alias: page_type }

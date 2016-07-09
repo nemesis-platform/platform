@@ -1,0 +1,15 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}{{ "switchable_themes.configure" | trans | capitalize }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('switchable_theme_instance_list') }}">{{ "switchable_themes.list" | trans | capitalize }}</a> &mdash;
+    {{ "switchable_themes.configure" | trans | capitalize }}
+    <small>
+        {{ theme_registry.get(instance.theme).type }}
+    </small>
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+
+{% block title %}Управление телефонами :: {{ parent() }}{% endblock %}
+
+{% block preferences_body %}
+    <div class="well">
+        <p>Контактные телефоны требуются для подтверждения аккаунта. Для того, чтобы получить доступ к игре, нужно иметь
+            хотя бы один потдтвержденный телефон.</p>
+
+        <p>Ниже вы можете увидеть список всех добавленных телефонов, а так же подключить новый при необходимости</p>
+    </div>
+    <ul class="list-group">
+        {% for phone in app.user.phones %}
+            {% if phone.confirmed %}
+                <li class="list-group-item list-group-item-success clearfix {% if app.user.phone == phone %}active{% endif %}">
+                    <h4 class="list-group-item-heading">
+                        <small><i class="fa fa-check text-success"></i></small>
+                        {{ phone.prefix }} {{ phone.phonenumber }}
+                        <small>{{ phone.firstConfirmed | date('Y.m.d H:i') }}</small>
+                        <span class="pull-right">
+                            {% if not (app.user.phone == phone) %}
+                                <a class="btn btn-default btn-sm"
+                                   href="{{ path('mobile_phone_switch',{'id':phone.id}) }}"><i
+                                            class="fa fa-check-circle"></i> Сделать активным</a>
+                            {% endif %}
+                        </span>
+                    </h4>
+                </li>
+            {% endif %}
+            {% if phone.notConfirmed %}
+                <li class="list-group-item list-group-item-danger clearfix">
+                    <h4 class="list-group-item-heading">
+                        <small><i class="fa fa-question-circle text-muted"></i></small>
+                        {{ phone.prefix }} {{ phone.phonenumber }}
+                        <small>{{ phone.firstConfirmed | date('Y.m.d H:i') }}</small>
+                        <span class="pull-right">
+                            <a class="btn btn-default btn-sm"
+                               href="{{ path('mobile_code_send',{'id':phone.id}) }}"><i
+                                        class="fa fa-send"></i> Выслать код</a>
+                            <a class="btn btn-warning btn-sm"
+                               href="{{ path('mobile_phone_remove',{'id':phone.id}) }}"><i
+                                        class="fa fa-trash-o"></i> Удалить</a>
+                        </span>
+                    </h4>
+                </li>
+            {% endif %}
+            {% if phone.pendingConfirmation %}
+                <li class="list-group-item list-group-item-info clearfix">
+                    <h4 class="list-group-item-heading">
+                        <small><i class="fa fa-send text-info"></i></small>
+                        {{ phone.prefix }} {{ phone.phonenumber }}
+                        <small>{{ phone.firstConfirmed | date('Y.m.d H:i') }}</small>
+                        <span class="pull-right">
+                            {{ render(controller('CoreBundle:Mobile:checkCode',{'id':phone.id})) }}
+                            <a class="btn btn-warning btn-sm"
+                               href="{{ path('mobile_code_remove',{'id':phone.id}) }}"><i
+                                        class="fa fa-trash-o"></i> Отменить</a>
+                        </span>
+                    </h4>
+                </li>
+            {% endif %}
+
+        {% endfor %}
+        <li class="list-group-item">
+            <div class="list-group-item-text">
+                {{ form(form, {'style':'horizontal','label_col': 3, 'widget_col' : 9}) }}
+            </div>
+        </li>
+    </ul>
+
+{% endblock %}

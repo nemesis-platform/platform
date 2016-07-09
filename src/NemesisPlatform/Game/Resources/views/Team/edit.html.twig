@@ -1,0 +1,11 @@
+{% extends theme.layout('base') %}
+
+{% block title %}Редактировать команду &laquo;{{ team.name }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Редактировать команду &laquo;{{ team.name }}&raquo;</h1>
+    {{ form(form) }}
+    {% if is_granted('disband',team) %}
+        <a href="{{ path('team_disband',{'team':team.id}) }}">Расформировать команду</a>
+    {% endif %}
+{% endblock %}

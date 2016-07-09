@@ -1,0 +1,37 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Меню :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Меню
+    <small><a href="{{ path('site_admin_menu_create') }}">Создать</a></small>
+{% endblock %}
+
+{% block body %}
+    <table class="table table-striped table-responsive table-condensed">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Элементов</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for menu in menus %}
+            <tr>
+                <td>{{ menu.getId }}</td>
+                <td>
+                    <a href="{{ path('site_admin_menu_edit',{'menu':menu.getId}) }}">{{ menu.getName }}</a>
+                </td>
+                <td>{{ menu.getElements | length }}</td>
+                <td>
+                    <a href="{{ path('site_admin_menu_delete',{'menu':menu.id}) }}"
+                       class="btn btn-danger">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

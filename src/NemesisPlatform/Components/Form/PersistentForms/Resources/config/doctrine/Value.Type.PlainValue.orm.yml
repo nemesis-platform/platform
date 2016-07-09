@@ -1,0 +1,5 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue:
+  type: entity
+  fields:
+    value:
+      type: string

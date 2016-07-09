@@ -1,0 +1,19 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableRow:
+  type: entity
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: IDENTITY
+
+  manyToMany:
+    values:
+      targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
+      cascade: [all]
+      orphanRemoval: true
+
+  manyToOne:
+    table:
+      targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableValue
+      inversedBy: rows

@@ -1,0 +1,16 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Новость &laquo;{{ news.title }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_news_list') }}">Новости</a> &mdash;
+    Редактирование новости от {{ news.date | date('Y.m.d') }}
+    <small>
+        <a href="{{ path('site_admin_news_delete',{'news':news.id}) }}"><i
+                    class="fa fa-trash-o"></i></a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

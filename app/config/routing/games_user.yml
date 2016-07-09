@@ -1,0 +1,4 @@
+game_core_user:
+    resource: "@NemesisGameCoreBundle/Controller/User"
+    type:     annotation
+    prefix:   /game

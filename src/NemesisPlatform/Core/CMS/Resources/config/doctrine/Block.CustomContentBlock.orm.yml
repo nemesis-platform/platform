@@ -1,0 +1,5 @@
+NemesisPlatform\Core\CMS\Entity\Block\CustomContentBlock:
+  type: entity
+  fields:
+    content:
+      type: text

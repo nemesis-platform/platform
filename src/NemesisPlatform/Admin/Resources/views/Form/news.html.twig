@@ -1,0 +1,29 @@
+{% block news_entry_type_widget %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <span class="input-group">
+            <span class="input-group-addon">{{ form.title.vars.label }}</span>
+            {{ form_widget(form.title) }}
+            <span class="input-group-addon">{{ form.type.vars.label }}</span>
+            {{ form_widget(form.type) }}
+        </span>
+        </div>
+        {{ form_widget(form.body,{'attr':{'class':'panel-body'} }) }}
+        <div class="panel-footer">
+
+             <span class="input-group">
+                 <span class="input-group-addon">{{ form.imageLink.vars.label }}</span>
+                 {{ form_widget(form.imageLink) }}
+             </span>
+
+        </div>
+        <div class="panel-footer">
+            <span class="input-group">
+                <span class="input-group-addon">{{ form.date.vars.label }}</span>
+                {{ form_widget(form.date) }}
+                <span class="input-group-addon">{{ form.season.vars.label }}</span>
+                {{ form_widget(form.season) }}
+            </span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+        backupGlobals="true"
+        backupStaticAttributes="false"
+        bootstrap="app/bootstrap.php.cache"
+        cacheTokens="false"
+        colors="false"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        forceCoversAnnotation="false"
+        mapTestClassNameToCoveredClassName="false"
+        processIsolation="false"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        timeoutForSmallTests="1"
+        timeoutForMediumTests="10"
+        timeoutForLargeTests="60"
+        strict="false"
+        verbose="false">
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
+    <php>
+        <server name="KERNEL_DIR" value="app/" />
+    </php>
+    <testsuites>
+        <testsuite name="Nemesis Platform">
+            <directory>src/NemesisPlatform/*</directory>
+        </testsuite>
+        <testsuite name="Other">
+            <directory>src/ScayTrase/*</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <blacklist>
+            <directory>vendor/</directory>
+            <directory>build/</directory>
+            <directory>target/</directory>
+            <directory>app/</directory>
+        </blacklist>
+    </filter>
+</phpunit>

@@ -1,0 +1,44 @@
+NemesisPlatform\Game\Entity\Participant:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        created:
+            type: datetime
+
+    manyToMany:
+        teams:
+          targetEntity: NemesisPlatform\Game\Entity\Team
+          mappedBy: members
+        teamRequests:
+          targetEntity: NemesisPlatform\Game\Entity\Team
+          mappedBy: requests
+        teamInvites:
+          targetEntity: NemesisPlatform\Game\Entity\Team
+          mappedBy: invites
+        values:
+          targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
+          cascade: [all]
+          joinTrable:
+            name: season_data_values
+    manyToOne:
+        category:
+          targetEntity: NemesisPlatform\Game\Entity\UserCategory
+          joinColumn:
+            nullable: true
+          fetch: EAGER
+        season:
+          targetEntity: NemesisPlatform\Game\Entity\Season
+          fetch: EAGER
+        user:
+          targetEntity: NemesisPlatform\Core\Account\Entity\User
+          inversedBy: participations
+          fetch: EAGER
+
+    lifecycleCallbacks: {  }
+    repositoryClass: NemesisPlatform\Game\Repository\ParticipantRepository

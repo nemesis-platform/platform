@@ -1,0 +1,27 @@
+{% extends 'ExportImportBundle::base.html.twig' %}
+
+{% block body %}
+    {% set headers = {} %}
+    {% for row in report.summaryTable %}
+        {% set headers = headers | merge(row | keys) %}
+    {% endfor %}
+
+    <table class="table table-responsive table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            {% for key in headers %}
+                <th>{{ key }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in report.summaryTable %}
+            <tr>
+                {% for key in headers %}
+                    <td>{{ row[key] | default('') }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

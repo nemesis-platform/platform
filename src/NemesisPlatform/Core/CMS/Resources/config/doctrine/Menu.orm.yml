@@ -1,0 +1,21 @@
+NemesisPlatform\Core\CMS\Entity\Menu:
+    type: entity
+    table: Menu
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+      name:
+        type: string
+    manyToOne:
+      site:
+        targetEntity: NemesisPlatform\Components\MultiSite\Entity\SiteInterface
+    manyToMany:
+      elements:
+        targetEntity: NemesisPlatform\Core\CMS\Entity\MenuElement
+        cascade: [all]
+        orderBy:
+          weight: ASC

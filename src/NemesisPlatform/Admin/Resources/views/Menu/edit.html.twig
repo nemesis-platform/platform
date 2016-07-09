@@ -1,0 +1,84 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Меню &laquo;{{ menu.name }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Меню &laquo;{{ menu.name }}&raquo;
+    <small>
+        <a href="{{ path('site_admin_menu_delete',{'menu':menu.id}) }}">
+            <i class="fa fa-trash-o"></i>
+        </a>
+    </small>
+{% endblock %}
+
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        [data-nested-sortable] li {
+            border-left: 3px solid #017ebc;
+        }
+
+        [data-nested-sortable] ul ul {
+            margin-top: 1em;
+        }
+
+        [data-nested-sortable] ul ul li {
+            margin-left: 2em;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('lib/sortable/nested.sortable.js') }}"></script>
+
+    <script>
+        (function ($) {
+            $.fn.sortable_collection = function () {
+                var $root_ul = this.find('ul').first();
+                $root_ul.find('li').append($('<ul/>', {'class': 'list-unstyled'}));
+
+                /** Update node position according to parent element */
+                $root_ul.find('li > .row').each(function (i, item) {
+                    var $row = $(item);
+                    var $li = $row.parent('li');
+                    var target_parent_id = $row.find('[data-parent]').val();
+                    if (!target_parent_id) return;
+                    var $target_parent_ul = $root_ul.find('[data-element-id=' + target_parent_id + ']').closest('.row').next('ul');
+                    if (!$.contains($root_ul[0], $target_parent_ul[0])) return;
+                    $li.remove();
+                    $target_parent_ul.append($li.clone());
+                });
+
+                /** Update nodes according to new positions after update */
+                var f_nsu = function () {
+                    var $container = $(this);
+                    $container.find('ul').addClass('list-unstyled');
+                    $container.find('li > .row').each(function (i, item) {
+                        var $row = $(item);
+                        $row.find('[data-weight]').val(i);
+                        var $li = $row.parent('li');
+                        var $parent_row = $li.parent('ul').prev('.row');
+                        if (!$parent_row) {
+                            $row.find('[data-parent]').val(null);
+                            return;
+                        }
+                        var parent_id = $parent_row.find('[data-element-id]').val();
+                        $row.find('[data-parent]').val(parent_id);
+                    });
+                };
+
+                $root_ul.nestedSortable({items: 'li', listType: 'ul', handle: 'div', update: f_nsu, tabSize: 10});
+            };
+
+            $('[data-nested-sortable]').sortable_collection();
+        })(jQuery);
+    </script>
+{% endblock %}
+

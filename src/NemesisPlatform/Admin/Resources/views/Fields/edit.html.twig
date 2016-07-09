@@ -1,0 +1,14 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}
+    {{ field.name }} :: Поля
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('storable_forms_field_list') }}">Поля</a> &mdash; {{ field.name }}
+    <small>{{ field.type }}</small>
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

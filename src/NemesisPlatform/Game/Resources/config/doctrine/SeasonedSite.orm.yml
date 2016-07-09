@@ -1,0 +1,8 @@
+NemesisPlatform\Game\Entity\SeasonedSite:
+  type: entity
+  oneToMany:
+    seasons:
+      targetEntity: NemesisPlatform\Game\Entity\Season
+      mappedBy: site
+      orderBy:
+        short_name: DESC

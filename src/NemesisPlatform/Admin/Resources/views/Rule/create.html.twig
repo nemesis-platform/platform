@@ -1,0 +1,18 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('admin_rule_list') }}">Правила</a> &mdash;
+    Создание правила типа &laquo;{{ rule.type }}&raquo;
+    <small>
+        {{ rule.description }}
+    </small>
+{% endblock %}
+
+{% block title %}
+    Создание правила типа "{{ rule.type }}" :: {{ parent() }}
+{% endblock %}
+

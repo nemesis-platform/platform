@@ -1,0 +1,20 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+      id:
+        type: integer
+        id: true
+        generator:
+          strategy: IDENTITY
+    fields:
+      name:
+        type: string
+      title:
+        type: string
+        nullable: true
+      help_message:
+        type: text
+        nullable: true
+      required:
+        type: boolean

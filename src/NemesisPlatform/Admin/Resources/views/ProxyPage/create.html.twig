@@ -1,0 +1,16 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+
+{% block title %}Создать прокси-страницу :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    &laquo;
+    <a href="{{ path('site_admin_site_show', {'site': site.id}) }}">
+        {{ site.shortName }}
+    </a>
+    &raquo; &mdash; Создать прокси-страницу
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

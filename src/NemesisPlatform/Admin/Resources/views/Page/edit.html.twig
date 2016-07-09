@@ -1,0 +1,64 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Страница &laquo;{{ page.title }}&raquo; :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Страница &laquo;{{ page.title }}&raquo; #{{ page.lastRevision.id }}
+    <small>
+        <a href="{{ path('site_admin_page_delete',{'page':page.id}) }}"><i class="fa fa-trash-o"></i></a>
+    </small>
+    <small>
+        <a href="{{ path('site_admin_revisions_list',{'page':page.id}) }}">Ревизии</a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    {% if form_errors(form) | trim %}
+        <span class="alert alert-danger">{{ form_errors(form) }}</span>
+    {% endif %}
+
+    {{ form_start(form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="input-group">
+                <span class="input-group-addon">{{ form.title.vars.label }}</span>
+                {{ form_widget(form.title) }}
+                <span class="input-group-addon">{{ form.alias.vars.label }}</span>
+                <span class="input-group-addon">/</span>
+                {{ form_widget(form.alias) }}
+                {% if form.template is defined %}
+                    <span class="input-group-addon">{{ form.template.vars.label }}</span>
+                    {{ form_widget(form.template) }}
+                {% endif %}
+            </span>
+        </div>
+
+        {{ form_widget(form.lastRevision.content,{'attr':{'class':'panel-body'} }) }}
+        <div class="panel-footer">
+            <div class="input-group form-group">
+                {{ form_widget(form.site) }}
+                <span class="input-group-addon">{{ form.language.vars.label }}</span>
+                {{ form_widget(form.language) }}
+            </div>
+            <span class="input-group">
+                <span class="input-group-btn">
+                    {{ form_widget(form.submit) }}
+                </span>
+                <span class="input-group-addon">{{ form.created_time.vars.label }}</span>
+                <input class="form-control" name="{{ form.created_time.vars.full_name }}"
+                       id="{{ form.created_time.vars.id }}"
+                       type="datetime-local"
+                       value="{{ form.created_time.vars.data | date('Y-m-d\\TH:i:s') }}" title=""/>
+                <span class="input-group-addon">{{ form.lastRevision.created_time.vars.label }}</span>
+                <input class="form-control" name="{{ form.lastRevision.created_time.vars.full_name }}"
+                       id="{{ form.lastRevision.created_time.vars.id }}"
+                       type="datetime-local"
+                       value="{{ form.lastRevision.created_time.vars.data | date('Y-m-d\\TH:i:s') }}" title=""/>
+            </span>
+
+        </div>
+    </div>
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+

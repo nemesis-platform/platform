@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+</head>
+<body>
+<table class="body">
+    <tr>
+        <td class="center" align="center" valign="top">
+
+            <table class="row header">
+                <tr>
+                    <td class="center" align="center">
+
+                        <table class="container">
+                            <tr>
+                                <td class="wrapper last">
+
+                                    <table class="twelve columns">
+                                        <tr>
+                                            <td class="six sub-columns">
+                                            </td>
+                                            <td class="six sub-columns last"
+                                                style="text-align:right; vertical-align:middle;">
+                                                <span class="template-label">{% block hint %}{% endblock %}</span>
+                                            </td>
+                                            <td class="expander"></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </td>
+                </tr>
+            </table>
+
+            <table class="container">
+                <tr>
+                    <td>
+
+                        <table class="row">
+                            <tr>
+                                <td class="wrapper last">
+
+                                    <table class="twelve columns">
+                                        <tr>
+                                            <td>
+                                                <h3>{% block greetings %}Добрый день!{% endblock %}</h3>
+                                                {% block body %}
+                                                {% endblock %}
+                                            </td>
+                                            <td class="expander"></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+                        {% block subbody %}{% endblock %}
+                        {% block footer %}
+                        <table class="row footer">
+                            <tr>
+                                <td class="wrapper last">
+
+                                    <table class="twelve columns">
+                                        <tr>
+                                            <td class="">
+                                                <p>
+                                                    С пожеланиями успехов,<br>
+                                                    Команда проекта &laquo;{{ site_manager.site.fullName }}&raquo;
+                                                </p>
+
+                                            </td>
+                                            <td class="expander"></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="row">
+                            <tr>
+                                <td class="wrapper last">
+
+                                    <table class="twelve columns">
+                                        <tr>
+                                            <td align="center">
+
+                                                <p style="text-align:center;"><a
+                                                            href="mailto:{{ site_manager.site.contactEmail }}">{{ site_manager.site.contactEmail }}</a>
+                                                </p>
+
+                                            </td>
+                                            <td class="expander"></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- container end below -->
+                    </td>
+                </tr>
+            </table>
+            {% endblock %}
+
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
+

@@ -1,0 +1,5 @@
+NemesisPlatform\Core\Account\Entity\PrivateMessage:
+  type: entity
+  manyToOne:
+    sender:
+      targetEntity: NemesisPlatform\Core\Account\Entity\User

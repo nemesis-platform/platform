@@ -1,0 +1,17 @@
+{% extends 'CoreBundle:Messaging:listMessages.html.twig' %}
+
+{% block title %}Написать сообщение{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Написать сообщение
+        <small>Получатель &mdash; <a
+                    href="{{ path('site_user_view',{'id':recipient.id}) }}">{{ recipient.formattedName('%l %sf. %sm.') }}</a>
+        </small>
+    </h1>
+    {% block reply %}{% endblock %}
+    <div class="well well-sm">
+        {{ form(form) }}
+    </div>
+    {{ parent() }}
+{% endblock %}

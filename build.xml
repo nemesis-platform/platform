@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="challenge-platform" basedir="." default="build.prod.refresh">
+
+    <import file="build.test.xml"/>
+    <import file="build.dev.xml"/>
+    <import file="build.prod.xml"/>
+
+</project>

@@ -1,0 +1,16 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}
+    {{ season.name }} &mdash;
+    <a href="{{ path('site_admin_site_show', {'site':season.site.id}) }}">{{ season.site.shortName }}</a>
+    <small>
+        <a href="{{ path('site_admin_season_delete',{'season':season.id}) }}"><i
+                    class="fa fa-trash-o text-danger"></i></a>
+    </small>
+{% endblock %}
+
+{% block title %}{{ season.name }} &mdash; {{ season.site.shortName }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

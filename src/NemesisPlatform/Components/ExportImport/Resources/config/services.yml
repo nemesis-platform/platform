@@ -1,0 +1,14 @@
+services:
+  importer.registry:
+    class: NemesisPlatform\Components\ExportImport\Service\ImporterRegistry
+    tags:
+    - {name: autoregistry, tag: importer }
+
+  importer.postprocessor.doctrine_persister:
+    class: NemesisPlatform\Components\ExportImport\PostProcessor\DoctrinePersistPostprocessor
+    arguments: [@doctrine.orm.entity_manager]
+
+  exporter.registry:
+    class: NemesisPlatform\Components\ExportImport\Service\ExporterRegistry
+    tags:
+    - { name: autoregistry, tag: exporter }

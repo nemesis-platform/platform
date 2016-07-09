@@ -1,0 +1,22 @@
+{% block menu_element_type_row %}
+    {% block menu_element_type_widget %}
+        <div class="menu_element_type">
+            <div class="input-group">
+                <span class="input-group-addon"><b class="fa fa-angle-down"></b> {{ form.weight.vars.data }}</span>
+                {{ form_label(form.label, null, {'label_attr': {'class': 'input-group-addon' }}) }}
+                {{ form_widget(form.label) }}
+                {{ form_label(form.link, null, {'label_attr': {'class': 'input-group-addon' }}) }}
+                {{ form_widget(form.link) }}
+                {{ form_label(form.title, null, {'label_attr': {'class': 'input-group-addon' }}) }}
+                {{ form_widget(form.title) }}
+                {{ form_label(form.type, null, {'label_attr': {'class': 'input-group-addon' }}) }}
+                {{ form_widget(form.type) }}
+                {{ form_label(form.classes, null, {'label_attr': {'class': 'input-group-addon' }}) }}
+                {{ form_widget(form.classes) }}
+            </div>
+            {{ form_widget(form.id,{'attr': {'data-element-id': form.id.vars.data }}) }}
+            {{ form_widget(form.parent, {'attr': {'data-parent': 'true' }}) }}
+            {{ form_widget(form.weight, {'attr': {'data-weight': 'true' }}) }}
+        </div>
+    {% endblock %}
+{% endblock %}

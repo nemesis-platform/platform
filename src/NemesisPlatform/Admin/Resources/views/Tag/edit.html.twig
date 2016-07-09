@@ -1,0 +1,15 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Редактирование тега "{{ tag.name }}" :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_utils_tag_list') }}">Теги</a> &mdash;
+    Редактирование тега &laquo;{{ tag.name }}&raquo;
+    <small>
+        <a class="text-danger" href="{{ path('tag_delete',{'tag':tag.id}) }}">Удалить</a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

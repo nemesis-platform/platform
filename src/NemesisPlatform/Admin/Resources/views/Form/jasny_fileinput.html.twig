@@ -1,0 +1,13 @@
+{#{% use "form_div_layout.html.twig" %}#}
+
+{% block jasny_fileinput_row %}
+    {% block jasny_fileinput_widget %}
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+            <span class="btn btn-default btn-file btn-sm">
+                <span class="fileinput-new">Select file</span>
+                <span class="fileinput-exists">Change</span>
+                {{ block('file_widget') }}
+            </span>
+        </div>
+    {% endblock %}
+{% endblock %}

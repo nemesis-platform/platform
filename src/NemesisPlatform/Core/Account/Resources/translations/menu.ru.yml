@@ -1,0 +1,7 @@
+global:
+  registration: регистрация
+  username: e-mail
+  password: пароль
+  sign in: войти
+  log out: выйти
+

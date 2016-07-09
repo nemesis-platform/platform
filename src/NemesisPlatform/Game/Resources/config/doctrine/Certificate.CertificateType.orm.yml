@@ -1,0 +1,16 @@
+NemesisPlatform\Game\Entity\Certificate\CertificateType:
+    type: entity
+    table: CertificateType
+    id:
+        id:
+            id: true
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+    oneToMany:
+        certificates:
+            targetEntity: NemesisPlatform\Game\Entity\Certificate\AbstractCertificate
+            mappedBy: type

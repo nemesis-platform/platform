@@ -1,0 +1,39 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Анкета пользователя {{ data.user.email }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_participant_list') }}">Участники</a> &mdash; {{ data.user.formattedName('%l %sf. %sm.') }}
+    <small>{{ data.user.email }}</small>
+    <small class="text-primary">{{ data.season }}</small>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('site_account_show',{'_switch_user':data.user.email}) }}" class="btn btn-primary">
+            <i class="fa fa-sign-in"></i> Залогиниться
+        </a>
+        <a href="{{ path('site_admin_user_edit',{'user':data.user.id}) }}" class="btn btn-info">
+            <i class="fa fa-user"></i> Данные аккаунта
+        </a>
+    </div>
+    <h2>Данные анкеты</h2>
+    {{ form(form) }}
+
+    <h2>Команды</h2>
+    <ul>
+        {% for team in data.teams %}
+            <li>
+                <h4>
+                    <a href="{{ path('site_admin_team_edit',{'id':team.id}) }}">
+                        {{ team.name }}
+                    </a>
+                    <small>{{ team.captain.user.formattedName('%l %sf. %sm.') }}</small>
+                    <small>{{ team.league.name }}</small>
+
+                </h4>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

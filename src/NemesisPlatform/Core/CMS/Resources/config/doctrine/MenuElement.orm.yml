@@ -1,0 +1,33 @@
+NemesisPlatform\Core\CMS\Entity\MenuElement:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+      type:
+        type: integer
+      label:
+        type: string
+        nullable: true
+      title:
+        type: string
+        nullable: true
+      link:
+        type: string
+        nullable: true
+      classes:
+        type: string
+        nullable: true
+      weight:
+        type: integer
+    manyToOne:
+      parent:
+        targetEntity: NemesisPlatform\Core\CMS\Entity\MenuElement
+        inversedBy: children
+    oneToMany:
+      children:
+        targetEntity: NemesisPlatform\Core\CMS\Entity\MenuElement
+        mappedBy: parent

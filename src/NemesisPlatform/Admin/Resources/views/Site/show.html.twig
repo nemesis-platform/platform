@@ -1,0 +1,71 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}{{ site.shortName }} :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('site_admin_site_list') }}">Сайты</a> &mdash; &laquo;{{ site.shortName }}&raquo;
+    <small>
+        <a href="{{ path('site_admin_site_edit', {'site': site }) }}"><i class="fa fa-pencil"></i></a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h2>Сезоны
+                    <small>
+                        <a href="{{ path('site_admin_season_create', {'site': site}) }}">
+                            <i class="fa fa-plus"></i> Создать
+                        </a>
+                    </small>
+                </h2>
+                {% for season in site.seasons %}
+                    <div>
+                        <h3>
+                            <a href="{{ path('site_admin_season_edit', {'season': season.id}) }}">
+                                {{ season.name }}
+                            </a>
+                    <span style="font-size: 60%;">
+                    {% if season.active %}
+                        <small class="label label-success">Активный</small>
+                        {% if season.registrationOpen %}
+                        <small class="label label-primary">Регистрация открыта</small>
+                    {% endif %}
+                    {% else %}
+                        <small class="label label-default">Неактивный</small>
+                    {% endif %}
+                    </span>
+                        </h3>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <h2>Прокси-страницы
+                    <small>
+                        <a href="{{ path('admin_proxy_pages_create', {'site': site }) }}">
+                            <i class="fa fa-plus"></i> Создать
+                        </a>
+                    </small>
+                </h2>
+
+                <div class="list-group">
+                    {% for page in proxy_pages %}
+                        <div class="list-group-item">
+                            <a href="{{ path('page_by_alias', {'alias': page.alias}) }}"
+                               title="Пройти по ссылке"><i class="fa fa-chain"></i></a>
+
+                            <a title="Редактировать"
+                               href="{{ path('admin_proxy_pages_edit', {'page':page.id}) }}">
+                                {{ page.alias }}
+                            </a>
+
+                            <small>{{ page.route }} with {{ page.data | json_encode }}</small>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

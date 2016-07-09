@@ -1,0 +1,10 @@
+{% extends 'AdminBundle:CertificateType:list.html.twig' %}
+
+
+{% block header %}{{ parent() }} &mdash; Создание{% endblock %}
+
+{% block title %}Создание :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

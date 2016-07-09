@@ -1,0 +1,24 @@
+{% extends theme.layout('base') %}
+
+{% block title %}Отчеты :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Отчеты</h1>
+    <div class="bs-callout bs-callout-info">
+        После принятия решений и компьютерной обработки Отчёты команды направляются на личный e-mail (указанный при
+        регистрации) каждого участника Вашей команды. В случае отсутствия Отчёта пишите на электронный адрес
+        <a href="mailto:{{ site_manager.site.email }}">{{ site_manager.site.email }}</a>.
+        Не забудьте в вашей почте проверить папку «СПАМ» или «Нежелательные письма».
+    </div>
+    <ul>
+        {% for report in reports if report.period.reportsPublished %}
+            <li>
+                <a href="{{ path('game_core_report_download',{'report':report.id}) }}">
+                    {{ report.period.round.name }} #{{ report.period.position }}
+                </a>
+            </li>
+        {% else %}
+            <li>Нет доступных отчетов</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

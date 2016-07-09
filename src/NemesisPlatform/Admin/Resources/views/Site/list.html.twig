@@ -1,0 +1,73 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}
+    Управление сайтами
+    <small>
+        <a href="{{ path('site_admin_site_create') }}" title="Добавить сайт">
+            <i class="fa fa-plus-circle"></i>
+        </a>
+    </small>
+{% endblock %}
+
+{% block title %}Сайты :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="col-md-6">
+        {% for site in sites %}
+            <div class="list-group">
+                <a class="list-group-item"
+                   title="Просмотреть сайт"
+                   href="{{ path('site_admin_site_show',{'site':site.id}) }}">
+                    <h3>
+                        {% if site.logo %}
+                            <img src="{{ site.logo }}" style="max-height: 24px"/>
+                        {% endif %}
+                        {{ site.name }}
+                        {% if not site.active %}
+                            <span class="label label-default">Неактивен</span>
+                        {% endif %}
+                        <span class="pull-right">
+                                <i class="fa fa-chevron-right"></i>
+                        </span>
+                    </h3>
+                </a>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>
+                            Сезоны:
+                            {% for season in site.seasons %}
+                                <a class="btn btn-{{ season.active ? 'primary' : 'default' }}"
+                                   href="{{ path('site_admin_season_edit',{'season':season.id}) }}">
+                                    {{ season.shortname }}
+                                </a>
+                            {% else %}
+                                нет сезонов
+                            {% endfor %}
+                            <a class="btn btn-info" title="Добавить сезон в сайт"
+                               href="{{ path('site_admin_season_create',{'site':site.id}) }}">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="pull-right">
+                            <a href="{{ path('site_admin_site_edit',{'site':site.id}) }}"
+                               class="btn btn-success">
+                                <i class="fa fa-pencil"></i> Редактировать
+                            </a>
+                            <a href="{{ path('admin_proxy_pages_list',{'site':site.id}) }}"
+                               class="btn btn-primary">
+                                <i class="fa fa-share"></i> Страницы
+                            </a>
+                        </div>
+                        <p>
+                            {{ site.description }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

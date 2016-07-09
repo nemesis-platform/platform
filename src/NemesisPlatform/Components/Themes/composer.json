@@ -1,0 +1,30 @@
+{
+  "name": "scaytrase/symfony-switchable-theme",
+  "description": "Web-configurable forms",
+  "minimum-stability": "dev",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Pavel Batanov",
+      "email": "pavel@batanov.me"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/framework-bundle": "~2.3",
+    "symfony/console": "~2.3",
+    "symfony/form": "~2.3",
+    "twig/twig": "~1.17",
+    "twig/extensions": "~1.2",
+    "doctrine/orm": "~2.2,>=2.2.3",
+    "doctrine/doctrine-bundle": "~1.2",
+    "sensio/framework-extra-bundle": "~3.0",
+    "scaytrase/symfony-autoregistry": "~2.0",
+    "symfony/assetic-bundle": "~2.6"
+  },
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  }
+}

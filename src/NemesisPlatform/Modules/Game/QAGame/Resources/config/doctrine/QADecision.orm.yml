@@ -1,0 +1,18 @@
+NemesisPlatform\Modules\Game\QAGame\Entity\QADecision:
+  type: entity
+
+  oneToMany:
+    answers:
+      targetEntity: NemesisPlatform\Modules\Game\QAGame\Entity\DecisionAnswer
+      mappedBy: decision
+      orphanRemoval: true
+      cascade: [all]
+
+  manyToOne:
+    questionList:
+      targetEntity: NemesisPlatform\Modules\Game\QAGame\Entity\QuestionList
+
+    round:
+      targetEntity: NemesisPlatform\Modules\Game\QAGame\Entity\QARound
+
+  repositoryClass: NemesisPlatform\Modules\Game\QAGame\Repository\QADecisionRepository

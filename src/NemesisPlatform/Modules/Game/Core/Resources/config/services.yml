@@ -1,0 +1,12 @@
+services:
+  nemesis.game_core.form_type.round_choice_type:
+    class: NemesisPlatform\Modules\Game\Core\Form\Type\RoundChoiceType
+    arguments: [ @site.manager ]
+    tags:
+    - { name: form.type, alias: current_site_rounds }
+
+  nemesis.game_core.site_periods_type:
+    class: NemesisPlatform\Modules\Game\Core\Form\Type\SitePeriodsType
+    arguments: [@site.manager]
+    tags:
+    - { name: form.type, alias: site_periods}

@@ -1,0 +1,53 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}{{ "switchable_themes.list" | trans | capitalize }}{% endblock %}
+
+{% block header %}
+    <a href="{{ path('switchable_theme_instance_list') }}">{{ "switchable_themes.list" | trans | capitalize }}</a> &mdash;
+    {{ "switchable_themes.list" | trans | capitalize }}
+    <small>
+        <a href="{{ path('switchable_theme_instance_create') }}">
+            {{ "theme_instance.create" | trans | capitalize }}
+        </a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for theme in themes %}
+            <li class="list-group-item">
+                <div class="pull-right">
+                    <a class="btn btn-default" title="{{ "theme_instance.clone" | trans | capitalize }}"
+                       href="{{ path('switchable_theme_instance_clone', {'instance':  theme.id}) }}">
+                        <i class="fa fa-fw fa-copy"></i>
+                    </a>
+                    <a class="btn btn-primary" title="{{ "theme_instance.edit" | trans | capitalize }}"
+                       href="{{ path('switchable_theme_instance_edit', {'instance':  theme.id}) }}">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </a>
+                    <a class="btn btn-primary" title="{{ "theme_instance.configure" | trans | capitalize }}"
+                       href="{{ path('switchable_theme_instance_configure', {'instance':  theme.id}) }}">
+                        <i class="fa fa-fw fa-gear"></i>
+                    </a>
+                    <a class="btn btn-danger" title="{{ "theme_instance.delete" | trans | capitalize }}"
+                       href="{{ path('switchable_theme_instance_delete', {'instance':  theme.id}) }}">
+                        <i class="fa fa-fw fa-trash-o"></i>
+                    </a>
+                    <a class="btn btn-success" title="{{ "theme_instance.regenerate" | trans | capitalize }}"
+                       href="{{ path('switchable_theme_instance_regenerate', {'instance':  theme.id}) }}">
+                        <i class="fa fa-fw fa-refresh"></i>
+                    </a>
+                </div>
+
+                <h3>
+                    <a href="{{ path('switchable_theme_instance_edit', {'instance':  theme.id}) }}">
+                        {{ theme.description }}
+                    </a>
+                    <small>{{ theme.theme }}</small>
+                </h3>
+
+                <div class="clearfix"></div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

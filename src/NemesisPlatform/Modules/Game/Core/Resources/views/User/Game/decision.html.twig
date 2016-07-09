@@ -1,0 +1,63 @@
+{% extends theme.layout('wide') %}
+
+{% block body %}
+    {% for error in form.vars.errors %}
+        <div class="alert alert-danger">
+            {{ error.messageTemplate|trans(error.messageParameters, 'validators') }}
+        </div>
+    {% endfor %}
+    {{ form_start(form) }}
+    {{ form_widget(form, {'render_rest':false}) }}
+    {{ form_row(form._token) }}
+    {{ form_end(form,{'render_rest':false}) }}
+{% endblock %}
+
+{% block title %}{{ round.name }} :: {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@NemesisGameCoreBundle/Resources/public/less/decision_form.less' filter='lessphp' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+    <script src="{{ asset('lib/validator/jquery.validate.js') }}"></script>
+    <script src="{{ asset('lib/validator/validate.bootstrap.js') }}"></script>
+    <script>
+        $.validator.addMethod('integer',
+                function (value) {
+                    return parseInt(value) == value;
+                }, 'Введите целое число.');
+
+        $(document).ready(function () {
+            $('[data-validate]').each(function (i, container) {
+                var $container = $(container);
+                var $form = $container.closest('form');
+                var rules = $container.data('validate');
+                $form.validate({
+                    errorClass: 'invalid',
+                    errorPlacement: function () {
+                        return true;
+                    },
+                    rules: rules
+                });
+                $form.find('input').each(function () {
+                    $(this).blur(function () {
+                        $form.validate().form();
+                    })
+                });
+                console.log($form);
+                console.log($container);
+                $form.validate().form();
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,38 @@
+NemesisPlatform\Core\CMS\Entity\Page:
+  type: entity
+  table: Page
+  id:
+      id:
+          type: integer
+          id: true
+          generator:
+              strategy: IDENTITY
+  fields:
+    title:
+      type: string
+    createdTime:
+      type: datetime
+    alias:
+      type: string
+      nullable: true
+    language:
+      type: string
+    template:
+      type: string
+  oneToOne:
+    lastRevision:
+      targetEntity: NemesisPlatform\Core\CMS\Entity\PageRevision
+      fetch: EAGER
+  oneToMany:
+    revisions:
+      targetEntity: NemesisPlatform\Core\CMS\Entity\PageRevision
+      mappedBy: page
+      cascade: [all]
+      joinColumn:
+        onDelete: "SET NULL"
+  manyToOne:
+    author:
+      targetEntity: NemesisPlatform\Core\Account\Entity\User
+      fetch: EAGER
+    site:
+      targetEntity: NemesisPlatform\Components\MultiSite\Entity\SiteInterface

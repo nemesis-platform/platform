@@ -1,0 +1,22 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block header %}
+    Блоки
+    <small>
+        <a href="{{ path('admin_blocks_list_types') }}">
+            <i class="fa fa-plus"></i> Создать
+        </a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for block in blocks %}
+            <li>#{{ block.id }} <a
+                        href="{{ path('admin_blocks_edit', {'block':block.id}) }}">{{ block.description }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block title %}Блоки :: {{ parent() }}{% endblock %}
+

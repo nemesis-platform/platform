@@ -1,0 +1,19 @@
+NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\ArrayDecisionDataRecord:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        key:
+            type: string
+            column: `key`
+        value:
+            type: integer
+            column: `value`
+    manyToOne:
+        decision:
+            targetEntity: NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\ArrayDecision
+            inversedBy: data

@@ -1,0 +1,30 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Выбор файла на сервере :: {{ parent() }}{% endblock %}
+
+{% block header %}Выберите файл{% endblock %}
+
+{% block body %}
+    <table class="table table-responsive table-striped table-bordered table-hover">
+        {% for document in documents %}
+            <tr data-url="{{ asset(ckeditor_uploads ~ document.storageId) }}">
+                <td>#{{ document.id }}</td>
+                <td>{{ document.filename }}</td>
+                <td>{{ document.mime }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function($){
+            $('[data-url]').click(function(){
+                window.opener.CKEDITOR.tools.callFunction(1, $(this).data('url'));
+                window.close();
+            })
+        })(jQuery);
+    </script>
+{% endblock %}
+

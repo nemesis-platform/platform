@@ -1,0 +1,5 @@
+NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TextValue:
+  type: entity
+  fields:
+    textValue:
+      type: text

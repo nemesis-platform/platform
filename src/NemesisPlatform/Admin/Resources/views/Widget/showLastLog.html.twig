@@ -1,0 +1,17 @@
+<div class="col-lg-4  col-md-8 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">10 популярных запросов за прошедшие сутки <small class="label label-default pull-right">log</small></div>
+        <div class="list-group">
+            {% for record in records %}
+                <div class="list-group-item">
+                    <div class="badge pull-right">{{ record.clr }}</div>
+                    {{ record[0].requestUri }} &mdash;
+                    {% if record[0].user %}
+                        <small>{{ record[0].user.formattedName('%l %sf. %sm.') }} ({{ record[0].requestIp }})</small>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

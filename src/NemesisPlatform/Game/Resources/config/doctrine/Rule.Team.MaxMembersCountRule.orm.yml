@@ -1,0 +1,5 @@
+NemesisPlatform\Game\Entity\Rule\Team\MaxMembersCountRule:
+  type: entity
+  fields:
+    max:
+      type: integer

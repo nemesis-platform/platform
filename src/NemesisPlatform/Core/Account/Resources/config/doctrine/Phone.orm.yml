@@ -1,0 +1,27 @@
+NemesisPlatform\Core\Account\Entity\Phone:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        phonenumber:
+            type: bigint
+            column: phonenumber
+        first_confirmed:
+            type: datetime
+            column: first_confirmed
+        status:
+            type: smallint
+            column: status
+        code:
+            type: integer
+            nullable: true
+    manyToOne:
+        user:
+            targetEntity: NemesisPlatform\Core\Account\Entity\User
+            inversedBy: phones
+
+    lifecycleCallbacks: {  }

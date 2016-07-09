@@ -1,0 +1,35 @@
+services:
+  nemesis.generator_registry:
+    class: NemesisPlatform\Admin\Service\Generator\GeneratorRegistry
+    tags:
+    - { name: autoregistry, tag: entity_generator }
+
+  nemesis.user_generator:
+    class: NemesisPlatform\Admin\Service\Generator\UserGenerator
+    arguments: [@doctrine.orm.entity_manager, @security.encoder_factory, @form.factory]
+    tags:
+    - { name: entity_generator }
+
+  nemesis.participant_generator:
+    class: NemesisPlatform\Admin\Service\Generator\ParticipantGenerator
+    arguments: [@doctrine.orm.entity_manager, @site.manager]
+    tags:
+    - { name: entity_generator }
+
+  nemesis.team_generator:
+    class: NemesisPlatform\Admin\Service\Generator\TeamGenerator
+    arguments: [@doctrine.orm.entity_manager]
+    tags:
+    - { name: entity_generator }
+
+
+  nemesis.chained_season_generator:
+    class: NemesisPlatform\Admin\Service\Generator\ChainedSeasonGenerator
+    arguments:
+      - @doctrine.orm.entity_manager
+      - @site.manager
+      - @nemesis.user_generator
+      - @nemesis.participant_generator
+      - @nemesis.team_generator
+    tags:
+    - { name: entity_generator }

@@ -1,0 +1,41 @@
+security:
+    access_decision_manager:
+        # strategy can be: affirmative, unanimous or consensus
+        strategy: unanimous
+
+    encoders:
+        NemesisPlatform\Core\Account\Entity\User: bcrypt
+        bcrypt:
+          algorithm: bcrypt
+          cost: 13
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ ROLE_USER, ROLE_ALLOWED_TO_SWITCH, ROLE_SURVEY_PREVIEW ]
+        ROLE_MEMBER:      [ ROLE_USER ]
+
+    providers:
+        main:
+            id: nemesis_platform.user_provider
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        secured_area:
+            pattern:   ^/
+            form_login:
+                login_path: login
+                check_path: login_check
+                use_referer: true
+            logout:
+                path:   /logout
+                target: /
+            anonymous: ~
+            switch_user: true
+
+    access_control:
+        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /game, roles: ROLE_USER }
+        - { path: /account, roles: ROLE_USER }
+        - { path: /admin, roles: ROLE_ADMIN }

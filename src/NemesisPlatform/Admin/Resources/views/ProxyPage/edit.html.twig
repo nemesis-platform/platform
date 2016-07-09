@@ -1,0 +1,17 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Редактировать прокси-страницу :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    &laquo;<a
+        href="{{ path('site_admin_site_show', {'site': }) }}">{{ site.shortName }}</a>&raquo; &mdash; {{ page.alias }} &rarr; {{ page.route }}
+    <small>
+        <a href="{{ path('admin_proxy_pages_delete', {'page': page.id}) }}" title="Удалить прокси-страницу">
+            <i class="fa fa-trash-o text-danger"></i>
+        </a>
+    </small>
+{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+{% endblock %}

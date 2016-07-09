@@ -1,0 +1,6 @@
+services:
+  themes.admin_bootstrap_theme:
+    class: NemesisPlatform\Admin\Theme\AdminTheme
+    parent: nemesis_platform.theme.boostrap_abstract
+    tags:
+      - { name: theme, alias: admin_bootstrap_theme }

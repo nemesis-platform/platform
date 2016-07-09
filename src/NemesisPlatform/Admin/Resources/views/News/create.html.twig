@@ -1,0 +1,42 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Новости :: {{ parent() }}{% endblock %}
+
+{% block header %}
+    Создать новую новость
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <span class="input-group">
+            <span class="input-group-addon">{{ form.title.vars.label }}</span>
+            {{ form_widget(form.title) }}
+            <span class="input-group-addon">{{ form.type.vars.label }}</span>
+            {{ form_widget(form.type) }}
+        </span>
+        </div>
+        {#<div class="panel-body">#}
+        {{ form_widget(form.body,{'attr':{'class':'panel-body'} }) }}
+        {#</div>#}
+        <div class="panel-footer">
+            <span class="input-group">
+                <span class="input-group-btn">
+                    {{ form_widget(form.submit) }}
+                </span>
+
+                <span class="input-group-addon">{{ form.date.vars.label }}</span>
+                <input class="form-control" name="{{ form.date.vars.full_name }}" id="{{ form.date.vars.id }}"
+                       type="datetime-local"
+                       value="{{ form.date.vars.data | date('Y-m-d\\TH:i') }}" title=""/>
+                <span class="input-group-addon">{{ form.season.vars.label }}</span>
+                {{ form_widget(form.season) }}
+            </span>
+        </div>
+    </div>
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+
+{% endblock %}

@@ -1,0 +1,10 @@
+composer.lock
+
+bin/
+vendor/
+
+.idea/
+build/
+target/
+
+*.phar

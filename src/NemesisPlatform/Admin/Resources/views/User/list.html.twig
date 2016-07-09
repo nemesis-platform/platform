@@ -1,0 +1,96 @@
+{% extends 'AdminBundle::admin.html.twig' %}
+
+{% block title %}Пользователи :: {{ parent() }}{% endblock %}
+
+{% block header %}Пользователи{% endblock %}
+
+{% block body %}
+    <table id='users' class='table table-striped table-bordered table-responsive table-condensed'>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>E-mail</th>
+            <th>Зарегистрирован</th>
+            <th>Статус</th>
+            <th>Телефон</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('lib/datatables/jquery.datatables.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.bootstrap.js') }}"></script>
+    <script src="{{ asset('lib/datatables/datatables.filtering_delay.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var user_template = '{{ path('site_admin_user_edit',{'user':'_id_'}) }}';
+            var impersonate_template = '{{ path('site_account_show',{'_switch_user':'_email_'}) }}';
+
+            $('#users').dataTable({
+                "aoColumns": [
+                    {"bVisible": false},
+                    null,
+                    {"bVisible": false},
+                    {"bSearchable": false},
+                    {"bVisible": false},
+                    null
+                ],
+                "iDisplayLength": 25,
+                "aLengthMenu": [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"]
+                ],
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "{{ path('site_admin_user_datatable',{'season': (season ? season.id : null),
+                'everyone':app.request.query.get('everyone',false)}) | raw }}",
+                "oLanguage": {
+                    "sProcessing": "Подождите...",
+                    "sLengthMenu": "Показать _MENU_ участников",
+                    "sZeroRecords": "Участники отсутствуют.",
+                    "sInfo": "Пользователи с _START_ до _END_ из _TOTAL_ участников",
+                    "sInfoEmpty": "Пользователи с 0 до 0 из 0 участников",
+                    "sInfoFiltered": "(отфильтровано из _MAX_ участников)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Поиск:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Первая",
+                        "sPrevious": "",
+                        "sNext": "",
+                        "sLast": "Последняя"
+                    }
+                },
+                "fnRowCallback": function (nRow, aData) {
+
+                    console.log(aData);
+
+                    $('td:eq(0)', nRow).html(
+                            '<span style="white-space: nowrap;">' +
+                            '<a href="' + user_template.replace('_id_', aData[0]) + '">' +
+                            aData[1] + '</a>' +
+                            ' <small>' + aData[2] + '</small>' +
+                            ' <small class="text-muted">' + aData[0] + '</small>' +
+                            ' <i class="fa fa-check text-' + (aData[4] == 2 ? 'success' : 'danger') + '"></i> ' +
+                            ' <i class="fa fa-phone text-' + (aData[5] > 0 ? 'success' : 'danger') + '"></i> ' +
+                            '<a href="' + impersonate_template.replace('_email_', encodeURIComponent(aData[2])) + '" title="Войти как пользователь"><i class="fa fa-user"></i></a> ' +
+                            '</span>'
+                    );
+                    $('td:eq(1)', nRow).html('<span title="' + aData[3] + '">' + aData[3].split(' ')[0] + '</span>');
+
+                    $('td:eq(2)', nRow).html(aData[5]);
+
+
+                    return nRow;
+                }
+            }).fnSetFilteringDelay(300);
+        });
+    </script>
+{% endblock %}
+

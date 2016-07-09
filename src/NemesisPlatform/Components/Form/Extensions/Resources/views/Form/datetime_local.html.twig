@@ -1,0 +1,4 @@
+{% block datetime_local_widget %}
+    {% set type = type | default('datetime-local') %}
+    {{ block('form_widget_simple') }}
+{% endblock %}

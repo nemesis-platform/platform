@@ -1,0 +1,18 @@
+NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\Configuration\Row:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+      record:
+        type: string
+      type:
+        type: string
+    manyToOne:
+        configuration:
+          targetEntity: NemesisPlatform\Modules\Game\Core\Entity\ArrayDecision\Configuration
+          inversedBy: rows

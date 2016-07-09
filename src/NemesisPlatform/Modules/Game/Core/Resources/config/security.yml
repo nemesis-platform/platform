@@ -1,0 +1,10 @@
+services:
+  nemesis_game.security.decision:
+      class: NemesisPlatform\Modules\Game\Core\Security\DecisionVoter
+      public:     false
+      tags:
+        - {name: security.voter}
+
+  nemesis.game_manager:
+    class: NemesisPlatform\Modules\Game\Core\Service\GameManager
+    arguments: [@doctrine.orm.entity_manager, @site.manager, @security.token_storage, @security.authorization_checker]

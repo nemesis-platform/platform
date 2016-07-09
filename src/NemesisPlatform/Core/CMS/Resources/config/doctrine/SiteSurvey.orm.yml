@@ -1,0 +1,5 @@
+NemesisPlatform\Core\CMS\Entity\SiteSurvey:
+  type: entity
+  manyToOne:
+    site:
+      targetEntity: NemesisPlatform\Components\MultiSite\Entity\SiteInterface
