@@ -24,5 +24,5 @@ install:
 
 script:
   - mkdir -p build
-  - if [ "$TESTS" = "phpunit" ]; then phpunit; fi;
+  - if [ "$TESTS" = "phpunit" ]; then bin/phpunit; fi;
   - if [ "$TESTS" = "behat" ]; then bin/behat -p console; fi;
