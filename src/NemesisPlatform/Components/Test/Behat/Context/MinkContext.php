@@ -112,7 +112,6 @@ class MinkContext extends RawMinkContext
                 $client->followRedirects(true);
             } else {
                 $client->followRedirects(false);
-                dump('redirections disabled');
             }
         }
     }
