@@ -1,7 +1,7 @@
 {% extends 'AdminBundle::admin.html.twig' %}
 
 {% block header %}
-    {{ site.shortName }}
+    {{ site.fullName }}
     <small>
         <a href="{{ path('site_admin_site_delete',{'site':site}) }}">
             <i class="fa fa-trash-o"></i>
@@ -9,7 +9,7 @@
     </small>
 {% endblock %}
 
-{% block title %}{{ site.shortName }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ site.fullName }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ form(form) }}
