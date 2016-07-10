@@ -66,7 +66,7 @@
   "require-dev": {
     "sensio/generator-bundle": "~2.3",
     "phpunit/phpunit": "~4.8|~5.0",
-    "phpunit/php-code-coverage": "~3.0",
+    "phpunit/php-code-coverage": "~2.0",
     "behat/behat": "~3.1",
     "behat/mink-extension": "~2.2",
     "behat/mink-browserkit-driver": "~1.3",
