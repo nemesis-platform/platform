@@ -21,6 +21,7 @@ class AccessibilityTest extends WebFixtureTestCase
      */
     public function testAccountUrlsNotAccessibleByAnonymous($url)
     {
+        self::$client->setServerParameters(['HTTP_HOST' => 'local.nemesis-project']);
         $this->getClient()->request('GET', $url);
         static::assertTrue($this->getClient()->getResponse()->isRedirection(), $this->getClient()->getResponse());
     }
@@ -35,6 +36,7 @@ class AccessibilityTest extends WebFixtureTestCase
      */
     public function testAccountUrlsAccessibleByUser($url)
     {
+        self::$client->setServerParameters(['HTTP_HOST' => 'local.nemesis-project']);
         $this->logIn('user@test', ['ROLE_USER']);
         $this->getClient()->request('GET', $url);
         static::assertTrue($this->getClient()->getResponse()->isSuccessful(), $this->getClient()->getResponse());

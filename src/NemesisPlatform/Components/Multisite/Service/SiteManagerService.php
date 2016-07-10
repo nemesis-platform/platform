@@ -41,7 +41,7 @@ class SiteManagerService implements SiteManagerInterface
     }
 
     /**
-     * @return null|SiteInterface
+     * @return SiteInterface
      */
     public function getSite()
     {

@@ -22,7 +22,7 @@
                         {% if site.logo %}
                             <img src="{{ site.logo }}" style="max-height: 24px"/>
                         {% endif %}
-                        {{ site.name }}
+                        {{ site.fullName }}
                         {% if not site.active %}
                             <span class="label label-default">Неактивен</span>
                         {% endif %}
@@ -61,9 +61,6 @@
                                 <i class="fa fa-share"></i> Страницы
                             </a>
                         </div>
-                        <p>
-                            {{ site.description }}
-                        </p>
                     </div>
 
                 </div>

@@ -56,7 +56,7 @@ class MenuRegistry implements ArrayAccess
         $site = $this->detector->getSite();
 
         $menu = $this->manager->getRepository(Menu::class)->findOneBy(
-            ['site' => $site->getId() ? $site : null, 'name' => $menuName]
+            ['site' => $site ?: null, 'name' => $menuName]
         );
 
         if ($menu) {

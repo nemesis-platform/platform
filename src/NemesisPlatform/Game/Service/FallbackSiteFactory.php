@@ -17,7 +17,7 @@ class FallbackSiteFactory implements SiteFactoryInterface
     {
         $options = $this->getOptions($options);
 
-        $site = new SeasonedSite($options['maintenance_url'][0], $options['short_name']);
+        $site = new FallbackSite($options['maintenance_url'][0], $options['short_name']);
         $site->setTheme('basic_bootstrap_theme');
 
         return $site;

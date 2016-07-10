@@ -20,7 +20,7 @@ class SeasonedSite extends NemesisSite
     public function __construct($url, $shortName)
     {
         parent::__construct($url, $shortName);
-        $this->seasons = new ArrayCollection();
+        $this->seasons  = new ArrayCollection();
     }
 
     /**

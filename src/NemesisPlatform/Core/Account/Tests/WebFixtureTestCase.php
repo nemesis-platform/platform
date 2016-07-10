@@ -11,12 +11,16 @@ namespace NemesisPlatform\Core\Account\Tests;
 use NemesisPlatform\AppKernel;
 use NemesisPlatform\Components\Test\Testing\FixtureTestCase;
 use NemesisPlatform\Core\Account\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class WebFixtureTestCase extends FixtureTestCase
 {
+    /** @var  Client */
+    protected static $client;
+
     protected static function getKernelClass()
     {
         return AppKernel::class;
@@ -25,7 +29,7 @@ class WebFixtureTestCase extends FixtureTestCase
     public function setUp()
     {
         parent::setUp();
-        static::$client = static::createClient();
+        static::$client = static::$kernel->getContainer()->get('test.client');
     }
 
     /**
@@ -40,6 +44,8 @@ class WebFixtureTestCase extends FixtureTestCase
             User::class
         )->findOneBy(['email' => $email]);
 
+        self::assertNotNull($user, sprintf('User "%s" not found', $email));
+
         $firewall = 'secured_area';
         $token    = new UsernamePasswordToken($user, null, $firewall, $roles);
         $session->set('_security_'.$firewall, serialize($token));
@@ -49,6 +55,7 @@ class WebFixtureTestCase extends FixtureTestCase
         $this->getClient()->getCookieJar()->set($cookie);
     }
 
+    /** @return Client */
     public function getClient()
     {
         return static::$client;

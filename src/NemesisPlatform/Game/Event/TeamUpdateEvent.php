@@ -46,10 +46,6 @@ class TeamUpdateEvent
 
         $site = $this->site_manager->getSite();
 
-        if (!$site || $site->getId()) {
-            return;
-        }
-
         if (!$site instanceof SeasonedSite) {
             return;
         }

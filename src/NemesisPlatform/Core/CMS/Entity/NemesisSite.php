@@ -53,6 +53,7 @@ class NemesisSite implements AreaProviderInterface, SiteInterface
         $this->baseUrl   = $url;
         $this->shortName = $shortName;
         $this->blocks    = new ArrayCollection();
+        $this->fullName  = $shortName;
     }
 
     /**

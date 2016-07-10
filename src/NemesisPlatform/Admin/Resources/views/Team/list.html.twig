@@ -21,7 +21,7 @@
                         сезоны
                     </option>
                     {% for site in sites %}
-                        <optgroup label="{{ site.name }}">
+                        <optgroup label="{{ site.fullName }}">
                             {% for p_season in site.seasons %}
                                 <option {% if season == p_season %}selected{% endif %}
                                         value="{{ path('site_admin_team_list',{'season':p_season.id}) }}">{{ p_season.name }}</option>

@@ -8,8 +8,8 @@
 
 namespace NemesisPlatform\Admin\Tests;
 
-use NemesisPlatform\Core\CMS\Entity\MenuElement;
 use NemesisPlatform\Core\Account\Tests\WebFixtureTestCase;
+use NemesisPlatform\Core\CMS\Entity\MenuElement;
 
 class AccessibilityTest extends WebFixtureTestCase
 {
@@ -23,6 +23,7 @@ class AccessibilityTest extends WebFixtureTestCase
      */
     public function testAdminUrlsAccessibleByAdmin($url)
     {
+        self::$client->setServerParameters(['HTTP_HOST' => 'local.nemesis-project']);
         $this->logIn('admin@test', ['ROLE_ADMIN']);
         $this->getClient()->request('GET', $url);
         self::assertTrue($this->getClient()->getResponse()->isSuccessful(), $this->getClient()->getResponse());
@@ -37,6 +38,7 @@ class AccessibilityTest extends WebFixtureTestCase
      */
     public function testAdminUrlsNotAccessibleByUser($url)
     {
+        self::$client->setServerParameters(['HTTP_HOST' => 'local.nemesis-project']);
         $this->logIn('user@test', ['ROLE_USER']);
         $this->getClient()->request('GET', $url);
         self::assertTrue($this->getClient()->getResponse()->isForbidden(), $this->getClient()->getResponse());

@@ -65,6 +65,9 @@ class SiteController extends Controller
     public function showAction($site)
     {
         $site = $this->getDoctrine()->getManager()->find(SiteInterface::class, $site);
+        if (null === $site) {
+            throw $this->createNotFoundException();
+        }
 
         $pages = $this->getDoctrine()->getManager()->getRepository(ProxyPage::class)->findBy(
             ['site' => $site]

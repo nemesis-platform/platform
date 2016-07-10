@@ -9,8 +9,8 @@
 namespace NemesisPlatform\Admin\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Core\Account\Entity\User;
-use NemesisPlatform\Core\CMS\Entity\Site;
 use NemesisPlatform\Game\Entity\Season;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -41,7 +41,7 @@ class UserController extends Controller
             $season = $this->getDoctrine()->getRepository(Season::class)->find($request->get('season', null));
         }
 
-        $sites = $this->getDoctrine()->getRepository(Site::class)->findAll();
+        $sites = $this->getDoctrine()->getRepository(SiteInterface::class)->findAll();
 
         return ['season' => $season, 'sites' => $sites];
     }
@@ -60,7 +60,7 @@ class UserController extends Controller
         $manager = $this->getDoctrine()->getManager();
 
         $form = $this->createForm('user_type', $user)
-                     ->add('submit', 'submit', ['label' => 'Обновить пользователя']);
+            ->add('submit', 'submit', ['label' => 'Обновить пользователя']);
 
 
         $form->handleRequest($request);

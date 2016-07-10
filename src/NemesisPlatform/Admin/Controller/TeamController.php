@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Admin\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\Team;
 use NemesisPlatform\Game\Repository\TeamRepository;
@@ -42,6 +43,7 @@ class TeamController extends Controller
             $season = $this->getDoctrine()->getRepository(Season::class)->find($request->get('season', null));
         }
 
+        /** @var SiteInterface[] $sites */
         $sites = [$this->get('site.manager')->getSite()];
 
         return ['season' => $season, 'sites' => $sites];

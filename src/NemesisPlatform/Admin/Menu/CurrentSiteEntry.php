@@ -10,6 +10,7 @@ namespace NemesisPlatform\Admin\Menu;
 
 use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
 use NemesisPlatform\Core\CMS\Entity\MenuElement;
+use NemesisPlatform\Game\Service\FallbackSite;
 use Symfony\Component\Routing\RouterInterface;
 
 class CurrentSiteEntry extends MenuElement
@@ -24,7 +25,7 @@ class CurrentSiteEntry extends MenuElement
 
         $site = $siteManager->getSite();
 
-        if (!$site) {
+        if (!$site || $site instanceof FallbackSite) {
             $this->setDisabled(true);
 
             return;

@@ -32,7 +32,7 @@ class SeasonDataset extends AbstractFixture implements FixtureInterface, Contain
      */
     public function load(ObjectManager $manager)
     {
-        $site = new SeasonedSite('localhost', 'Тестовое окружение');
+        $site = new SeasonedSite('local.nemesis-project', 'Тестовое окружение');
         $site->setShortName('test');
         $site->setSupportEmail('admin@test');
         $site->setTheme('basic_bootstrap_theme');
