@@ -89,6 +89,9 @@
     ]
   },
   "config": {
+    "platform": {
+      "php": "5.5"
+    },
     "bin-dir": "bin",
     "process-timeout": 300
   },
