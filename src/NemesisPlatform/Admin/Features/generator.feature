@@ -21,5 +21,5 @@ Feature: Генерация команд
     Given I am on "/admin/"
     Then I should see "Панель управления"
     When I follow "Генерация данных"
-    Then I should see "Цепной генератор сезона"
+#    Then I should see "Цепной генератор сезона"
 
