@@ -6,7 +6,7 @@
  * Time: 15:16
  */
 
-namespace NemesisPlatform\Components\Tests\PHP53;
+namespace NemesisPlatform\Components\Test\Tests\PHP53;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

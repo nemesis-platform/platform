@@ -30,7 +30,7 @@ class TableFieldTypeTest extends TypeTestCase
         $subStageChoice->setTitle('Stage');
         $subStageChoice->setMultiple(false);
         $subStageChoice->setExpanded(false);
-        $subStageChoice->setChoices(array('1' => 'first stage', '2' => 'second stage'));
+        $subStageChoice->setChoices(['1' => 'first stage', '2' => 'second stage']);
 
         $subStageDescriptionString = new StringField();
         $subStageDescriptionString->setName('sub_string_description');
@@ -48,43 +48,43 @@ class TableFieldTypeTest extends TypeTestCase
 
         $table->buildForm($builder);
 
-        $data = array(
-            'table_field' => array(
-                0 => array(
+        $data = [
+            'table_field' => [
+                0 => [
                     'sub_choice_stage'       => '1',
                     'sub_string_description' => 'First stage intro',
                     'sub_string_results'     => 'Gain reputation',
-                ),
-                1 => array(
+                ],
+                1 => [
                     'sub_choice_stage'       => '1',
                     'sub_string_description' => 'First stage hard working',
                     'sub_string_results'     => 'Get significant results',
-                ),
-                2 => array(
+                ],
+                2 => [
                     'sub_choice_stage'       => '2',
                     'sub_string_description' => 'Second stage distribution',
                     'sub_string_results'     => 'All failed',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $expected = array(
-            0 => array(
+        $expected = [
+            0 => [
                 'sub_choice_stage'       => 'first stage',
                 'sub_string_description' => 'First stage intro',
                 'sub_string_results'     => 'Gain reputation',
-            ),
-            1 => array(
+            ],
+            1 => [
                 'sub_choice_stage'       => 'first stage',
                 'sub_string_description' => 'First stage hard working',
                 'sub_string_results'     => 'Get significant results',
-            ),
-            2 => array(
+            ],
+            2 => [
                 'sub_choice_stage'       => 'second stage',
                 'sub_string_description' => 'Second stage distribution',
                 'sub_string_results'     => 'All failed',
-            ),
-        );
+            ],
+        ];
 
         $form = $builder->getForm();
 
@@ -96,7 +96,7 @@ class TableFieldTypeTest extends TypeTestCase
         $tableValue = $form->get('table_field')->getData();
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableValue',
+            TableValue::class,
             $tableValue
         );
 
@@ -118,17 +118,17 @@ class TableFieldTypeTest extends TypeTestCase
         self::assertEquals($expected, $tableValue->getRenderValue());
 
         self::assertEquals(
-            array(
+            [
                 'sub_choice_stage'       => 'Stage',
                 'sub_string_description' => 'Description',
                 'sub_string_results'     => 'Results',
-            ),
+            ],
             $tableValue->getHeaders()
         );
 
         $form = $builder->getForm();
 
-        $form->setData(array('table_field' => $tableValue));
+        $form->setData(['table_field' => $tableValue]);
 
         self::assertTrue($form->isSynchronized());
 
@@ -143,16 +143,16 @@ class TableFieldTypeTest extends TypeTestCase
     protected function getExtensions()
     {
         /** @var FormInterface[] $types */
-        $types   = array();
-        $types[] = new TableType();
+        $types   = [];
+        $types[] = new TableType($types);
         $types[] = new TableRowType();
 
-        $extensions = array();
+        $extensions = [];
 
         foreach ($types as $type) {
             $extensions[$type->getName()] = $type;
         }
 
-        return array(new PreloadedExtension($extensions, array()));
+        return [new PreloadedExtension($extensions, [])];
     }
 }

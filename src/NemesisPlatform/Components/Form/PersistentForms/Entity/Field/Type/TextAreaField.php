@@ -13,24 +13,17 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TextValue;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormTypeInterface;
 
 class TextAreaField extends AbstractField
 {
     /**
-     * @return string Name key for the object
-     */
-    public function getType()
-    {
-        return 'field_textarea';
-    }
-
-    /**
      * @return string|FormTypeInterface
      */
     protected function getRenderedFormType()
     {
-        return 'textarea';
+        return TextareaType::class;
     }
 
     /**

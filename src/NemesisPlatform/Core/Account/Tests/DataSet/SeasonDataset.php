@@ -9,7 +9,6 @@
 namespace NemesisPlatform\Core\Account\Tests\DataSet;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use NemesisPlatform\Game\Entity\League;
@@ -21,10 +20,7 @@ use NemesisPlatform\Game\Entity\UserCategory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class SeasonDataset extends AbstractFixture implements
-    FixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class SeasonDataset extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
 {
     /** @var  ContainerInterface */
     private $container;
@@ -36,12 +32,9 @@ class SeasonDataset extends AbstractFixture implements
      */
     public function load(ObjectManager $manager)
     {
-        $site = new SeasonedSite();
-        $site->setName('Тестовое окружение');
-        $site->setDescription('Окружение для проведения тестов');
+        $site = new SeasonedSite('localhost', 'Тестовое окружение');
         $site->setShortName('test');
-        $site->setEmail('admin@test');
-        $site->setUrl('localhost');
+        $site->setSupportEmail('admin@test');
         $site->setTheme('basic_bootstrap_theme');
         $site->setActive(true);
 
@@ -89,17 +82,6 @@ class SeasonDataset extends AbstractFixture implements
         $this->addReference('stud-category', $sc);
         $sl->addCategory($sc);
 
-        $fld = $this->container->get('storable_forms.fields.university');
-
-        // TODO: Rewrite
-//        $vuz = new UniversityField();
-//        $vuz->setType($fld->getType());
-//        $vuz->setName('vuz');
-//        $vuz->setTitle('ВУЗ');
-//        $vuz->setHelpMessage('Ваш вуз');
-
-//        $sc->getFields()->add($vuz);
-
         $manager->persist($sc);
 
         $manager->persist($pl);
@@ -116,28 +98,9 @@ class SeasonDataset extends AbstractFixture implements
         $manager->clear();
     }
 
-    /**
-     * Sets the Container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
-     */
+    /** {@inheritdoc} */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
-    }
-
-    /**
-     * This method must return an array of fixtures classes
-     * on which the implementing class depends on
-     *
-     * @return array
-     */
-    public function getDependencies()
-    {
-        return [
-            GeoDataSet::class,
-        ];
     }
 }

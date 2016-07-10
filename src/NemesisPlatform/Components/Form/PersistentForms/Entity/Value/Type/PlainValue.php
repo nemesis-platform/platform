@@ -15,6 +15,11 @@ class PlainValue extends AbstractValue
     /** @var string */
     private $value;
 
+    public function getRenderValue()
+    {
+        return $this->getValue();
+    }
+
     /**
      * @return string
      */
@@ -29,10 +34,5 @@ class PlainValue extends AbstractValue
     public function setValue($value)
     {
         $this->value = $value;
-    }
-
-    public function getRenderValue()
-    {
-        return $this->getValue();
     }
 }

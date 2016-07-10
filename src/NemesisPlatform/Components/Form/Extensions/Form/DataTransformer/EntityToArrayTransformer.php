@@ -27,12 +27,14 @@ class EntityToArrayTransformer implements DataTransformerInterface
     public function __construct($class, $path)
     {
         $this->class = $class;
-        $this->path = $path;
+        $this->path  = $path;
     }
 
     /**
      * Transforms Entity to Entity,Label pair
+     *
      * @param $entity
+     *
      * @return array
      * @throws TransformationFailedException
      */
@@ -40,23 +42,25 @@ class EntityToArrayTransformer implements DataTransformerInterface
     {
 
         if (null === $entity) {
-            return array('storage' => null, 'helper' => '');
+            return ['storage' => null, 'helper' => ''];
         }
 
         $class = $this->class;
 
         if (!($entity instanceof $class)) {
-            throw new TransformationFailedException('Transformed entity is not instanse of ' . $this->class);
+            throw new TransformationFailedException('Transformed entity is not instanse of '.$this->class);
         }
 
         $accessor = new PropertyAccessor();
 
-        return array('storage' => $entity, 'helper' => $accessor->getValue($entity, $this->path));
+        return ['storage' => $entity, 'helper' => $accessor->getValue($entity, $this->path)];
     }
 
     /**
      * Transforms Entity,Label to Entity
+     *
      * @param $array
+     *
      * @return null|string
      * @throws TransformationFailedException
      */
@@ -73,7 +77,7 @@ class EntityToArrayTransformer implements DataTransformerInterface
         $class = $this->class;
 
         if (!($array['storage'] instanceof $class)) {
-            throw new TransformationFailedException('Transformed entity is not instanse of ' . $this->class);
+            throw new TransformationFailedException('Transformed entity is not instanse of '.$this->class);
         }
 
         return $array['storage'];

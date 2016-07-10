@@ -24,7 +24,7 @@ class KeyValueCollectionType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('type' => 'key_value_entry'));
+        $resolver->setDefaults(['type' => 'key_value_entry']);
     }
 
     public function getParent()

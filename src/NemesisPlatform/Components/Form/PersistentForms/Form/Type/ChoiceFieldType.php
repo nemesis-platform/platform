@@ -8,8 +8,9 @@
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Form\Type;
 
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceField;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChoiceFieldType extends AbstractFieldType
 {
@@ -17,25 +18,25 @@ class ChoiceFieldType extends AbstractFieldType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('multiple', 'checkbox', array('required' => false));
-        $builder->add('expanded', 'checkbox', array('required' => false));
+        $builder->add('multiple', 'checkbox', ['required' => false]);
+        $builder->add('expanded', 'checkbox', ['required' => false]);
 
         $builder->add(
             'choices',
             'collection',
-            array(
+            [
                 'type'         => new ChoiceFieldOptionType(),
                 'allow_add'    => true,
                 'allow_delete' => true,
-            )
+            ]
         );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
-        $resolver->setDefaults(array('data_class' => 'NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceField'));
+        $resolver->setDefaults(['data_class' => ChoiceField::class]);
     }
 
     /**

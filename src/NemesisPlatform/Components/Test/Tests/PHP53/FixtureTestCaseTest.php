@@ -6,10 +6,10 @@
  * Time: 15:25
  */
 
-namespace NemesisPlatform\Components\Tests\PHP53;
+namespace NemesisPlatform\Components\Test\Tests\PHP53;
 
-use NemesisPlatform\Components\Testing\FixtureTestCase;
-use NemesisPlatform\Components\Testing\KernelForTest;
+use NemesisPlatform\Components\Test\Testing\FixtureTestCase;
+use NemesisPlatform\Components\Test\Testing\KernelForTest;
 
 class FixtureTestCaseTest extends FixtureTestCase
 {
@@ -19,8 +19,8 @@ class FixtureTestCaseTest extends FixtureTestCase
     }
 
     /**
-     * @dataset NemesisPlatform\Components\Tests\PHP53\SampleFixture
-     * @dataset NemesisPlatform\Components\Tests\PHP53\SampleFixture
+     * @dataset NemesisPlatform\Components\Test\Tests\PHP53\SampleFixture
+     * @dataset NemesisPlatform\Components\Test\Tests\PHP53\SampleFixture
      */
     public function testFixtureLoading()
     {
@@ -33,7 +33,7 @@ class FixtureTestCaseTest extends FixtureTestCase
     }
 
     /**
-     * @dataset NemesisPlatform\Components\Tests\PHP53\SampleDependentFixture
+     * @dataset NemesisPlatform\Components\Test\Tests\PHP53\SampleDependentFixture
      */
     public function testDependedFixtures()
     {
@@ -49,7 +49,7 @@ class FixtureTestCaseTest extends FixtureTestCase
     }
 
     /**
-     * @dataset NemesisPlatform\Components\Tests\PHP53\SampleFixture
+     * @dataset NemesisPlatform\Components\Test\Tests\PHP53\SampleFixture
      * @dataProvider sampleDataProvider
      * @param $a
      * @param $b

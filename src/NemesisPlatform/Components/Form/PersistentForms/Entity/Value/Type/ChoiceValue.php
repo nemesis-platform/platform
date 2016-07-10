@@ -27,7 +27,7 @@ class ChoiceValue extends ArrayValue
         $choices = $field->getChoices();
 
         if ($field->isMultiple()) {
-            $values = array();
+            $values = [];
 
             foreach ($this->getValue() as $key) {
                 if (array_key_exists($key, $choices)) {

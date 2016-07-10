@@ -6,108 +6,18 @@
  * Time: 12:03 AM
  */
 
-namespace NemesisPlatform\Components\Testing;
+namespace NemesisPlatform\Components\Test\Testing;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\ORM\Tools\SchemaValidator;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class FixtureTestCase extends WebTestCase
+abstract class FixtureTestCase extends AbstractDatabaseTest
 {
-    /** @var  EntityManager */
-    protected static $em;
-    /** @var  Client */
-    protected static $client;
-
     /** @var  FixtureInterface[] */
     private $fixtures = array();
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return static::$kernel->getContainer();
-    }
-
-    /**
-     * @throws \Doctrine\ORM\Tools\ToolsException
-     */
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        static::$kernel = static::createKernel(array());
-        static::$kernel->boot();
-
-        $metadata = static::getMetadata();
-
-        $tool = new SchemaTool(static::$em);
-        $tool->dropDatabase();
-        $tool->createSchema($metadata);
-
-        $validator = new SchemaValidator(static::$em);
-        $errors = $validator->validateMapping();
-
-        static::assertCount(
-            0,
-            $errors,
-            implode(
-                "\n\n",
-                array_map(
-                    function ($l) {
-                        return implode("\n\n", $l);
-                    },
-                    $errors
-                )
-            )
-        );
-    }
-
-    public static function getMetadata()
-    {
-        /** @var EntityManagerInterface $em */
-        static::$em = static::$kernel->getContainer()->get('doctrine')->getManager();
-
-        $metadata = static::$em->getMetadataFactory()->getAllMetadata();
-
-        return $metadata;
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        static::$kernel = static::createKernel(array());
-        static::$kernel->boot();
-
-        $this->fixtures = array();
-        $annotations = $this->getAnnotations();
-
-        if (isset($annotations['method']['dataset'])) {
-            $dataset_classes = $annotations['method']['dataset'];
-            foreach ($dataset_classes as $dataset_class) {
-                $fixture = new $dataset_class();
-                if (!($fixture instanceof FixtureInterface)) {
-                    continue;
-                }
-                $this->fixtures[] = $fixture;
-            }
-        }
-
-        static::assertNotNull(static::$kernel->getContainer());
-
-        $this->loadTestData($this->fixtures);
-    }
-
+    
     /**
      * @param FixtureInterface|FixtureInterface[] $data
      */
@@ -127,11 +37,34 @@ abstract class FixtureTestCase extends WebTestCase
 
         $purger = new ORMPurger();
         $executor = new ORMExecutor(
-            static::$em,
+            static::$manager,
             $purger
         );
 
         $executor->execute($loader->getFixtures());
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->fixtures = [];
+        $annotations    = $this->getAnnotations();
+
+        if (isset($annotations['method']['dataset'])) {
+            $dataset_classes = $annotations['method']['dataset'];
+            foreach ($dataset_classes as $dataset_class) {
+                $fixture = new $dataset_class();
+                if (!($fixture instanceof FixtureInterface)) {
+                    continue;
+                }
+                $this->fixtures[] = $fixture;
+            }
+        }
+
+        static::assertNotNull(AbstractDatabaseTest::$kernel->getContainer());
+
+        $this->loadTestData($this->fixtures);
     }
 
     /**

@@ -25,7 +25,7 @@ class AccessibilityTest extends WebFixtureTestCase
     {
         $this->logIn('admin@test', ['ROLE_ADMIN']);
         $this->getClient()->request('GET', $url);
-        $this->assertTrue($this->getClient()->getResponse()->isSuccessful(), $this->getClient()->getResponse());
+        self::assertTrue($this->getClient()->getResponse()->isSuccessful(), $this->getClient()->getResponse());
     }
 
     /**
@@ -39,7 +39,7 @@ class AccessibilityTest extends WebFixtureTestCase
     {
         $this->logIn('user@test', ['ROLE_USER']);
         $this->getClient()->request('GET', $url);
-        $this->assertTrue($this->getClient()->getResponse()->isForbidden(), $this->getClient()->getResponse());
+        self::assertTrue($this->getClient()->getResponse()->isForbidden(), $this->getClient()->getResponse());
     }
 
     public function adminUrlProvider()

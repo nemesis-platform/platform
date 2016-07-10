@@ -19,7 +19,7 @@ class EntityAutocompleteType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,7 +30,7 @@ class EntityAutocompleteType extends AbstractType
             )
         );
 
-        $attrs = array('data-autocomplete' => $options['action']);
+        $attrs = ['data-autocomplete' => $options['action']];
         if ($options['autocomplete_group']) {
             $attrs['data-autocomplete-group'] = $options['autocomplete_group'];
         }
@@ -47,45 +47,45 @@ class EntityAutocompleteType extends AbstractType
         $builder->add(
             'helper',
             'text',
-            array(
-                'label' => $options['label'],
+            [
+                'label'      => $options['label'],
                 'label_attr' => array_merge($options['label_attr']),
-                'attr' => array_merge(
+                'attr'       => array_merge(
                     $options['attr'],
                     $attrs
                 ),
-            )
+            ]
         );
-        $builder->add('storage', 'entity_hidden', array('class' => $options['class']));
+        $builder->add('storage', 'entity_hidden', ['class' => $options['class']]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
             ->setRequired(
-                array(
+                [
                     'class',
                     'action',
-                    'visible_property_path'
-                )
+                    'visible_property_path',
+                ]
             )
             ->setOptional(
-                array(
+                [
                     'autocomplete_group',
                     'autocomplete_term',
                     'autocomplete_label',
                     'autocomplete_id',
-                )
+                ]
             )
             ->setDefaults(
-                array(
-                    'compound' => true,
-                    'invalid_message' => 'The entity does not exist.',
+                [
+                    'compound'           => true,
+                    'invalid_message'    => 'The entity does not exist.',
                     'autocomplete_group' => null,
-                    'autocomplete_term' => null,
+                    'autocomplete_term'  => null,
                     'autocomplete_label' => null,
-                    'autocomplete_id' => null,
-                )
+                    'autocomplete_id'    => null,
+                ]
             );
     }
 
@@ -93,9 +93,9 @@ class EntityAutocompleteType extends AbstractType
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars['label'] = false;
-        $view->vars['attr'] = array();
-        $view->vars['label_attr'] = array();
+        $view->vars['label']      = false;
+        $view->vars['attr']       = [];
+        $view->vars['label_attr'] = [];
     }
 
     public function getParent()

@@ -67,22 +67,22 @@ abstract class AbstractField implements FormTypedInterface
         return new AbstractFieldType(get_class($this));
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options = array())
+    public function buildForm(FormBuilderInterface $builder, array $options = [])
     {
         $options = array_replace_recursive(
-            array(
+            [
                 'required' => $this->isRequired(),
                 'label'    => $this->getTitle(),
-                'attr'     => array('help_text' => $this->getHelpMessage()),
-            ),
+                'attr'     => ['help_text' => $this->getHelpMessage()],
+            ],
             $this->getRenderedFormOptions(),
             $options
         );
 
         $field = $builder->create($this->name, $this->getRenderedFormType(), $options);
 
-        if ($this->getValueTransformer()) {
-            $field->addModelTransformer($this->getValueTransformer());
+        if (null !== ($transformer = $this->getValueTransformer())) {
+            $field->addModelTransformer($transformer);
         }
 
         $builder->add($field);
@@ -145,7 +145,7 @@ abstract class AbstractField implements FormTypedInterface
      */
     protected function getRenderedFormOptions()
     {
-        return array();
+        return [];
     }
 
     /**

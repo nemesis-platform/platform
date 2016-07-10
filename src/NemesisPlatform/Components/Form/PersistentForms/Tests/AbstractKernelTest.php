@@ -9,21 +9,21 @@
 namespace NemesisPlatform\Components\Form\PersistentForms\Tests;
 
 use NemesisPlatform\Components\Form\PersistentForms\PersistentFormsBundle;
-use NemesisPlatform\Components\Testing\FixtureTestCase;
+use NemesisPlatform\Components\Test\Testing\AbstractDatabaseTest;
 
-abstract class AbstractKernelTest extends FixtureTestCase
+abstract class AbstractKernelTest extends AbstractDatabaseTest
 {
-    protected static function createKernel(array $options = array())
+    protected static function createKernel(array $options = [])
     {
         return new TestKernel(
             'test',
             true,
-            array(
+            [
                 new PersistentFormsBundle(),
-            ),
-            array(
-                __DIR__.'/fixtures/config.yml'
-            )
+            ],
+            [
+                __DIR__.'/fixtures/config.yml',
+            ]
         );
     }
 }

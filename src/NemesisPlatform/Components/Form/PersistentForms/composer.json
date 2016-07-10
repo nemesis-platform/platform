@@ -11,17 +11,17 @@
   ],
   "require": {
     "php": "~5.5 || ~7.0",
-    "symfony/form": "~2.4",
+    "symfony/form": "~2.8",
     "doctrine/orm": "~2.3",
     "scaytrase/symfony-autoregistry": "~2.0",
     "symfony/validator": "~2.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.6@stable"
+    "phpunit/phpunit": "~4.6 || ~5.0"
   },
   "autoload": {
     "psr-0": {
-      "": "src/"
+      "NemesisPlatform\\Components\\Form\\PersistentForms\\": "./"
     }
   }
 }

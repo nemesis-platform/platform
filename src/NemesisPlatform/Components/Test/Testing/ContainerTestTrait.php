@@ -6,7 +6,7 @@
  * Time: 13:48
  */
 
-namespace NemesisPlatform\Components\Testing;
+namespace NemesisPlatform\Components\Test\Testing;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

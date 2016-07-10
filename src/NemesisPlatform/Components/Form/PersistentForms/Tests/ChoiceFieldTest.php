@@ -15,34 +15,40 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class ChoiceFieldTest extends TypeTestCase
 {
+    const FIELD_NAME = 'multiple_choice_type';
+
     public function testOptGroups()
     {
         $builder = $this->createTestFieldBuilder(
-            array(
-                array('value' => 'choice3', 'optgroup' => 'other_group'),
-                array('value' => 'choice1', 'optgroup' => 'test_group'),
-                array('value' => 'choice2', 'optgroup' => 'test_group'),
-            )
+            [
+                ['value' => 'choice3', 'optgroup' => 'other_group'],
+                ['value' => 'choice1', 'optgroup' => 'test_group'],
+                ['value' => 'choice2', 'optgroup' => 'test_group'],
+            ]
         );
 
-        self::assertTrue($builder->has('multiple_choice_type'));
-        $options = $builder->get('multiple_choice_type')->getOptions();
+        self::assertTrue($builder->has(self::FIELD_NAME));
+        $options = $builder->get(self::FIELD_NAME)->getOptions();
         self::assertArrayHasKey('choices', $options);
         self::assertEquals(
-            array(
-                'other_group' => array(0 => 'choice3'),
-                'test_group'  => array(1 => 'choice1', 2 => 'choice2'),
-            ),
+            [
+                'other_group' => ['choice3' => 0],
+                'test_group'  => ['choice1' => 1, 'choice2' => 2],
+            ],
             $options['choices']
         );
     }
 
-    /** @return FormBuilderInterface */
-    private function createTestFieldBuilder(array $choices = array())
+    /**
+     * @param array $choices
+     *
+     * @return FormBuilderInterface
+     */
+    private function createTestFieldBuilder(array $choices = [])
     {
         $multipleChoice = new ChoiceField();
         $multipleChoice->setMultiple(true);
-        $multipleChoice->setName('multiple_choice_type');
+        $multipleChoice->setName(self::FIELD_NAME);
         $multipleChoice->setChoices($choices);
         $builder = $this->factory->createBuilder('form');
         $multipleChoice->buildForm($builder);
@@ -53,19 +59,19 @@ class ChoiceFieldTest extends TypeTestCase
     public function testKeysAndInternalSorting()
     {
         $builder = $this->createTestFieldBuilder(
-            array(
-                array('value' => 'choice1', 'optgroup' => 'test_group'),
-                'best_choice' => array('value' => 'choice3', 'optgroup' => 'other_group'),
-                array('value' => 'choice2', 'optgroup' => 'test_group'),
-            )
+            [
+                ['value' => 'choice1', 'optgroup' => 'test_group'],
+                'best_choice' => ['value' => 'choice3', 'optgroup' => 'other_group'],
+                ['value' => 'choice2', 'optgroup' => 'test_group'],
+            ]
         );
-        $options = $builder->get('multiple_choice_type')->getOptions();
+        $options = $builder->get(self::FIELD_NAME)->getOptions();
         self::assertArrayHasKey('choices', $options);
         self::assertEquals(
-            array(
-                'other_group' => array('best_choice' => 'choice3'),
-                'test_group'  => array(0 => 'choice1', 1 => 'choice2'),
-            ),
+            [
+                'other_group' => ['choice3' => 'best_choice'],
+                'test_group'  => ['choice1' => 0, 'choice2' => 1],
+            ],
             $options['choices']
         );
     }
@@ -73,20 +79,20 @@ class ChoiceFieldTest extends TypeTestCase
     public function testNoOptGroup()
     {
         $builder = $this->createTestFieldBuilder(
-            array(
-                'best_choice' => array('value' => 'choice3', 'optgroup' => 'other_group'),
-                array('value' => 'choice1', 'optgroup' => 'test_group'),
-                array('value' => 'choice2'),
-            )
+            [
+                'best_choice' => ['value' => 'choice3', 'optgroup' => 'other_group'],
+                ['value' => 'choice1', 'optgroup' => 'test_group'],
+                ['value' => 'choice2'],
+            ]
         );
-        $options = $builder->get('multiple_choice_type')->getOptions();
+        $options = $builder->get(self::FIELD_NAME)->getOptions();
         self::assertArrayHasKey('choices', $options);
         self::assertEquals(
-            array(
-                'other_group' => array('best_choice' => 'choice3'),
-                'test_group'  => array(0 => 'choice1'),
-                1             => 'choice2',
-            ),
+            [
+                'other_group' => ['choice3' => 'best_choice'],
+                'test_group'  => ['choice1' => 0],
+                'choice2'     => 1,
+            ],
             $options['choices']
         );
     }

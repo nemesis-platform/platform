@@ -8,7 +8,8 @@
 
 namespace NemesisPlatform\Core\Account\Tests;
 
-use NemesisPlatform\Components\Testing\FixtureTestCase;
+use NemesisPlatform\AppKernel;
+use NemesisPlatform\Components\Test\Testing\FixtureTestCase;
 use NemesisPlatform\Core\Account\Entity\User;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -16,6 +17,11 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class WebFixtureTestCase extends FixtureTestCase
 {
+    protected static function getKernelClass()
+    {
+        return AppKernel::class;
+    }
+
     public function setUp()
     {
         parent::setUp();

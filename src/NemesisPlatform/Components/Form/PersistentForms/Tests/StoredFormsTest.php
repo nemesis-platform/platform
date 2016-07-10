@@ -13,6 +13,9 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceFiel
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\NumberField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\StringField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TextAreaField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\ChoiceValue;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TextValue;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class StoredFormsTest extends TypeTestCase
@@ -30,16 +33,16 @@ class StoredFormsTest extends TypeTestCase
 
         $choice = new ChoiceField();
         $choice->setName('choice_type');
-        $choice->setChoices(array('choice1', 'choice2'));
+        $choice->setChoices(['choice1', 'choice2']);
 
         $multipleChoice = new ChoiceField();
         $multipleChoice->setMultiple(true);
         $multipleChoice->setName('multiple_choice_type');
-        $multipleChoice->setChoices(array('choice1', 'choice2', 'choice3'));
+        $multipleChoice->setChoices(['choice1', 'choice2', 'choice3']);
 
 
         /** @var AbstractField[] $fields */
-        $fields = array($string, $text, $number, $choice, $multipleChoice);
+        $fields = [$string, $text, $number, $choice, $multipleChoice];
 
         $builder = $this->factory->createBuilder('form');
 
@@ -47,13 +50,13 @@ class StoredFormsTest extends TypeTestCase
             $field->buildForm($builder);
         }
 
-        $data = array(
+        $data = [
             'string_type'          => 'the string to test',
             'text_type'            => 'Some text goes here',
             'number_type'          => 1,
             'choice_type'          => 0,
-            'multiple_choice_type' => array(0, 2)
-        );
+            'multiple_choice_type' => [0, 2],
+        ];
 
         $form = $builder->getForm();
         $form->submit($data);
@@ -61,21 +64,21 @@ class StoredFormsTest extends TypeTestCase
         self::assertTrue($form->isSynchronized());
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue',
+            PlainValue::class,
             $form->get('string_type')->getData()
         );
         self::assertEquals('the string to test', $form->get('string_type')->getData()->getValue());
         self::assertEquals($string, $form->get('string_type')->getData()->getField());
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TextValue',
+            TextValue::class,
             $form->get('text_type')->getData()
         );
         self::assertEquals('Some text goes here', $form->get('text_type')->getData()->getValue());
         self::assertEquals($text, $form->get('text_type')->getData()->getField());
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue',
+            PlainValue::class,
             $form->get('number_type')->getData()
         );
         self::assertEquals(1, $form->get('number_type')->getData()->getValue());
@@ -83,7 +86,7 @@ class StoredFormsTest extends TypeTestCase
         self::assertEquals($number, $form->get('number_type')->getData()->getField());
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\ChoiceValue',
+            ChoiceValue::class,
             $form->get('choice_type')->getData()
         );
 
@@ -92,12 +95,12 @@ class StoredFormsTest extends TypeTestCase
         self::assertEquals($choice, $form->get('choice_type')->getData()->getField());
 
         self::assertInstanceOf(
-            'NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\ChoiceValue',
+            ChoiceValue::class,
             $form->get('multiple_choice_type')->getData()
         );
 
-        self::assertEquals(array(0, 2), $form->get('multiple_choice_type')->getData()->getValue());
-        self::assertEquals(array('choice1', 'choice3'), $form->get('multiple_choice_type')->getData()->getRenderValue());
+        self::assertEquals([0, 2], $form->get('multiple_choice_type')->getData()->getValue());
+        self::assertEquals(['choice1', 'choice3'], $form->get('multiple_choice_type')->getData()->getRenderValue());
         self::assertEquals($multipleChoice, $form->get('multiple_choice_type')->getData()->getField());
     }
 }

@@ -6,7 +6,7 @@
  * Time: 16:34
  */
 
-namespace NemesisPlatform\Components\Testing;
+namespace NemesisPlatform\Components\Test\Testing;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;

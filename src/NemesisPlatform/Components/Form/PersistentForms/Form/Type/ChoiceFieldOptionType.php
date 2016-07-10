@@ -13,21 +13,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ChoiceFieldOptionType extends AbstractType
 {
-
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
+    /** {@inheritdoc} */
     public function getName()
     {
         return 'choice_field_option';
     }
 
+    /** {@inheritdoc} */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('key', 'text', array('required' => false));
-        $builder->add('value', 'text', array('required' => true));
-        $builder->add('optgroup', 'text', array('required' => false));
+        $builder->add('key', 'text', ['required' => false]);
+        $builder->add('value', 'text', ['required' => true]);
+        $builder->add('optgroup', 'text', ['required' => false]);
     }
 }

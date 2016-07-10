@@ -18,13 +18,13 @@ class DataToKeyValueArrayTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if (!$value || !is_array($value) || count($value) === 0) {
-            return array();
+            return [];
         }
 
-        $data = array();
+        $data = [];
 
         foreach ($value as $key => $val) {
-            $data[$key] = array('key' => $key, 'value' => $val);
+            $data[$key] = ['key' => $key, 'value' => $val];
         }
 
         return $data;
@@ -34,10 +34,10 @@ class DataToKeyValueArrayTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         if (!$value || !is_array($value) || count($value) === 0) {
-            return array();
+            return [];
         }
 
-        $result = array();
+        $result = [];
         foreach ($value as $row) {
             $result[$row['key']] = $row['value'];
         }

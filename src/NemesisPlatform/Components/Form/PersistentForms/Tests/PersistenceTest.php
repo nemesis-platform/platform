@@ -13,13 +13,14 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceFiel
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\NumberField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\StringField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TextAreaField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue;
 
 class PersistenceTest extends AbstractKernelTest
 {
 
     public function testStoring()
     {
-        $manager = self::$em;
+        $manager = self::$manager;
 
         $string = new StringField();
         $string->setName('string_type');
@@ -35,13 +36,13 @@ class PersistenceTest extends AbstractKernelTest
 
         $choice = new ChoiceField();
         $choice->setName('choice_type');
-        $choice->setChoices(array('choice1', 'choice2'));
+        $choice->setChoices(['choice1', 'choice2']);
         $manager->persist($choice);
 
         $multipleChoice = new ChoiceField();
         $multipleChoice->setMultiple(true);
         $multipleChoice->setName('multiple_choice_type');
-        $multipleChoice->setChoices(array('choice1', 'choice2', 'choice3'));
+        $multipleChoice->setChoices(['choice1', 'choice2', 'choice3']);
         $manager->persist($multipleChoice);
 
         $manager->flush();
@@ -49,7 +50,7 @@ class PersistenceTest extends AbstractKernelTest
         $manager->clear();
 
         /** @var AbstractField[] $fields */
-        $fields = $manager->getRepository('PersistentForms:Field\AbstractField')->findAll();
+        $fields = $manager->getRepository(AbstractField::class)->findAll();
         self::assertCount(5, $fields);
 
         $builder = $this->getContainer()->get('form.factory')->createBuilder('form');
@@ -60,16 +61,20 @@ class PersistenceTest extends AbstractKernelTest
 
         $form = $builder->getForm();
         $form->submit(
-            array(
+            [
                 'string_type'          => 'the string to test',
                 'text_type'            => 'Some text goes here',
                 'number_type'          => 1,
                 'choice_type'          => 0,
-                'multiple_choice_type' => array(0, 2),
-            )
+                //                'choice_type'          => 'choice1',
+                'multiple_choice_type' => [0, 2],
+                //                'multiple_choice_type' => ['choice1', 'choice3'],
+            ]
         );
 
         self::assertTrue($form->isSynchronized());
+        self::assertTrue($form->isValid(), (string)$form->getErrors(true, true));
+
 
         $values = $form->getData();
 
@@ -82,13 +87,13 @@ class PersistenceTest extends AbstractKernelTest
         $manager->flush();
         $manager->clear();
 
-        $stored = $manager->getRepository('PersistentForms:Value\AbstractValue')->findAll();
+        $stored = $manager->getRepository(AbstractValue::class)->findAll();
 
         self::assertCount(5, $stored);
 
         $form = $builder->getForm();
 
-        $values = array();
+        $values = [];
         foreach ($stored as $value) {
             $values[$value->getField()->getName()] = $value;
         }

@@ -27,9 +27,9 @@ class TableValue extends AbstractValue implements \ArrayAccess, \IteratorAggrega
 
     public function getValue()
     {
-        $values = array();
+        $values = [];
         foreach ($this->rows as $row) {
-            $valueRow = array();
+            $valueRow = [];
             foreach ($row->getValues() as $value) {
                 $valueRow[$value->getField()->getName()] = $value;
             }
@@ -41,7 +41,7 @@ class TableValue extends AbstractValue implements \ArrayAccess, \IteratorAggrega
 
     public function setValue($value)
     {
-        $rows  = array();
+        $rows  = [];
         $value = (array)$value;
         foreach ($value as $row) {
             $tableRow = new TableRow($this);
@@ -53,7 +53,7 @@ class TableValue extends AbstractValue implements \ArrayAccess, \IteratorAggrega
 
     public function getHeaders()
     {
-        $headers = array();
+        $headers = [];
 
         /** @var TableField $field */
         $field = $this->getField();
@@ -71,10 +71,10 @@ class TableValue extends AbstractValue implements \ArrayAccess, \IteratorAggrega
 
     public function getRenderValue()
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->rows as $row) {
-            $resultRow = array();
+            $resultRow = [];
             foreach ($row->getValues() as $value) {
                 $resultRow[$value->getField()->getName()] = $value->getRenderValue();
             }

@@ -12,7 +12,7 @@ namespace NemesisPlatform\Components\Form\PersistentForms\Form\Type;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AbstractFieldType extends AbstractType
 {
@@ -28,24 +28,22 @@ class AbstractFieldType extends AbstractType
         $this->classname = $classname;
     }
 
+    /** {@inheritdoc} */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => 'Код поля'));
-        $builder->add('title', 'text', array('label' => 'Описание'));
-        $builder->add('required', 'checkbox', array('required' => false));
-        $builder->add('help_message', 'textarea', array('label' => 'Подсказка', 'required' => false));
+        $builder->add('name', 'text', ['label' => 'Код поля']);
+        $builder->add('title', 'text', ['label' => 'Описание']);
+        $builder->add('required', 'checkbox', ['required' => false]);
+        $builder->add('help_message', 'textarea', ['label' => 'Подсказка', 'required' => false]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /** {@inheritdoc} */
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => $this->classname));
+        $resolver->setDefaults(['data_class' => $this->classname]);
     }
 
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
+    /** {@inheritdoc} */
     public function getName()
     {
         return 'field_settings';

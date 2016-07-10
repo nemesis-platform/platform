@@ -23,10 +23,10 @@ class DateTimeLocalType extends AbstractType
     {
         $resolver
             ->setDefaults(
-                array(
+                [
                     'widget' => 'single_text',
                     'format' => "yyyy-MM-dd'T'HH:mm",
-                )
+                ]
             );
     }
 

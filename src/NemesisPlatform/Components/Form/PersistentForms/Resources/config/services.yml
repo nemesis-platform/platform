@@ -3,29 +3,3 @@ services:
     class: NemesisPlatform\Components\Form\PersistentForms\Registry\FieldsRegistry
     tags:
     - { name: autoregistry, tag: storable_field }
-
-  scaytrase.stored_forms.type.table:
-    class: NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableType
-    tags:
-    - { name: form.type, alias: field_table }
-
-  scaytrase.stored_forms.type.table_row:
-    class: NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableRowType
-    tags:
-    - { name: form.type, alias: field_table_row }
-
-  scaytrase.stored_forms.settings.table_field:
-    class: NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableFieldType
-    tags:
-    - { name: form.type, alias: table_field_settings }
-
-  scaytrase.stored_forms.settings.choice_field:
-    class: NemesisPlatform\Components\Form\PersistentForms\Form\Type\ChoiceFieldType
-    tags:
-    - { name: form.type, alias: field_choice_settings }
-
-  scaytrase.stored_forms.settings.abstract_field:
-    class: NemesisPlatform\Components\Form\PersistentForms\Form\Type\AbstractFieldType
-    tags:
-    - { name: form.type, alias: field_settings }
-

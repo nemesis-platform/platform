@@ -30,27 +30,27 @@ class SurveyFormType extends AbstractType
     {
         $builder->add('alias');
         $builder->add('title');
-        $builder->add('editAllowed', null, array('required' => false));
-        $builder->add('locked', null, array('required' => false));
-        $builder->add('public', null, array('required' => false));
+        $builder->add('editAllowed', null, ['required' => false]);
+        $builder->add('locked', null, ['required' => false]);
+        $builder->add('public', null, ['required' => false]);
 
         $builder->add(
             'questions',
             'collection',
-            array(
+            [
                 'type'         => new SurveyQuestionType(),
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'options'      => array(
-                    'attr' => array('style' => 'inline'),
-                ),
-            )
+                'options'      => [
+                    'attr' => ['style' => 'inline'],
+                ],
+            ]
         );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => Survey::class));
+        $resolver->setDefaults(['data_class' => Survey::class]);
     }
 }

@@ -30,17 +30,17 @@ class SurveyQuestionType extends AbstractType
         $builder->add(
             'field',
             'entity',
-            array(
+            [
                 'label' => 'Поле',
                 'class' => 'ScayTrase\StoredFormsBundle\Entity\Field\AbstractField',
-            )
+            ]
         );
-        $builder->add('weight', 'integer', array('label' => 'Вес'));
+        $builder->add('weight', 'integer', ['label' => 'Вес']);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyQuestion'));
+        $resolver->setDefaults(['data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyQuestion']);
     }
 
 

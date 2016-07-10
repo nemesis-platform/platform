@@ -10,13 +10,12 @@ namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Type\AbstractEntityFieldType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormTypeInterface;
 
 abstract class AbstractEntityField extends AbstractField
 {
-    /**
-     * @return mixed
-     */
+    /** @return string */
     abstract public function getClassname();
 
     abstract public function renderEntity($entity);
@@ -31,6 +30,6 @@ abstract class AbstractEntityField extends AbstractField
      */
     protected function getRenderedFormType()
     {
-        return 'entity';
+        return EntityType::class;
     }
 }

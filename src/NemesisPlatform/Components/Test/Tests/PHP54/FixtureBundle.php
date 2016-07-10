@@ -6,7 +6,7 @@
  * Time: 13:53
  */
 
-namespace NemesisPlatform\Components\Tests\PHP54;
+namespace NemesisPlatform\Components\Test\Tests\PHP54;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

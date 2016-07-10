@@ -20,7 +20,7 @@ class ArrayValue extends AbstractValue
      */
     public function setValue($arrayValue)
     {
-        $this->arrayValue = (array) $arrayValue;
+        $this->arrayValue = (array)$arrayValue;
     }
 
     /**

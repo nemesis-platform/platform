@@ -12,11 +12,9 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TableRowType extends AbstractType
 {
-
     /**
      * Returns the name of this type.
      *
@@ -43,24 +41,7 @@ class TableRowType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $this->setDefaultOptions($resolver);
-    }
-
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setRequired(
-            array(
-                'fields',
-            )
-        );
-
-        $reflection = new \ReflectionMethod($resolver, 'setAllowedTypes');
-        if ($reflection->getNumberOfParameters() === 2) {
-            $resolver->setAllowedTypes('fields', 'array');
-        } else {
-            $resolver->setAllowedTypes(array('fields' => 'array'));
-        }
-
+        $resolver->setRequired('fields');
+        $resolver->setAllowedTypes(['fields' => 'array']);
     }
 }

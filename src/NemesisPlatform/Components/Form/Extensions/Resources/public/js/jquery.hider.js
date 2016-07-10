@@ -19,11 +19,10 @@
                 $this.change(function () {
                     var source = $this.find(':selected').val();
                     $('[data-hider=' + hider_group + ']').not('[data-hider-initiator]').each(function () {
-                        $(this).
-                            choice_hider({
-                                'action': 'show',
-                                'source': source
-                            });
+                        $(this).choice_hider({
+                            'action': 'show',
+                            'source': source
+                        });
                     });
                 });
             }

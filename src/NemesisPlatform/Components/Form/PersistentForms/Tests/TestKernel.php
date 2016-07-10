@@ -8,9 +8,8 @@
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Tests;
 
-use NemesisPlatform\Components\Testing\KernelForTest;
+use NemesisPlatform\Components\Test\Testing\KernelForTest;
 
 class TestKernel extends KernelForTest
 {
-
 }

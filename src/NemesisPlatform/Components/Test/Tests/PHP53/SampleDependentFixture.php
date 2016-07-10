@@ -6,7 +6,7 @@
  * Time: 12:01
  */
 
-namespace NemesisPlatform\Components\Tests\PHP53;
+namespace NemesisPlatform\Components\Test\Tests\PHP53;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

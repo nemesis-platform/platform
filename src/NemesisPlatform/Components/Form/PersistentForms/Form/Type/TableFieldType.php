@@ -8,8 +8,10 @@
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Form\Type;
 
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TableField;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TableFieldType extends AbstractFieldType
 {
@@ -20,14 +22,14 @@ class TableFieldType extends AbstractFieldType
         $builder->add(
             'fields',
             'collection',
-            array(
-                'type'    => 'entity',
+            [
+                'type'         => 'entity',
                 'allow_add'    => true,
                 'allow_delete' => true,
-                'options' => array(
-                    'class' => 'NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField'
-                ),
-            )
+                'options'      => [
+                    'class' => AbstractField::class,
+                ],
+            ]
         );
     }
 
@@ -41,11 +43,11 @@ class TableFieldType extends AbstractFieldType
         return 'table_field_settings';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
-        $resolver->setDefaults(array('data_class' => 'NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TableField'));
+        $resolver->setDefaults(['data_class' => TableField::class]);
     }
 
 }

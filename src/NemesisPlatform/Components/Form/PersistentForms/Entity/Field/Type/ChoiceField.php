@@ -69,11 +69,11 @@ class ChoiceField extends AbstractField
      */
     public function getChoices()
     {
-        $choices = array();
+        $choices = [];
 
         foreach ($this->choices as $key => $choice) {
             if (!is_array($choice)) {
-                $choices[$key] = array('value'=>$choice);
+                $choices[$key] = ['value' => $choice];
             } else {
                 $choices[$key] = $choice;
             }
@@ -87,19 +87,14 @@ class ChoiceField extends AbstractField
      */
     public function setChoices(array $choices)
     {
-        $this->choices = array();
-
-        foreach ($choices as $key => $choice) {
-            if (!is_array($choice)) {
-                $choice = array('value' => $choice);
+        foreach ($choices as $key => $value) {
+            if (is_array($value)) {
+                $value = array_flip($value);
             }
 
-            if (array_key_exists('key', $choice) && $choice['key'] !== null) {
-                $key = $choice['key'];
-            }
-
-            $this->choices[$key] = $choice;
+            $this->choices[$key] = $value;
         }
+        $this->choices = $choices;
     }
 
     /**
@@ -123,11 +118,11 @@ class ChoiceField extends AbstractField
      */
     protected function getRenderedFormOptions()
     {
-        $choices = array();
+        $choices = [];
 
         foreach ($this->choices as $key => $row) {
             if (!is_array($row)) {
-                $row = array('value' => $row);
+                $row = ['value' => $row];
             }
 
             if (array_key_exists('key', $row) && $row['key'] !== null) {
@@ -135,19 +130,20 @@ class ChoiceField extends AbstractField
             }
 
             if (array_key_exists('optgroup', $row) && $row['optgroup'] !== null) {
-                $choices[$row['optgroup']][$key] = $row['value'];
+                $choices[$row['optgroup']][$row['value']] = $key;
             } else {
-                $choices[$key] = $row['value'];
+                $choices[$row['value']] = $key;
             }
         }
 
         return array_replace_recursive(
             parent::getRenderedFormOptions(),
-            array(
-                'choices'  => $choices,
-                'expanded' => $this->expanded,
-                'multiple' => $this->multiple,
-            )
+            [
+                'choices_as_values' => true,
+                'choices'           => $choices,
+                'expanded'          => $this->expanded,
+                'multiple'          => $this->multiple,
+            ]
         );
 
     }

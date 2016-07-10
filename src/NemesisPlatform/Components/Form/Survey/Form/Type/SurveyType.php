@@ -55,17 +55,17 @@ class SurveyType extends AbstractType
         $questions = $builder->create(
             'q',
             null,
-            array(
+            [
                 'required'       => true,
                 'mapped'         => false,
                 'compound'       => true,
                 'label'          => false,
                 'error_bubbling' => true,
-            )
+            ]
         );
 
         foreach ($survey->getQuestions() as $question) {
-            $question->getField()->buildForm($questions, array('mapped' => false));
+            $question->getField()->buildForm($questions, ['mapped' => false]);
         }
 
         $builder->add($questions);
@@ -77,10 +77,10 @@ class SurveyType extends AbstractType
                 ->manager
                 ->getRepository('SurveyBundle:SurveyResult')
                 ->findOneBy(
-                    array(
+                    [
                         'author' => $user,
                         'survey' => $survey,
-                    )
+                    ]
                 );
             $result      = $savedResult ?: $result;
         }
@@ -146,9 +146,9 @@ class SurveyType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyResult'));
-        $resolver->setRequired(array('survey'));
-        $resolver->setAllowedTypes(array('survey' => 'ScayTrase\SurveyBundle\Entity\Survey'));
+        $resolver->setDefaults(['data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyResult']);
+        $resolver->setRequired(['survey']);
+        $resolver->setAllowedTypes(['survey' => 'ScayTrase\SurveyBundle\Entity\Survey']);
     }
 
     /**

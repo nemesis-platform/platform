@@ -12,6 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableValue;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableFieldType;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -50,17 +52,9 @@ class TableField extends AbstractField
         }
     }
 
-    /**
-     * @return string Name key for the object
-     */
-    public function getType()
-    {
-        return 'table_field';
-    }
-
     public function getFormType()
     {
-        return 'table_field_settings';
+        return TableFieldType::class;
     }
 
     /**
@@ -68,7 +62,7 @@ class TableField extends AbstractField
      */
     protected function getRenderedFormType()
     {
-        return 'field_table';
+        return new TableType($this->fields->toArray());
     }
 
     /**
@@ -78,11 +72,11 @@ class TableField extends AbstractField
     {
         return array_replace_recursive(
             parent::getRenderedFormOptions(),
-            array(
-                'options' => array(
+            [
+                'options' => [
                     'fields' => $this->fields->toArray(),
-                ),
-            )
+                ],
+            ]
         );
 
     }

@@ -29,6 +29,7 @@ class TableRowTransformer implements DataTransformerInterface
     {
         $tableRow = new TableRow();
         $tableRow->setValues($value);
+
         return $tableRow;
     }
 }

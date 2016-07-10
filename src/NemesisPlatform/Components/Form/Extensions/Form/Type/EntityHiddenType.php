@@ -36,11 +36,11 @@ class EntityHiddenType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setRequired(array('class'))
+            ->setRequired(['class'])
             ->setDefaults(
-                array(
+                [
                     'invalid_message' => 'The entity does not exist.',
-                )
+                ]
             );
     }
 
