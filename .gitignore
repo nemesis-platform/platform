@@ -1,6 +1,9 @@
 *.phar
 
 var/
+!var/.gitkeep
+!var/cache/.gitkeep
+!var/logs/.gitkeep
 
 vendor/
 bin/
