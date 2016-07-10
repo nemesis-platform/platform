@@ -65,7 +65,7 @@ class AnonymousVoter implements UserVoterInterface, VoterInterface
 
         $site = $this->siteManager->getSite();
 
-        if (!$site || !$site->getId()) {
+        if (!$site) {
             return self::ACCESS_ABSTAIN;
         }
 
