@@ -30,10 +30,6 @@ doctrine:
         path:     "%kernel.root_dir%/../build/test.db"
         #memory:   true
         charset:  UTF8
-    orm:
-        metadata_cache_driver: array
-        result_cache_driver: apcu
-        query_cache_driver: apcu
 
 parameters:
     maintenance_url: [localhost]
