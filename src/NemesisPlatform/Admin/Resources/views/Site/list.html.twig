@@ -22,7 +22,7 @@
                         {% if site.logo %}
                             <img src="{{ site.logo }}" style="max-height: 24px"/>
                         {% endif %}
-                        {{ site.fullName }}
+                        {{ site.fullName }} [{{ site.contactEmail }}]
                         {% if not site.active %}
                             <span class="label label-default">Неактивен</span>
                         {% endif %}
