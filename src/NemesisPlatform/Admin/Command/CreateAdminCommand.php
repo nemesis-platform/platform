@@ -18,23 +18,17 @@ use Symfony\Component\Yaml\Yaml;
 
 class CreateAdminCommand extends ContainerAwareCommand
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @codeCoverageIgnore
-     */
+    /** {@inheritDoc} */
     protected function configure()
     {
         $this
-            ->setName('nemesis:admin:create_admin')
+            ->setName('nemesis:admin:create-admin')
             ->setDescription('Create admin user')
             ->addArgument('email', InputArgument::REQUIRED)
             ->setHelp('Creates activated admin user');
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $user = $this->getUser($input, $output);
@@ -81,7 +75,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         }
 
         $encoder = $this->getContainer()->get('security.encoder_factory')->getEncoder(User::class);
-        $user  = new User(
+        $user    = new User(
             $email,
             $encoder->encodePassword($password, null),
             $helper->ask($input, $output, new Question('Provide first name: ', 'John')),
