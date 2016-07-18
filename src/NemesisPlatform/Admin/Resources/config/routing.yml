@@ -1,5 +1,5 @@
 admin_bundle:
-    resource: "@AdminBundle/Controller"
+    resource: "@NemesisAdminBundle/Controller"
     type:     annotation
     prefix:   /
 

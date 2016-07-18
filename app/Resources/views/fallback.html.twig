@@ -1,4 +1,4 @@
-{% import 'CMSBundle::macros.html.twig' as macros %}
+{% import 'NemesisCmsBundle::macros.html.twig' as macros %}
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
         {% stylesheets '@bootstrap_css' %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
         {% endstylesheets %}
-        {% stylesheets '@CMSBundle/Resources/public/less/custom.less' %}
+        {% stylesheets '@NemesisCmsBundle/Resources/public/less/custom.less' %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
         {% endstylesheets %}
         {% stylesheets '@font_awesome' %}
@@ -19,7 +19,7 @@
         {% endstylesheets %}
         <style>
             .ui-autocomplete-loading {
-                background: url('{% image '@CoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
+                background: url('{% image '@NemesisCoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
             }
         </style>
     {% endblock %}

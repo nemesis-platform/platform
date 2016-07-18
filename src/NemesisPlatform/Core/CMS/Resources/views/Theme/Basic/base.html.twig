@@ -1,4 +1,4 @@
-{% import 'CMSBundle::macros.html.twig' as macros %}
+{% import 'NemesisCmsBundle::macros.html.twig' as macros %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ site_manager.site.fullName }}{% endblock %}</title>
 
-    {% image '@CoreBundle/Resources/public/images/favicon.ico' %}
+    {% image '@NemesisCoreBundle/Resources/public/images/favicon.ico' %}
     <link href="{{ asset_url }}" rel="SHORTCUT ICON">
     {% endimage %}
 
@@ -17,7 +17,7 @@
         {% endstylesheets %}
         <style>
             .ui-autocomplete-loading {
-                background: url('{% image '@CoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
+                background: url('{% image '@NemesisCoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
             }
         </style>
     {% endblock %}

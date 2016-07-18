@@ -19,7 +19,7 @@ class SimpleAccountTeamWidget extends AbstractBlock
      */
     public function getTemplate(array $options = [])
     {
-        return 'GameBundle:Block:simple_account_team.html.twig';
+        return 'NemesisGameBundle:Block:simple_account_team.html.twig';
     }
 
     /**

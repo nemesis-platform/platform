@@ -117,7 +117,7 @@ class ServiceController extends Controller
                                         ->setTo($user->getEmail())
                                         ->setBody(
                                             $this->renderView(
-                                                'CoreBundle:MailTemplates:passwordRecovery.html.twig',
+                                                'NemesisCoreBundle:MailTemplates:passwordRecovery.html.twig',
                                                 [
                                                     'user' => $user,
                                                     'url'  => $this->generateUrl(
@@ -131,7 +131,7 @@ class ServiceController extends Controller
                                         )
                                         ->addPart(
                                             $this->renderView(
-                                                'CoreBundle:MailTemplates:passwordRecovery.txt.twig',
+                                                'NemesisCoreBundle:MailTemplates:passwordRecovery.txt.twig',
                                                 [
                                                     'user' => $user,
                                                     'url'  => $this->generateUrl(

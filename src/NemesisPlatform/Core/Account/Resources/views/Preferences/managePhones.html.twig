@@ -1,4 +1,4 @@
-{% extends 'CoreBundle:Preferences:preferences_layout.html.twig' %}
+{% extends 'NemesisCoreBundle:Preferences:preferences_layout.html.twig' %}
 
 {% block title %}Управление телефонами :: {{ parent() }}{% endblock %}
 
@@ -51,7 +51,7 @@
                         {{ phone.prefix }} {{ phone.phonenumber }}
                         <small>{{ phone.firstConfirmed | date('Y.m.d H:i') }}</small>
                         <span class="pull-right">
-                            {{ render(controller('CoreBundle:Mobile:checkCode',{'id':phone.id})) }}
+                            {{ render(controller('NemesisCoreBundle:Mobile:checkCode',{'id':phone.id})) }}
                             <a class="btn btn-warning btn-sm"
                                href="{{ path('mobile_code_remove',{'id':phone.id}) }}"><i
                                         class="fa fa-trash-o"></i> Отменить</a>

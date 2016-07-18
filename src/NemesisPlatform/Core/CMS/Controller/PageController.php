@@ -64,7 +64,7 @@ class PageController extends Controller
     /**
      * @Route("/register/activated", name="site_service_login_activated")
      * @return Response
-     * @Template("CMSBundle:Page:activation_succeeded.html.twig")
+     * @Template("NemesisCmsBundle:Page:activation_succeeded.html.twig")
      */
     public function activationSucceededPageAction()
     {
@@ -73,7 +73,7 @@ class PageController extends Controller
 
     /**
      * @Route("/register/success", name="site_service_register_success")
-     * @Template("CMSBundle:Page:activation_needed.html.twig")
+     * @Template("NemesisCmsBundle:Page:activation_needed.html.twig")
      * @return Response
      */
     public function activationNeededPageAction()

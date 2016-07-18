@@ -2,16 +2,16 @@
 
 namespace NemesisPlatform;
 
-use NemesisPlatform\Admin\AdminBundle;
+use NemesisPlatform\Admin\NemesisAdminBundle;
 use NemesisPlatform\Components\ExportImport\ExportImportBundle;
 use NemesisPlatform\Components\Form\Extensions\ExtensionsBundle;
 use NemesisPlatform\Components\Form\PersistentForms\PersistentFormsBundle;
 use NemesisPlatform\Components\Form\Survey\SurveyBundle;
 use NemesisPlatform\Components\MultiSite\MultiSiteBundle;
 use NemesisPlatform\Components\Themes\SwitchableThemeBundle;
-use NemesisPlatform\Core\Account\CoreBundle;
-use NemesisPlatform\Core\CMS\CMSBundle;
-use NemesisPlatform\Game\GameBundle;
+use NemesisPlatform\Core\Account\NemesisCoreBundle;
+use NemesisPlatform\Core\CMS\NemesisCmsBundle;
+use NemesisPlatform\Game\NemesisGameBundle;
 use ScayTrase\SmsDeliveryBundle\SmsDeliveryBundle;
 use ScayTrase\WebSmsBridge\WebSmsBridgeBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -42,12 +42,12 @@ class AppKernel extends Kernel
             new PersistentFormsBundle(),
             new SwitchableThemeBundle(),
 
-            new CoreBundle(),
-            new CMSBundle(),
+            new NemesisCoreBundle(),
+            new NemesisCmsBundle(),
 
             // Nemesis modules
-            new GameBundle(),
-            new AdminBundle(),
+            new NemesisGameBundle(),
+            new NemesisAdminBundle(),
             new ExportImportBundle(),
             new ExtensionsBundle(),
             new SurveyBundle(),

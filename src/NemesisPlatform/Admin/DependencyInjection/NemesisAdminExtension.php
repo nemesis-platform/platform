@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Pavel
- * Date: 2015-07-07
- * Time: 22:12
+ * User: Pavel Batanov <pavel@batanov.me>
+ * Date: 17.12.2014
+ * Time: 11:50
  */
 
-namespace NemesisPlatform\Game\DependencyInjection;
+namespace NemesisPlatform\Admin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,28 +14,27 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class GameExtension extends Extension implements PrependExtensionInterface
+class NemesisAdminExtension extends Extension implements PrependExtensionInterface
 {
-
-
     /**
-     * Loads a specific configuration.
-     *
-     * @param array            $config    An array of configuration values
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     *
-     * @throws \InvalidArgumentException When provided tag is not defined in this extension
-     *
-     * @api
+     * {@inheritDoc}
      */
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $this->processConfiguration($configuration, $configs);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('generators.yml');
+        $loader->load('exporters.yml');
+        $loader->load('importers.yml');
+        $loader->load('widgets.yml');
         $loader->load('forms.yml');
-        $loader->load('services.yml');
-        $loader->load('security.yml');
-        $loader->load('rule.yml');
+        $loader->load('menu.yml');
+        $loader->load('theme.yml');
+        $loader->load('form_extensions.yml');
     }
+
 
     /**
      * Allow an extension to prepend the extension configurations.
@@ -50,10 +49,11 @@ class GameExtension extends Extension implements PrependExtensionInterface
                     $container->prependExtensionConfig(
                         $name,
                         [
-                            'globals'     => [
-                                'account_manager'      => '@nemesis.account_manager',
+                            'form_themes' => [
+                                'NemesisAdminBundle:Form:jasny_fileinput.html.twig',
+                                'NemesisAdminBundle:Form:news.html.twig',
+                                'NemesisAdminBundle:Form:menu.html.twig',
                             ],
-
                         ]
                     );
                     break;

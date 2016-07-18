@@ -9,7 +9,7 @@
                 <img class="media-object thumbnail" style="max-width: 100%;"
                      src='{{ asset(photo_storage) ~ l_user.getPhoto() }}'>
             {% else %}
-                {% image "@CoreBundle/Resources/public/images/account/nouser.png" %}
+                {% image "@NemesisCoreBundle/Resources/public/images/account/nouser.png" %}
                 <img class="media-object thumbnail" style="max-width: 100%;" src='{{ asset_url }}'>
                 {% endimage %}
             {% endif %}

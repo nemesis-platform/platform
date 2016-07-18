@@ -14,7 +14,7 @@ use NemesisPlatform\Core\Account\DependencyInjection\Compiler\MaintenanceCompile
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class CMSBundle extends Bundle
+class NemesisCmsBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

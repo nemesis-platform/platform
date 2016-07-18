@@ -10,6 +10,6 @@ namespace NemesisPlatform\Game;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class GameBundle extends Bundle
+class NemesisGameBundle extends Bundle
 {
 }

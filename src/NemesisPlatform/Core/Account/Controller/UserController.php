@@ -90,7 +90,7 @@ class UserController extends Controller
 
 
             $html = $this->renderView(
-                'CoreBundle:MailTemplates:registrationConfirmation.html.twig',
+                'NemesisCoreBundle:MailTemplates:registrationConfirmation.html.twig',
                 [
                     'user' => $user,
                     'url'  => $this->generateUrl(

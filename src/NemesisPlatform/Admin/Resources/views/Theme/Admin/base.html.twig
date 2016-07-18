@@ -1,6 +1,6 @@
 {% if is_granted('ROLE_ADMIN') %}
     {% set theme = theme_registry.get('admin_bootstrap_theme') %}
-    {% import 'CMSBundle::macros.html.twig' as macros %}
+    {% import 'NemesisCmsBundle::macros.html.twig' as macros %}
     <!DOCTYPE html>
     <html lang="ru">
     <head>
@@ -85,7 +85,7 @@
         {% endjavascripts %}
 
         {% javascripts
-        '@CMSBundle/Resources/public/js/utils/jquery.countdown.js' %}
+        '@NemesisCmsBundle/Resources/public/js/utils/jquery.countdown.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 

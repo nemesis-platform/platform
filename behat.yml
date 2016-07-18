@@ -43,7 +43,7 @@ default:
           - NemesisPlatform\Core\CMS\Features\Context\FixtureContext
           - NemesisPlatform\Core\CMS\Features\Context\CMSContext
         type: symfony_bundle
-        bundle: CMSBundle
+        bundle: NemesisCmsBundle
      core_bundle:
         contexts:
           - NemesisPlatform\Components\Test\Behat\Context\MinkContext
@@ -53,7 +53,7 @@ default:
           - NemesisPlatform\Game\Features\Context\FixtureContext
           - ScayTrase\SmsDeliveryBundle\Features\Context\FeatureContext
         type: symfony_bundle
-        bundle: CoreBundle
+        bundle: NemesisCoreBundle
      game_bundle:
         contexts:
           - NemesisPlatform\Components\Test\Behat\Context\MinkContext
@@ -65,7 +65,7 @@ default:
           - NemesisPlatform\Game\Features\Context\GameContext
           - ScayTrase\SmsDeliveryBundle\Features\Context\FeatureContext
         type: symfony_bundle
-        bundle: GameBundle
+        bundle: NemesisGameBundle
      admin_bundle:
         contexts:
           - NemesisPlatform\Components\Test\Behat\Context\MinkContext
@@ -75,7 +75,7 @@ default:
           - NemesisPlatform\Game\Features\Context\FixtureContext
           - NemesisPlatform\Game\Features\Context\RulesFixtureContext
         type: symfony_bundle
-        bundle: AdminBundle
+        bundle: NemesisAdminBundle
   extensions:
     Behat\Symfony2Extension:
       kernel:

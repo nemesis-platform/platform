@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BlockController extends Controller
 {
     /**
-     * @Template("CMSBundle:Block:side_news_controller.html.twig")
+     * @Template("NemesisCmsBundle:Block:side_news_controller.html.twig")
      *
      * @param int $count
      *

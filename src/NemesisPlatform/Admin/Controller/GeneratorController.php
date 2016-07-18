@@ -64,9 +64,9 @@ class GeneratorController extends Controller
         if ($form->isValid()) {
             $report = $generator->generate($form->getData());
 
-            return $this->render('AdminBundle:Generator:report.html.twig', ['report' => $report]);
+            return $this->render('NemesisAdminBundle:Generator:report.html.twig', ['report' => $report]);
         }
 
-        return $this->render('AdminBundle:Generator:form.html.twig', ['form' => $form->createView()]);
+        return $this->render('NemesisAdminBundle:Generator:form.html.twig', ['form' => $form->createView()]);
     }
 }

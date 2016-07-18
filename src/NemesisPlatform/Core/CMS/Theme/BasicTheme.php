@@ -16,8 +16,8 @@ class BasicTheme extends NemesisBootstrapTheme implements AreaProviderInterface
     /** @var string[] */
     private $layouts
         = [
-            'base'  => 'CMSBundle:Theme\Basic:base.html.twig',
-            'front' => 'CMSBundle:Theme\Basic:front.html.twig',
+            'base'  => 'NemesisCmsBundle:Theme\Basic:base.html.twig',
+            'front' => 'NemesisCmsBundle:Theme\Basic:front.html.twig',
         ];
 
     private $areas
@@ -42,7 +42,7 @@ class BasicTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 
     protected function getConfigurationLessTemplate()
     {
-        return 'CMSBundle:Theme\Basic:configuration.less.twig';
+        return 'NemesisCmsBundle:Theme\Basic:configuration.less.twig';
     }
 
     protected function getCompilationOptions()
@@ -95,12 +95,12 @@ class BasicTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 
     protected function getVariablesFile()
     {
-        return $this->locator->locate('@CMSBundle/Resources/public/theme/basic/variables.less');
+        return $this->locator->locate('@NemesisCmsBundle/Resources/public/theme/basic/variables.less');
     }
 
     protected function getBootstrapTemplate()
     {
-        return 'CMSBundle:Theme\Basic:bootstrap.less.twig';
+        return 'NemesisCmsBundle:Theme\Basic:bootstrap.less.twig';
     }
 
     /**

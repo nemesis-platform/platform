@@ -5,7 +5,7 @@ logout:
     path: /logout
 
 admin:
-    resource: "@AdminBundle/Resources/config/routing.yml"
+    resource: "@NemesisAdminBundle/Resources/config/routing.yml"
     prefix:   /admin
 
 
@@ -17,22 +17,22 @@ _games_user:
     resource: routing/games_user.yml
 
 cms:
-    resource: "@CMSBundle/Controller"
+    resource: "@NemesisCmsBundle/Controller"
     type:     annotation
     prefix:   /
 
 core:
-    resource: "@CoreBundle/Controller"
+    resource: "@NemesisCoreBundle/Controller"
     type:     annotation
     prefix:   /
 
 game:
-    resource: "@GameBundle/Controller"
+    resource: "@NemesisGameBundle/Controller"
     type:     annotation
     prefix:   /
 
 page_by_alias:
     path: /{alias}
-    defaults: { _controller: CMSBundle:Page:show }
+    defaults: { _controller: NemesisCmsBundle:Page:show }
     requirements:
       alias: .+

@@ -2,7 +2,7 @@
   "name": "nemesis-platform/survey",
   "description": "Simple surveys",
   "minimum-stability": "stable",
-  "license": "GPL-2.0+",
+  "license": "MIT",
   "authors": [
     {
       "name": "Pavel Batanov",

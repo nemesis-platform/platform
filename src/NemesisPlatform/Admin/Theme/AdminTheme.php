@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class AdminTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 {
-    private $layouts = ['base' => 'AdminBundle:Theme\Admin:base.html.twig',];
+    private $layouts = ['base' => 'NemesisAdminBundle:Theme\Admin:base.html.twig',];
     private $areas   = ['dashboard_c1', 'dashboard_c2', 'dashboard_c3'];
 
     /**
@@ -27,12 +27,12 @@ class AdminTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 
     protected function getVariablesFile()
     {
-        return $this->locator->locate('@AdminBundle/Resources/public/theme/admin/less/variables.less');
+        return $this->locator->locate('@NemesisAdminBundle/Resources/public/theme/admin/less/variables.less');
     }
 
     protected function getBootstrapTemplate()
     {
-        return 'AdminBundle:Theme\Admin:bootstrap.less.twig';
+        return 'NemesisAdminBundle:Theme\Admin:bootstrap.less.twig';
     }
 
     protected function getCompilationOptions()
@@ -107,6 +107,6 @@ class AdminTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 
     protected function getConfigurationLessTemplate()
     {
-        return 'AdminBundle:Theme/Admin:configuration.less.twig';
+        return 'NemesisAdminBundle:Theme/Admin:configuration.less.twig';
     }
 }

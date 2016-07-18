@@ -6,7 +6,7 @@
  * Time: 22:12
  */
 
-namespace NemesisPlatform\Core\CMS\DependencyInjection;
+namespace NemesisPlatform\Game\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class CMSExtension extends Extension implements PrependExtensionInterface
+class NemesisGameExtension extends Extension implements PrependExtensionInterface
 {
 
 
@@ -31,9 +31,10 @@ class CMSExtension extends Extension implements PrependExtensionInterface
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('blocks.yml');
+        $loader->load('forms.yml');
         $loader->load('services.yml');
-        $loader->load('menu.yml');
+        $loader->load('security.yml');
+        $loader->load('rule.yml');
     }
 
     /**
@@ -50,16 +51,9 @@ class CMSExtension extends Extension implements PrependExtensionInterface
                         $name,
                         [
                             'globals'     => [
-                                'menu_registry' => '@nemesis.registry.menu',
+                                'account_manager'      => '@nemesis.account_manager',
                             ],
-                            'form_themes' => [
-                                'CoreBundle:Form:rules_checkbox.html.twig',
-//                                '@bootstrap_bridge/table.html.twig',
-//                                '@bootstrap_bridge/table_row.html.twig',
-                            ],
-                            'paths'       => [
-//                                '%kernel.root_dir%/../src/ScayTrase/BraincraftedBootstrapBridge/Resources/views/Form' => 'bootstrap_bridge',
-                            ],
+
                         ]
                     );
                     break;

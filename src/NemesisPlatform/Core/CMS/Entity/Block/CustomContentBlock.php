@@ -38,7 +38,7 @@ class CustomContentBlock extends AbstractBlock
      */
     public function getTemplate(array $options = [])
     {
-        return 'CMSBundle:Block:custom_content.html.twig';
+        return 'NemesisCmsBundle:Block:custom_content.html.twig';
     }
 
     /**

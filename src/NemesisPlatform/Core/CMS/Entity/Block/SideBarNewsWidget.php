@@ -18,7 +18,7 @@ class SideBarNewsWidget extends AbstractBlock
      */
     public function getTemplate(array $options = [])
     {
-        return 'CMSBundle:Block:side_news.html.twig';
+        return 'NemesisCmsBundle:Block:side_news.html.twig';
     }
 
     /**
