@@ -1,6 +1,7 @@
 <?php
 
 use NemesisPlatform\AppCache;
+use NemesisPlatform\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 
 $loader = require_once __DIR__.'/../app/autoload.php';

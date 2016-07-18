@@ -1,15 +1,12 @@
 # Nemesis Team Challenge Platform
-© 2013-2015 Pavel Batanov <pavel@batanov.me> https://github.com/scaytrase
+© 2013-2016 Pavel Batanov <pavel@batanov.me> https://github.com/scaytrase
 
 ## Требования
 ### PHP
-Для корректной работы платформы требуется PHP 5.4+ и следующие модули
+Для корректной работы платформы требуется PHP 5.5+ и следующие модули
 
-* APCU
 * Curl
-* GD
 * Imagick
-* Imap
 * Intl
 * JSON
 * MySQL
@@ -24,7 +21,6 @@
     wget -N -q https://getcomposer.org/composer.phar -O composer.phar
     chmod +x composer.phar
     cp composer.phar /usr/local/bin/composer
-   
 
 ### Phing
 Для автоматизации разветывания используется Phing
