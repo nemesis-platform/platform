@@ -19,63 +19,56 @@ use Symfony\Component\HttpKernel\Kernel;
 class KernelForTest extends Kernel
 {
     /** @var Bundle[] */
-    private $additional_bundles = array();
+    private $additional_bundles = [];
 
-    private $additional_configs = array();
+    private $additional_configs = [];
 
     /**
-     * @param string $environment
-     * @param bool $debug
+     * @param string   $environment
+     * @param bool     $debug
      * @param Bundle[] $additional_bundles
-     * @param array $additional_configs
+     * @param array    $additional_configs
      */
 
-    public function __construct($environment, $debug, $additional_bundles = array(), $additional_configs = array())
+    public function __construct($environment, $debug, $additional_bundles = [], $additional_configs = [])
     {
         $this->additional_bundles = $additional_bundles;
         $this->additional_configs = array_merge(
-            array(
-                __DIR__ . '/config.yml',
-            ),
+            [
+                __DIR__.'/config.yml',
+            ],
             $additional_configs
         );
         parent::__construct($environment, $debug);
     }
 
-    /**
-     * @return array
-     */
+    /** {@inheritdoc} */
     public function registerBundles()
     {
         return array_merge(
-            array(
+            [
                 new FrameworkBundle(),
                 new SecurityBundle(),
                 new TwigBundle(),
                 new DoctrineBundle(),
-            ),
+            ],
             $this->additional_bundles
         );
     }
 
+    /** {@inheritdoc} */
     public function getCacheDir()
     {
-        return __DIR__ . '/../../../app/cache/' . $this->getEnvironment();
+        return defined('CACHE_DIR') ? CACHE_DIR : getcwd().'/build/var/cache/'.$this->getEnvironment();
     }
 
+    /** {@inheritdoc} */
     public function getLogDir()
     {
-        return __DIR__ . '/../../../app/logs/';
+        return defined('LOGS_DIR') ? LOGS_DIR : getcwd().'/build/var/logs/';
     }
 
-
-    /**
-     * Loads the container configuration.
-     *
-     * @param LoaderInterface $loader A LoaderInterface instance
-     *
-     * @api
-     */
+    /** {@inheritdoc} */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         foreach ($this->additional_configs as $config) {
