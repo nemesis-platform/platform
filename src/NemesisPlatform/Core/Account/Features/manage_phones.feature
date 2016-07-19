@@ -49,7 +49,7 @@ Feature: Управление телефонами
     When I fill in "form[code]" with code from SMS
     And I press "Подтвердить"
     And I follow redirection
-    Then I should see "Проверка пройдена успешна."
+    Then I should see "Проверка успешно пройдена."
     And I should not see "Выслать код"
     And I should not see "Подтвердить"
     And I should see "5551234567"
