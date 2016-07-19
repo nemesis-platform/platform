@@ -75,4 +75,14 @@ class KernelForTest extends Kernel
             $loader->load($config);
         }
     }
+
+    protected function getKernelParameters()
+    {
+        return array_merge(
+            parent::getKernelParameters(),
+            [
+                'secret' => 'FixtureCsrfSecret',
+            ]
+        );
+    }
 }
