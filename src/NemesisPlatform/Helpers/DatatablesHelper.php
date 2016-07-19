@@ -2,18 +2,19 @@
 namespace NemesisPlatform\Helpers;
 
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 
 class DatatablesHelper
 {
 
     /**
-     * @param $dataTablesRequest
-     * @param $builder
-     * @param $aColumns
+     * @param array $dataTablesRequest
+     * @param QueryBuilder $builder
+     * @param array $aColumns
      *
      * @return array
      */
-    public static function applyDatatablesFilter($dataTablesRequest, $builder, $aColumns)
+    public static function applyDatatablesFilter(array $dataTablesRequest,QueryBuilder $builder,array $aColumns)
     {
         if (isset($dataTablesRequest['iDisplayStart']) && $dataTablesRequest['iDisplayLength'] != '-1') {
             $builder->setFirstResult((int)$dataTablesRequest['iDisplayStart'])
