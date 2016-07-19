@@ -11,20 +11,16 @@ namespace NemesisPlatform\Game\Security\Voters\Team;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Team;
 use NemesisPlatform\Game\Security\Voters\TeamVoterInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class ParticipantTeamVoter extends AbstractVoter implements TeamVoterInterface
+class ParticipantTeamVoter extends Voter implements TeamVoterInterface
 {
 
-    /**
-     * Return an array of supported classes. This will be called by supportsClass
-     *
-     * @return array an array of supported classes, i.e. array('Acme\DemoBundle\Model\Product')
-     */
-    protected function getSupportedClasses()
+    /** {@inheritdoc} */
+    protected function supports($attribute, $subject)
     {
-        return [Team::class];
+        return $subject instanceof Team && in_array($attribute, $this->getSupportedAttributes(), true);
     }
 
     /**
@@ -32,7 +28,7 @@ class ParticipantTeamVoter extends AbstractVoter implements TeamVoterInterface
      *
      * @return array an array of supported attributes, i.e. array('CREATE', 'READ')
      */
-    protected function getSupportedAttributes()
+    private function getSupportedAttributes()
     {
         return [
             self::TEAM_REQUEST,
@@ -43,21 +39,12 @@ class ParticipantTeamVoter extends AbstractVoter implements TeamVoterInterface
         ];
     }
 
-    /**
-     * Perform a single access check operation on a given attribute, object and (optionally) user
-     * It is safe to assume that $attribute and $object's class pass supportsAttribute/supportsClass
-     * $user can be one of the following:
-     *   a UserInterface object (fully authenticated user)
-     *   a string               (anonymously authenticated user)
-     *
-     * @param string               $attribute
-     * @param Team                 $team
-     * @param UserInterface|string $user
-     *
-     * @return bool
-     */
-    protected function isGranted($attribute, $team, $user = null)
+    /** {@inheritdoc} */
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
+        $user = $token->getUser();
+        $team = $subject;
+
         if (!$user instanceof User) {
             return false;
         }
