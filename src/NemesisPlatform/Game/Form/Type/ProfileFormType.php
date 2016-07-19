@@ -9,7 +9,6 @@
 namespace NemesisPlatform\Game\Form\Type;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
-use NemesisPlatform\Components\Form\PersistentForms\Registry\FieldsRegistry;
 use NemesisPlatform\Game\Entity\Participant;
 use NemesisPlatform\Game\Entity\Season;
 use Symfony\Component\Form\AbstractType;

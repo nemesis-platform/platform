@@ -11,7 +11,6 @@ namespace NemesisPlatform\Game\Repository;
 use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use NemesisPlatform\Game\Entity\Team;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TeamListener
 {
@@ -40,7 +39,7 @@ class TeamListener
         }
 
         if (!$team->getPersistentTag()) {
-            $team->setPersistentTag(sha1(uniqid('team_')));
+            $team->setPersistentTag(sha1(uniqid('team_', true)));
         }
 
         return $team;

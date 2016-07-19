@@ -480,27 +480,10 @@ class TeamController extends Controller
         }
 
         if ($single_team) {
-            foreach ($data->getTeams() as $dataTeam) {
-                $dataTeam->getMembers()->removeElement($data);
-                $data->getTeams()->removeElement($dataTeam);
-            }
-
-            foreach ($data->getTeamInvites() as $dataTeam) {
-                $dataTeam->getInvites()->removeElement($data);
-                $data->getTeamInvites()->removeElement($dataTeam);
-            }
-
-            foreach ($data->getTeamRequests() as $dataTeam) {
-                $dataTeam->getRequests()->removeElement($data);
-                $data->getTeamRequests()->removeElement($dataTeam);
-            }
-
-            $this->getDoctrine()->getManager()->flush();
+            $data->cleanTeams();
         }
 
-        $team->getMembers()->add($data);
-        $team->getInvites()->removeElement($data);
-        $data->getTeamInvites()->removeElement($team);
+        $team->accept($data);
 
         $this->getDoctrine()->getManager()->flush();
         $this->addFlash('success', 'Вы приняли приглашение в команду');
