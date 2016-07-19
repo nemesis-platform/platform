@@ -8,10 +8,6 @@
 
 namespace NemesisPlatform\Game\Service;
 
-use NemesisPlatform\Game\Entity\Rule\AbstractRuleEntity;
-
 class RuleTypesRegistry
 {
-    /** @var AbstractRuleEntity[] */
-    private $rules = [];
 }

@@ -60,7 +60,7 @@ class TeamUpdateEvent
 
         if ($sData) {
             foreach ($sData->getTeams() as $team) {
-                TeamListener::updateTeam($team);
+                (new TeamListener())->updateTeam($team);
             }
         }
 

@@ -97,8 +97,9 @@ class TeamRepository extends EntityRepository
          * Ordering
          */
         if (isset($dataTablesRequest['iSortCol_0'])) {
-            for ($i = 0; $i < intval($dataTablesRequest['iSortingCols']); $i++) {
-                if ($dataTablesRequest['bSortable_'.intval($dataTablesRequest['iSortCol_'.$i])] == "true") {
+            $iMax = (int)$dataTablesRequest['iSortingCols'];
+            for ($i = 0; $i < $iMax; $i++) {
+                if ($dataTablesRequest['bSortable_'.(int)$dataTablesRequest['iSortCol_'.$i]] === 'true') {
                     $builder->orderBy(
                         $aColumns[(int)$dataTablesRequest['iSortCol_'.$i]],
                         $dataTablesRequest['sSortDir_'.$i]
@@ -115,9 +116,9 @@ class TeamRepository extends EntityRepository
            */
         if (isset($dataTablesRequest['sSearch']) && $dataTablesRequest['sSearch'] != '') {
             $aLike = [];
-            for ($i = 0; $i < count($aColumns); $i++) {
-                if (isset($dataTablesRequest['bSearchable_'.$i])
-                    && $dataTablesRequest['bSearchable_'.$i] == "true"
+            $iMax  = count($aColumns);
+            for ($i = 0; $i < $iMax; $i++) {
+                if (isset($dataTablesRequest['bSearchable_'.$i]) && $dataTablesRequest['bSearchable_'.$i] === 'true'
                 ) {
                     $aLike[] = $builder->expr()->like($aColumns[$i], '\'%'.$dataTablesRequest['sSearch'].'%\'');
                 }
@@ -161,7 +162,7 @@ class TeamRepository extends EntityRepository
          * Output
          */
         $output = [
-            "sEcho"                => intval($dataTablesRequest['sEcho']),
+            "sEcho"                => (int)$dataTablesRequest['sEcho'],
             "iTotalRecords"        => $iTotal,
             "iTotalDisplayRecords" => $iFilteredTotal,
             "aaData"               => [],

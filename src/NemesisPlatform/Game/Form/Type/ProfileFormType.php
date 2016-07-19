@@ -18,18 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ProfileFormType extends AbstractType
 {
-    /** @var  FieldsRegistry */
-    private $formRegistry;
-
-    /**
-     * @param $formRegistry
-     */
-    public function __construct(FieldsRegistry $formRegistry)
-    {
-        $this->formRegistry = $formRegistry;
-    }
-
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var Season $season */

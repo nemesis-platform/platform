@@ -7,7 +7,6 @@ services:
 
   form_type.profile_type:
     class: NemesisPlatform\Game\Form\Type\ProfileFormType
-    arguments: [@scaytrase.stored_forms.fields_registry, @form.factory]
     tags:
     - { name: form.type, alias: profile_type }
 

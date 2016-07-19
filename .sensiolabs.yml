@@ -23,6 +23,8 @@ php_version: 7
 php_ini: |
     extension=openssl.so
     extension=mcrypt.so
+    extension=json.so
+    extension=intl.so
 
 global_exclude_dirs:
     - vendor
@@ -218,7 +220,8 @@ rules:
     symfony.security.insecure_password_hashing_algorithm:
         enabled: true
     symfony.security.throw_access_denied_http_exception:
-        enabled: true
+        # custom
+        enabled: false
     symfony.sessions_in_cache_directory:
         enabled: true
     symfony.templating.too_many_esi_inclusions:
@@ -248,9 +251,11 @@ rules:
     symfony.web_config_should_not_be_present:
         enabled: true
     task_fixme_comment:
-        enabled: true
+        # custom
+        enabled: false
     task_todo_comment:
-        enabled: true
+        # custom
+        enabled: false
     task_xxx_comment:
         enabled: true
     third_party.use_deprecated_class:

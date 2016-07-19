@@ -62,7 +62,7 @@ class UpdateTeamsCommand extends ContainerAwareCommand
         $count = 0;
 
         foreach ($teams as $team) {
-            TeamListener::updateTeam($team);
+            (new TeamListener())->updateTeam($team);
 
             $count++;
         }

@@ -29,9 +29,6 @@ NemesisPlatform\Game\Entity\Season:
         targetEntity: NemesisPlatform\Game\Entity\League
         mappedBy: season
         cascade: [all]
-      teams:
-        targetEntity: NemesisPlatform\Game\Entity\Team
-        mappedBy: season
     manyToMany:
       rules:
         targetEntity: NemesisPlatform\Game\Entity\Rule\AbstractRuleEntity

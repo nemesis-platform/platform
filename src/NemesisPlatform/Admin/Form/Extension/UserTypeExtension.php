@@ -12,7 +12,6 @@ use NemesisPlatform\Core\Account\Entity\Phone;
 use NemesisPlatform\Core\Account\Entity\Tag;
 use NemesisPlatform\Core\Account\Entity\User;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Exception;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

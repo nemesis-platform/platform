@@ -63,11 +63,11 @@ class ParticipantController extends Controller
         /** @var EntityManager $manager */
         $manager = $this->getDoctrine()->getManager();
         $query   = $manager->getRepository(Participant::class)
-                           ->createQueryBuilder('s')
-                           ->select('s')
-                           ->leftJoin('s.user', 'u')
-                           ->leftJoin('s.season', 'season')
-                           ->leftJoin('season.site', 'site');
+            ->createQueryBuilder('s')
+            ->select('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('s.season', 'season')
+            ->leftJoin('season.site', 'site');
 
         $query->orWhere('u.email LIKE :term')->setParameter('term', '%'.$request->query->get('term').'%');
         $query->orWhere('u.firstname LIKE :term')->setParameter('term', '%'.$request->query->get('term').'%');
@@ -118,7 +118,7 @@ class ParticipantController extends Controller
             'status'   => 'u.status',
             'phone'    => 'p.phonenumber',
             'category' => 'category.name',
-//            'teams' => 'GROUP_CONCAT(t.name SEPARATOR \', \')'
+            //            'teams' => 'GROUP_CONCAT(t.name SEPARATOR \', \')'
         ];
 
         $season = null;
@@ -131,7 +131,7 @@ class ParticipantController extends Controller
             $fields,
             $this->get('site.manager')->getSite(),
             $season,
-            $request->query->get('everyone') == true
+            (bool)$request->query->get('everyone', false)
         );
 
         /** @var Participant[] $objects */
@@ -197,7 +197,7 @@ class ParticipantController extends Controller
     public function createAction(Request $request)
     {
         $form = $this->createForm('season_data_type')
-                     ->add('submit', 'submit', ['label' => 'Создать анкету']);
+            ->add('submit', 'submit', ['label' => 'Создать анкету']);
 
         $form->handleRequest($request);
 
@@ -211,7 +211,7 @@ class ParticipantController extends Controller
     }
 
     /**
-     * @param Request                                       $request
+     * @param Request                                  $request
      * @param \NemesisPlatform\Game\Entity\Participant $data
      * @Route("/{data}/edit",name="site_admin_participant_edit")
      * @Template()
@@ -221,7 +221,7 @@ class ParticipantController extends Controller
     public function editAction(Request $request, Participant $data)
     {
         $form = $this->createForm('participant', $data, ['season' => $data->getSeason()])
-                     ->add('submit', 'submit', ['label' => 'Обновить анкету']);
+            ->add('submit', 'submit', ['label' => 'Обновить анкету']);
 
         $form->handleRequest($request);
 

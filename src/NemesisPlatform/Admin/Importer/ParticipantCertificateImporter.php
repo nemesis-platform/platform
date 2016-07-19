@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Components\ExportImport\PostProcessor\DoctrinePersistPostprocessor;
 use NemesisPlatform\Components\ExportImport\PostProcessor\ImportPostProcessorInterface;
 use NemesisPlatform\Components\ExportImport\Service\ImporterInterface;
+use NemesisPlatform\Components\ExportImport\Service\ImportResultInterface;
+use NemesisPlatform\Components\ExportImport\Service\SimpleResult;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
 use NemesisPlatform\Core\Account\Entity\User;

@@ -13,8 +13,8 @@ use Ramsey\Uuid\Uuid;
 
 final class ArrayDecisionDataRecord
 {
-    /** @var  int|null */
-    private $id = null;
+    /** @var  string */
+    private $id;
     /** @var string */
     private $key;
     /** @var mixed */
@@ -35,6 +35,14 @@ final class ArrayDecisionDataRecord
         $this->decision = $decision;
         $this->key      = $key;
         $this->value    = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

@@ -15,23 +15,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TeamListener
 {
-    /** @var  ContainerInterface */
-    private $container;
-
-    /**
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $team = $args->getEntity();
 
         if ($team instanceof Team) {
-            self::updateTeam($team);
+            $this->updateTeam($team);
         }
     }
 
@@ -40,7 +29,7 @@ class TeamListener
      *
      * @return Team
      */
-    public static function updateTeam(Team $team)
+    public function updateTeam(Team $team)
     {
         if ($team->getFormDate() && !$team->getSeason()->checkRules($team, $team->getSeason())) {
             $team->setFormDate(null);

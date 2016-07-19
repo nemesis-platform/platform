@@ -34,7 +34,8 @@
 
     <target name="build.symfony.warmup-cache">
         <property name="symfony-env" value="dev"/>
-        <exec passthru="true" command="${PhpExecutable} ${SymfonyConsole} cache:warmup --no-interaction --env=${symfony-env}"
+        <exec passthru="true"
+              command="${PhpExecutable} ${SymfonyConsole} cache:warmup --no-interaction --env=${symfony-env}"
               checkreturn="true"/>
     </target>
 

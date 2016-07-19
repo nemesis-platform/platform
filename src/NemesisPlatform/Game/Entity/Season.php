@@ -37,17 +37,13 @@ class Season implements RuleContainerInterface, RuleContainerCheckerInterface, M
     private $registration_open = false;
     /** @var ArrayCollection|League[] */
     private $leagues;
-
     /** @var Rule\RuleInterface[] */
     private $rules;
-    /** @var Team[]|ArrayCollection */
-    private $teams;
 
     public function __construct()
     {
         $this->leagues = new ArrayCollection();
         $this->rules   = new ArrayCollection();
-        $this->teams   = new ArrayCollection();
     }
 
     public function getCombinedLeague()

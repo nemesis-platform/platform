@@ -28,9 +28,10 @@ class RoundController extends Controller
     /**
      * @param Request $request
      *
-     * @return Response
      * @Route("/create", name="admin_module_qa_game_round_create")
      * @Template()
+     *
+     * @return Response|array
      */
     public function createAction(Request $request)
     {
@@ -57,8 +58,9 @@ class RoundController extends Controller
     /**
      * @param $round
      *
-     * @return RedirectResponse
      * @Route("/{round}/delete", name="admin_module_qa_game_round_delete")
+     *
+     * @return RedirectResponse
      */
     public function deleteAction(QARound $round)
     {
@@ -75,10 +77,11 @@ class RoundController extends Controller
     /**
      * @Route("/{round}/edit", name="admin_module_qa_game_round_edit")
      * @Template()
+     *
      * @param Request $request
      * @param         $round
      *
-     * @return Response
+     * @return Response|array
      */
     public function editAction(Request $request, QARound $round)
     {
@@ -86,7 +89,7 @@ class RoundController extends Controller
         $manager = $this->getDoctrine()->getManager();
 
         $form = $this->createForm('module_qa_game_round', $round)
-                     ->add('submit', 'submit', ['label' => 'Обновить раунд']);
+            ->add('submit', 'submit', ['label' => 'Обновить раунд']);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -112,8 +115,6 @@ class RoundController extends Controller
      */
     public function viewAction(QARound $round)
     {
-        $manager = $this->getDoctrine()->getManager();
-
         return [
             'round' => $round,
         ];

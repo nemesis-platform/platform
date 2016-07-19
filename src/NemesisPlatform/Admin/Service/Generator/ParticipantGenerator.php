@@ -10,7 +10,6 @@ namespace NemesisPlatform\Admin\Service\Generator;
 
 use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Participant;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,19 +18,13 @@ class ParticipantGenerator implements EntityGeneratorInterface, FormInjectorInte
 {
     /** @var EntityManagerInterface */
     private $manager;
-    /** @var SiteManagerInterface */
-    private $siteManager;
 
     /**
      * @param EntityManagerInterface $manager
-     * @param SiteManagerInterface   $siteManager
      */
-    public function __construct(
-        EntityManagerInterface $manager,
-        SiteManagerInterface $siteManager
-    ) {
-        $this->manager     = $manager;
-        $this->siteManager = $siteManager;
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
     }
 
     /**

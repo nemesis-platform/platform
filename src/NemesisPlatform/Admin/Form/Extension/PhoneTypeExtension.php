@@ -9,7 +9,6 @@
 namespace NemesisPlatform\Admin\Form\Extension;
 
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Core\Account\Entity\Phone;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,23 +16,17 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class PhoneTypeExtension extends AbstractTypeExtension
 {
-
     /** @var AuthorizationCheckerInterface */
-    private $authorizationChecker;
-    /** @var  EntityManagerInterface */
-    private $objectManager;
+    private $auth;
 
-    public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        EntityManagerInterface $objectManager
-    ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->objectManager        = $objectManager;
+    public function __construct(AuthorizationCheckerInterface $auth)
+    {
+        $this->auth = $auth;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if ($this->auth->isGranted('ROLE_ADMIN')) {
             $builder->remove('phonenumber');
             $builder->add(
                 'phonenumber',

@@ -68,8 +68,9 @@ class ParticipantRepository extends EntityRepository
          * Ordering
          */
         if (isset($dataTablesRequest['iSortCol_0'])) {
-            for ($i = 0; $i < intval($dataTablesRequest['iSortingCols']); $i++) {
-                if ($dataTablesRequest['bSortable_'.intval($dataTablesRequest['iSortCol_'.$i])] == "true") {
+            $iMax = (int)$dataTablesRequest['iSortingCols'];
+            for ($i = 0; $i < $iMax; $i++) {
+                if ($dataTablesRequest['bSortable_'.(int)$dataTablesRequest['iSortCol_'.$i]] === 'true') {
                     $builder->orderBy(
                         $aColumns[(int)$dataTablesRequest['iSortCol_'.$i]],
                         $dataTablesRequest['sSortDir_'.$i]
@@ -89,9 +90,10 @@ class ParticipantRepository extends EntityRepository
 //            $term = mb_convert_encoding($dataTablesRequest['sSearch'], 'utf-8');
 
             $aLike = [];
-            for ($i = 0; $i < count($aColumns); $i++) {
+            $iMax  = count($aColumns);
+            for ($i = 0; $i < $iMax; $i++) {
                 if (isset($dataTablesRequest['bSearchable_'.$i])
-                    && $dataTablesRequest['bSearchable_'.$i] == "true"
+                    && $dataTablesRequest['bSearchable_'.$i] === 'true'
                 ) {
                     $aLike[] = $builder->expr()->like($aColumns[$i], '\'%'.$term.'%\'');
                 }
@@ -149,7 +151,7 @@ class ParticipantRepository extends EntityRepository
          * Output
          */
         $output = [
-            "sEcho"                => intval($dataTablesRequest['sEcho']),
+            "sEcho"                => (int)$dataTablesRequest['sEcho'],
             "iTotalRecords"        => $iTotal,
             "iTotalDisplayRecords" => $iFilteredTotal,
             "aaData"               => [],

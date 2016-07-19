@@ -12,7 +12,7 @@ services:
 
   nemesis.participant_generator:
     class: NemesisPlatform\Admin\Service\Generator\ParticipantGenerator
-    arguments: [@doctrine.orm.entity_manager, @site.manager]
+    arguments: [@doctrine.orm.entity_manager]
     tags:
     - { name: entity_generator }
 

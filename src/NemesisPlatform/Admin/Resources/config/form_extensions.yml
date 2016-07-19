@@ -1,7 +1,7 @@
 services:
   nemesis_admin.form_extension.phone_type:
       class: NemesisPlatform\Admin\Form\Extension\PhoneTypeExtension
-      arguments: [ @security.authorization_checker, @doctrine.orm.entity_manager ]
+      arguments: [ @security.authorization_checker ]
       tags:
           - { name: form.type_extension, alias: phone_type }
 

@@ -10,7 +10,6 @@ namespace NemesisPlatform\Core\Account\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Core\Account\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -21,16 +20,15 @@ class UserProvider implements UserProviderInterface
     /**
      * @var EntityManagerInterface
      */
-    private $em;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private $manager;
 
-    public function __construct(ContainerInterface $container, EntityManagerInterface $em)
+    /** @var  string[] */
+    private $admin_usernames = [];
+
+    public function __construct(EntityManagerInterface $manager, array $usernames)
     {
-        $this->container = $container;
-        $this->em        = $em;
+        $this->admin_usernames = $usernames;
+        $this->manager         = $manager;
     }
 
     /** {@inheritdoc} */
@@ -42,29 +40,29 @@ class UserProvider implements UserProviderInterface
     /** {@inheritdoc} */
     public function loadUserByUsername($username)
     {
-        $user = $this->em->getRepository(User::class)
-                         ->createQueryBuilder('user')
-                         ->select(
-                             'user',
-                             'sdata',
-                             'phones',
-                             'phone',
-                             'team',
-                             'members',
-                             'm_user',
-                             'm_phone',
-                             'm_phones'
-                         )
-                         ->leftJoin('user.participations', 'sdata')
-                         ->leftJoin('user.phones', 'phones')
-                         ->leftJoin('user.phone', 'phone')
-                         ->leftJoin('sdata.teams', 'team')
-                         ->leftJoin('team.members', 'members')
-                         ->leftJoin('members.user', 'm_user')
-                         ->leftJoin('m_user.phones', 'm_phones')
-                         ->leftJoin('m_user.phone', 'm_phone')
-                         ->where('user.email = :email')->setParameter('email', $username)
-                         ->getQuery()->getOneOrNullResult();
+        $user = $this->manager->getRepository(User::class)
+            ->createQueryBuilder('user')
+            ->select(
+                'user',
+                'sdata',
+                'phones',
+                'phone',
+                'team',
+                'members',
+                'm_user',
+                'm_phone',
+                'm_phones'
+            )
+            ->leftJoin('user.participations', 'sdata')
+            ->leftJoin('user.phones', 'phones')
+            ->leftJoin('user.phone', 'phone')
+            ->leftJoin('sdata.teams', 'team')
+            ->leftJoin('team.members', 'members')
+            ->leftJoin('members.user', 'm_user')
+            ->leftJoin('m_user.phones', 'm_phones')
+            ->leftJoin('m_user.phone', 'm_phone')
+            ->where('user.email = :email')->setParameter('email', $username)
+            ->getQuery()->getOneOrNullResult();
 
         if (!$user) {
             throw new UsernameNotFoundException();
@@ -86,7 +84,7 @@ class UserProvider implements UserProviderInterface
             $roles[] = 'ROLE_MEMBER';
         }
 
-        if (in_array($user->getUsername(), $this->container->getParameter('admin_usernames'), true)) {
+        if (in_array($user->getUsername(), $this->admin_usernames, true)) {
             $roles[] = 'ROLE_ADMIN';
         }
         $user->setRoles($roles);

@@ -9,7 +9,6 @@
 namespace NemesisPlatform\Game\Service;
 
 use NemesisPlatform\Components\MultiSite\Service\SiteFactoryInterface;
-use NemesisPlatform\Game\Entity\SeasonedSite;
 
 class FallbackSiteFactory implements SiteFactoryInterface
 {

@@ -41,7 +41,6 @@ class News implements MultiSiteElement
     private $season;
     /** @var  SiteInterface */
     private $site;
-
     /** @var int */
     private $type = self::TYPE_DEFAULT;
     /** @var  string */
@@ -50,6 +49,22 @@ class News implements MultiSiteElement
     public function __construct()
     {
         $this->date = new DateTime();
+    }
+
+    /**
+     * @return SiteInterface
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param SiteInterface $site
+     */
+    public function setSite(SiteInterface $site)
+    {
+        $this->site = $site;
     }
 
     /**

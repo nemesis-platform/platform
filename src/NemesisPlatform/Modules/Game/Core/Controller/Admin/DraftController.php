@@ -58,7 +58,8 @@ class DraftController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $lines = explode("\n", $form->get('team_list')->getData());
-            for ($i = 0; $i < count($lines); $i++) {
+            $nLines = count($lines);
+            for ($i = 0; $i < $nLines; $i++) {
                 if ($data = sscanf($lines[$i], "%d\t%d\t%d\t%d")) {
                     list($tid, $league, $group, $company) = $data;
                     $team = $manager->getRepository(Team::class)->find($tid);
