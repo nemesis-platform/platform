@@ -284,4 +284,25 @@ class Participant implements MultiSiteElement
     {
         $this->season = $season;
     }
+
+    /**
+     * Cleans all teams of participant
+     */
+    public function cleanTeams()
+    {
+        foreach ($this->getTeams() as $team) {
+            $team->getMembers()->removeElement($this);
+            $this->getTeams()->removeElement($team);
+        }
+
+        foreach ($this->getTeamInvites() as $team) {
+            $team->getInvites()->removeElement($this);
+            $this->getTeamInvites()->removeElement($team);
+        }
+
+        foreach ($this->getTeamRequests() as $team) {
+            $team->getRequests()->removeElement($this);
+            $this->getTeamRequests()->removeElement($team);
+        }
+    }
 }

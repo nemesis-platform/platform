@@ -16,6 +16,7 @@ use NemesisPlatform\Game\Repository\TeamRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -28,13 +29,22 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class TeamController extends Controller
 {
+    const DATATABLES_FIELDS = [
+        'id'      => 't.id',
+        'name'    => 't.name',
+        'season'  => 'season.name',
+        'league'  => 'l.name',
+        'captain' => 'cu.lastname',
+        'email'   => 'cu.email',
+    ];
 
     /**
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/list", name="site_admin_team_list")
      * @Template()
+     *
+     * @param Request $request
+     *
+     * @return Response|array
      */
     public function listAction(Request $request)
     {
@@ -50,10 +60,10 @@ class TeamController extends Controller
     }
 
     /**
-     * @param Request                                $request
+     * @param Request                           $request
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
-     * @return string|\Symfony\Component\HttpFoundation\Response
+     * @return Response|array
      * @Route("/{id}/edit", name="site_admin_team_edit")
      * @Template()
      */
@@ -63,7 +73,7 @@ class TeamController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm('team_type', $team)
-                     ->add('submit', 'submit', ['label' => 'Обновить команду']);
+            ->add('submit', 'submit', ['label' => 'Обновить команду']);
 
         $form->handleRequest($request);
 
@@ -90,14 +100,7 @@ class TeamController extends Controller
         /** @var TeamRepository $repo */
         $repo = $em->getRepository(Team::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = [
-            'id'      => 't.id',
-            'name'    => 't.name',
-            'season'  => 'season.name',
-            'league'  => 'l.name',
-            'captain' => 'cu.lastname',
-            'email'   => 'cu.email',
-        ];
+        $fields = self::DATATABLES_FIELDS;
 
         $site = $this->get('site.manager')->getSite();
 
@@ -110,7 +113,7 @@ class TeamController extends Controller
         }
 
         $result = $repo->jqueryDataTableFetch(
-            $_GET,
+            $request->query->all(),
             $fields,
             $site,
             $season
@@ -120,20 +123,31 @@ class TeamController extends Controller
         $output  = $result['output'];
 
         foreach ($objects as $team) {
-            $row                = [];
-            $row[]              = $team->getID();
-            $row[]              = $team->getName();
-            $row[]              = $team->getSeason()->getShortName();
-            $row[]              = $team->getSeason()->getSite()->getShortName();
-            $row[]              = $team->getLeague() ? $team->getLeague()->getName() : '';
-            $row[]              = $team->getCaptain() ? $team->getCaptain()->getId() : null;
-            $row[]              = $team->getCaptain() ? $team->getCaptain()->getUser()->getFormattedName('%l') : null;
-            $row[]              = $team->getCaptain() ? $team->getCaptain()->getUser()->getEmail() : null;
-            $row[]              = $team->getDate()->format('Y.m.d H:i:s');
-            $row[]              = $team->getFormDate() ? $team->getFormDate()->format('Y.m.d H:i:s') : null;
-            $output['aaData'][] = $row;
+            $output['aaData'][] = $this->createDatatablesRow($team);
         }
 
-        return new Response(json_encode($output));
+        return new JsonResponse($output);
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @return array
+     */
+    private function createDatatablesRow(Team $team)
+    {
+        $row   = [];
+        $row[] = $team->getID();
+        $row[] = $team->getName();
+        $row[] = $team->getSeason()->getShortName();
+        $row[] = $team->getSeason()->getSite()->getShortName();
+        $row[] = $team->getLeague() ? $team->getLeague()->getName() : '';
+        $row[] = $team->getCaptain() ? $team->getCaptain()->getId() : null;
+        $row[] = $team->getCaptain() ? $team->getCaptain()->getUser()->getFormattedName('%l') : null;
+        $row[] = $team->getCaptain() ? $team->getCaptain()->getUser()->getEmail() : null;
+        $row[] = $team->getDate()->format('Y.m.d H:i:s');
+        $row[] = $team->getFormDate() ? $team->getFormDate()->format('Y.m.d H:i:s') : null;
+
+        return $row;
     }
 }

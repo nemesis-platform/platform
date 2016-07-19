@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Modules\Game\Core\Entity\DraftRecord;
 use NemesisPlatform\Modules\Game\Core\Entity\RatingRecord;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\PeriodicRound;
+use NemesisPlatform\Modules\Game\Core\Entity\Round\Round;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\ScenarioRoundInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -52,51 +53,63 @@ class RatingController extends Controller
         /** @var EntityManager $manager */
         $manager = $this->getDoctrine()->getManager();
 
-        $roundId = $request->query->get('round');
-        $league  = $request->query->get('league');
-        $group   = $request->query->get('group');
-
-        $round = $manager->getRepository(PeriodicRound::class)->find($roundId);
-
+        $round = $manager->getRepository(PeriodicRound::class)->find($request->query->getInt('round'));
         if (!$round) {
             throw new NotFoundHttpException('Раунд не найден');
         }
 
         $draft = $manager->getRepository(DraftRecord::class)->findBy(
-            ['round' => $round, 'league' => $league, 'group' => $group],
+            [
+                'round'  => $round,
+                'league' => $request->query->getInt('league'),
+                'group'  => $request->query->getInt('group'),
+            ],
             ['company' => 'ASC']
         );
 
-        $teams = [];
-        foreach ($draft as $dr) {
-            $teams[] = $dr->getTeam();
-        }
+        $teams = array_map(
+            function (DraftRecord $record) {
+                return $record->getTeam();
+            },
+            $draft
+        );
 
         $ratingRecords = $manager->getRepository(RatingRecord::class)->findBy(
             ['period' => $round->getPeriods()->toArray(), 'team' => $teams]
         );
 
-        $ratingArray = [];
-
-        foreach ($draft as $dr) {
-            $ratingArray[$dr->company]['id']   = $dr->getTeam()->getID();
-            $ratingArray[$dr->company]['name'] = $dr->getTeam()->getName();
-
-            if ($round instanceof ScenarioRoundInterface) {
-                $ratingArray[$dr->company]['data'][0] = $round->getScenario() ?
-                    $round->getScenario()->getValue('zeroRating') : '';
-            }
-
-            foreach ($ratingRecords as $record) {
-                if ($record->getPeriod()->isRatingsPublished()) {
-                    if ($record->getTeam() === $dr->getTeam()) {
-                        $ratingArray[$dr->company]['data'][$record->getPeriod()->getPosition()]
-                            = $record->getValue();
-                    }
-                }
-            }
+        $result = [];
+        foreach ($draft as $draftRecord) {
+            $this->formDraftRecord($result, $draftRecord, $round, $ratingRecords);
         }
 
-        return new JsonResponse($ratingArray);
+        return new JsonResponse($result);
+    }
+
+    /**
+     * @param array          $result
+     * @param DraftRecord    $draftRecord
+     * @param Round          $round
+     * @param RatingRecord[] $ratingRecords
+     */
+    private function formDraftRecord(
+        array &$result,
+        DraftRecord $draftRecord,
+        Round $round,
+        array $ratingRecords
+    ) {
+        $result[$draftRecord->company]['id']   = $draftRecord->getTeam()->getID();
+        $result[$draftRecord->company]['name'] = $draftRecord->getTeam()->getName();
+
+        if ($round instanceof ScenarioRoundInterface) {
+            $result[$draftRecord->company]['data'][0] = $round->getScenario() ?
+                $round->getScenario()->getValue('zeroRating') : '';
+        }
+
+        foreach ($ratingRecords as $record) {
+            if ($record->getPeriod()->isRatingsPublished() && $record->getTeam() === $draftRecord->getTeam()) {
+                $result[$draftRecord->company]['data'][$record->getPeriod()->getPosition()] = $record->getValue();
+            }
+        }
     }
 }

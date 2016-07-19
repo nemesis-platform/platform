@@ -35,7 +35,7 @@ class UserController extends Controller
      * @Template()
      * @param Request $request
      *
-     * @return Response
+     * @return Response|array
      */
     public function registerAction(Request $request)
     {
@@ -55,79 +55,83 @@ class UserController extends Controller
             }
         }
 
-        $form = $this->createForm(
-            new RegistrationFormType(),
-            null,
+        $form = $this->createForm(new RegistrationFormType(), null, ['season' => $activeSeason]);
+
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return ['form' => $form->createView()];
+
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+
+        /** @var User $user */
+        $user = $form->get('account')->getData();
+
+        if ($manager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()])) {
+            throw new LogicException('Пользователь уже зарегистрирован');
+        }
+
+        $user->setCode(sha1(uniqid('', true)));
+
+        /** @var Participant $participant */
+        $participant = $form->get('participant')->getData();
+
+        $participant->setSeason($activeSeason);
+        $participant->setUser($user);
+
+        $manager->persist($user);
+        $manager->persist($participant);
+
+
+        $html = $this->renderView(
+            'NemesisCoreBundle:MailTemplates:registrationConfirmation.html.twig',
             [
-                'season' => $activeSeason,
-                'attr'   => ['style' => 'horizontal'],
+                'user' => $user,
+                'url'  => $this->generateUrl(
+                    'site_service_check_email',
+                    ['code' => $user->getCode()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ]
         );
 
-        $form->handleRequest($request);
+        $text = strip_tags($html);
 
-        // TODO: Move fields handling to RegistrationFormType POST SUBMIT event handler
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            /** @var User $user */
-            $user = $form->get('account')->getData();
-
-            if ($em->getRepository(User::class)->findOneBy(['email' => $user->getEmail()])) {
-                throw new LogicException('Пользователь уже зарегистрирован');
-            }
-
-            $user->setCode(sha1(uniqid('', true)));
-
-            /** @var Participant $participant */
-            $participant = $form->get('participant')->getData();
-
-            $participant->setSeason($activeSeason);
-            $participant->setUser($user);
-
-            $em->persist($user);
-            $em->persist($participant);
+        $message = $this->createRegistrationMessage($user, $html, $text);
+        $this->get('mailer')->send($message, $failed);
 
 
-            $html = $this->renderView(
-                'NemesisCoreBundle:MailTemplates:registrationConfirmation.html.twig',
-                [
-                    'user' => $user,
-                    'url'  => $this->generateUrl(
-                        'site_service_check_email',
-                        ['code' => $user->getCode()],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
-                ]
-            );
+        $manager->flush();
 
-            $text = strip_tags($html);
+        return $this->redirect(
+            $this->generateUrl('site_service_register_success')
+        );
+    }
 
-            $message = Swift_Message::newInstance()
-                ->setSubject('Регистрация - '.$this->get('site.manager')->getSite()->getFullName())
-                ->setFrom(
-                    $this->get('site.manager')->getSite()->getContactEmail(),
-                    $this->get('site.manager')->getSite()->getFullName()
-                )
-                ->setReplyTo($this->get('site.manager')->getSite()->getContactEmail())
-                ->setTo($user->getEmail())
-                ->setContentType('text/plain; charset=UTF-8')
-                ->setBody(
-                    $html,
-                    'text/html'
-                )
-                ->addPart($text, 'text/plain');
-            $this->get('mailer')->send($message, $failed);
-
-
-            $em->flush();
-
-            return $this->redirect(
-                $this->generateUrl('site_service_register_success')
-            );
-        }
-
-        return ['form' => $form->createView()];
+    /**
+     * @param $user
+     * @param $html
+     * @param $text
+     *
+     * @return mixed
+     */
+    protected function createRegistrationMessage($user, $html, $text)
+    {
+        return Swift_Message::newInstance()
+            ->setSubject('Регистрация - '.$this->get('site.manager')->getSite()->getFullName())
+            ->setFrom(
+                $this->get('site.manager')->getSite()->getContactEmail(),
+                $this->get('site.manager')->getSite()->getFullName()
+            )
+            ->setReplyTo($this->get('site.manager')->getSite()->getContactEmail())
+            ->setTo($user->getEmail())
+            ->setContentType('text/plain; charset=UTF-8')
+            ->setBody(
+                $html,
+                'text/html'
+            )
+            ->addPart($text, 'text/plain');
     }
 
     /**

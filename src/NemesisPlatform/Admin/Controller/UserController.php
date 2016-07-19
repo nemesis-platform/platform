@@ -27,10 +27,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserController extends Controller
 {
+    const DATATABLES_FIELDS = [
+        'id'     => 'u.id',
+        'fio'    => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
+        'email'  => 'u.email',
+        'date'   => 'u.registerDate',
+        'status' => 'u.status',
+        'phone'  => 'p.phonenumber',
+    ];
+
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response|array
      * @Route("/list", name="site_admin_user_list")
      * @Template()
      */
@@ -53,7 +62,7 @@ class UserController extends Controller
      * @param Request $request
      * @param User    $user
      *
-     * @return Response
+     * @return Response|array
      */
     public function editAction(Request $request, User $user)
     {
@@ -87,14 +96,7 @@ class UserController extends Controller
 
         $repo = $manager->getRepository(User::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = [
-            'id'     => 'u.id',
-            'fio'    => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
-            'email'  => 'u.email',
-            'date'   => 'u.registerDate',
-            'status' => 'u.status',
-            'phone'  => 'p.phonenumber',
-        ];
+        $fields = self::DATATABLES_FIELDS;
 
         $result = $repo->jqueryDataTableFetch(
             $request->query->all(),
@@ -106,19 +108,29 @@ class UserController extends Controller
         $output  = $result['output'];
 
         foreach ($objects as $user) {
-            $row                = [];
-            $row[]              = $user->getID();
-            $row[]              = $user->getFormattedName('%l %f %m');
-            $row[]              = $user->getEmail();
-            $row[]              = $user->getRegisterDate()->format('Y.m.d H:i:s');
-            $row[]              = $user->getStatus();
-            $row[]              = $user->getPhone() ? $user->getPhone()->getFullPhoneNumber() : null;
-            $output['aaData'][] = $row;
+            $output['aaData'][] = $this->createDatatablesRow($user);
         }
 
-        return new Response(json_encode($output));
+        return new JsonResponse($output);
     }
 
+    /**
+     * @param User $user
+     *
+     * @return array
+     */
+    private function createDatatablesRow(User $user)
+    {
+        $row   = [];
+        $row[] = $user->getID();
+        $row[] = $user->getFormattedName('%l %f %m');
+        $row[] = $user->getEmail();
+        $row[] = $user->getRegisterDate()->format('Y.m.d H:i:s');
+        $row[] = $user->getStatus();
+        $row[] = $user->getPhone() ? $user->getPhone()->getFullPhoneNumber() : null;
+
+        return $row;
+    }
 
     /**
      * @param Request $request

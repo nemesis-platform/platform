@@ -37,7 +37,7 @@ class ParticipantController extends Controller
     /**
      * @param $id
      *
-     * @return Response
+     * @return Response|array
      * @Route("/{id}/view", name="site_user_view")
      * @Template()
      */
@@ -51,10 +51,10 @@ class ParticipantController extends Controller
 
 
     /**
-     * @param Request                                  $request
+     * @param Request                             $request
      * @param \NemesisPlatform\Game\Entity\Season $season
      *
-     * @return Response
+     * @return Response|array
      * @Template()
      * @Route("/account/season/{season}/register", name="site_service_update_profile")
      */
@@ -100,11 +100,12 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/season/{season}/datatable", name="site_user_datatable")
-     * @param Season $season
+     * @param Season  $season
+     * @param Request $request
      *
      * @return string
      */
-    public function getPublicUserListAction(Season $season)
+    public function getPublicUserListAction(Season $season, Request $request)
     {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
@@ -127,7 +128,7 @@ class ParticipantController extends Controller
         }
 
         $result = $repo->jqueryDataTableFetch(
-            $_GET,
+            $request->query->all(),
             $fields,
             $season->getSite(),
             $season,
@@ -174,7 +175,7 @@ class ParticipantController extends Controller
     }
 
     /**
-     * @param Request                                  $request
+     * @param Request                             $request
      * @param \NemesisPlatform\Game\Entity\Season $season
      *
      * @return Response
@@ -194,7 +195,7 @@ class ParticipantController extends Controller
         }
 
         $query = $em->getRepository(Participant::class)->createQueryBuilder('d')
-                    ->select('d')->join('d.user', 'u')->where('d.season = :season')->setParameter('season', $season);
+            ->select('d')->join('d.user', 'u')->where('d.season = :season')->setParameter('season', $season);
 
 
         $query

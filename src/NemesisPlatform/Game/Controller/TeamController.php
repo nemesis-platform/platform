@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,10 +38,20 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class TeamController extends Controller
 {
+    const DATATABLES_FIELDS = [
+        'id'           => 't.id',
+        'c_name'       => 't.name',
+        'r_name'       => 't.name',
+        'captain_name' => 'cu.lastname',
+        'captain_id'   => 'cu.id',
+        'league'       => 'l.name',
+        'tag'          => 't.persistent_tag',
+    ];
+
     /**
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
-     * @return Response
+     * @return Response|array
      * @Route("/{team}/view", name="team_view")
      * @Template()
      */
@@ -55,7 +66,7 @@ class TeamController extends Controller
      * @Template()
      * @param \NemesisPlatform\Game\Entity\Season $season
      *
-     * @return Response
+     * @return Response|array
      */
     public function listAction(Season $season = null)
     {
@@ -74,10 +85,10 @@ class TeamController extends Controller
     }
 
     /**
-     * @param Request                                $request
+     * @param Request                           $request
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
-     * @return Response
+     * @return Response|array
      * @Route("/{team}/edit", name="team_edit")
      * @Template()
      * @Security("is_granted('manage',team)")
@@ -85,7 +96,7 @@ class TeamController extends Controller
     public function editAction(Request $request, Team $team)
     {
         $form = $this->createForm('team_type', $team, ['season' => $team->getSeason()])
-                     ->add('submit', 'submit', ['label' => 'Сохранить']);
+            ->add('submit', 'submit', ['label' => 'Сохранить']);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -99,14 +110,16 @@ class TeamController extends Controller
     }
 
     /**
-     * @param \NemesisPlatform\Game\Entity\Season $season
-     * @param Request                                  $request
-     *
-     * @throws NotFoundHttpException
-     * @return Response
      * @Route("/season/{season}/create", name="team_create")
      * @Security("is_granted('create_team',season)")
      * @Template()
+     *
+     * @param Season  $season
+     * @param Request $request
+     *
+     * @return Response|array
+     *
+     * @throws NotFoundHttpException
      */
     public function createAction(Season $season, Request $request)
     {
@@ -126,7 +139,7 @@ class TeamController extends Controller
         }
 
         $form = $this->createForm('team_type', null, ['season' => $season])
-                     ->add('submit', 'submit', ['label' => 'Создать']);
+            ->add('submit', 'submit', ['label' => 'Создать']);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -150,21 +163,23 @@ class TeamController extends Controller
 
 
     /**
+     * @Security("is_granted('accept_request',team)")
+     *
      * @Route("/{team}/accept/{data}", name="team_request_accept")
-     * @param \NemesisPlatform\Game\Entity\Team        $team
-     * @param \NemesisPlatform\Game\Entity\Participant $data
+     * @param Team        $team
+     * @param Participant $data
      *
      * @return RedirectResponse
-     * @Security("is_granted('accept_request',team)")
+     * @throws \InvalidArgumentException
      */
     public function acceptUserAction(Team $team, Participant $data)
     {
         if ($team->getSeason() !== $data->getSeason()) {
-            throw new InvalidArgumentException('Несоответствие сезона команды и участника');
+            throw new \InvalidArgumentException('Несоответствие сезона команды и участника');
         }
 
         if (!$team->getRequests()->contains($data)) {
-            throw new InvalidArgumentException('Несуществующая заявка');
+            throw new \InvalidArgumentException('Несуществующая заявка');
         }
 
         $single_team = false;
@@ -176,31 +191,14 @@ class TeamController extends Controller
         }
 
         if ($single_team) {
-            foreach ($data->getTeams() as $dataTeam) {
-                $dataTeam->getMembers()->removeElement($data);
-                $data->getTeams()->removeElement($dataTeam);
-            }
-
-            foreach ($data->getTeamInvites() as $dataTeam) {
-                $dataTeam->getInvites()->removeElement($data);
-                $data->getTeamInvites()->removeElement($dataTeam);
-            }
-
-            foreach ($data->getTeamRequests() as $dataTeam) {
-                $dataTeam->getRequests()->removeElement($data);
-                $data->getTeamRequests()->removeElement($dataTeam);
-            }
-
+            $data->cleanTeams();
             $this->getDoctrine()->getManager()->flush();
         }
-        $team->getMembers()->add($data);
-        $team->getRequests()->removeElement($data);
-        $data->getTeamRequests()->removeElement($team);
 
+        $team->accept($data);
         $this->getDoctrine()->getManager()->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'Заявка принята');
-
 
         return $this->redirect($this->generateUrl('site_account_show'));
     }
@@ -208,7 +206,7 @@ class TeamController extends Controller
     /**
      * @Route("/{team}/decline/{data}", name="team_request_decline")
      * @param \NemesisPlatform\Game\Entity\Team $team
-     * @param Participant                            $data
+     * @param Participant                       $data
      *
      * @return RedirectResponse
      * @Security("is_granted('decline_request',team)")
@@ -343,33 +341,33 @@ class TeamController extends Controller
      * @Security("is_granted('invite',team)")
      * @return Response
      *
-     * @param Request                                $request
+     * @param Request                           $request
      * @param \NemesisPlatform\Game\Entity\Team $team
      * @Template()
      */
     public function inviteAction(Request $request, Team $team)
     {
         $form = $this->createFormBuilder()
-                     ->add(
-                         'user',
-                         'entity_autocomplete',
-                         [
-                             'label'                 => 'ФИО участника',
-                             'required'              => false,
-                             'class' => Participant::class,
-                             'action'                => $this->generateUrl(
-                                 'site_user_autocomplete',
-                                 ['season' => $team->getSeason()->getId()],
-                                 RouterInterface::ABSOLUTE_PATH
-                             ),
-                             'attr'                  => ['help_text' => 'Начните вводить и выберите из списка автодополнения'],
-                             'visible_property_path' => 'toString',
-                             'mapped'                => false,
+            ->add(
+                'user',
+                'entity_autocomplete',
+                [
+                    'label'                 => 'ФИО участника',
+                    'required'              => false,
+                    'class'                 => Participant::class,
+                    'action'                => $this->generateUrl(
+                        'site_user_autocomplete',
+                        ['season' => $team->getSeason()->getId()],
+                        RouterInterface::ABSOLUTE_PATH
+                    ),
+                    'attr'                  => ['help_text' => 'Начните вводить и выберите из списка автодополнения'],
+                    'visible_property_path' => 'toString',
+                    'mapped'                => false,
 
-                         ]
-                     )
-                     ->add('submit', 'submit', ['label' => 'Пригласить'])
-                     ->getForm();
+                ]
+            )
+            ->add('submit', 'submit', ['label' => 'Пригласить'])
+            ->getForm();
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -437,7 +435,7 @@ class TeamController extends Controller
     /**
      * @param \NemesisPlatform\Game\Entity\Team $team
      * @Security("is_granted('revoke_invite',team)")
-     * @param Participant                            $data
+     * @param Participant                       $data
      *
      * @return RedirectResponse
      * @Route("/{team}/invite/{data}/revoke", name="team_invite_revoke")
@@ -548,15 +546,7 @@ class TeamController extends Controller
         /** @var TeamRepository $repo */
         $repo = $manager->getRepository(Team::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = [
-            'id'           => 't.id',
-            'c_name'       => 't.name',
-            'r_name'       => 't.name',
-            'captain_name' => 'cu.lastname',
-            'captain_id'   => 'cu.id',
-            'league'       => 'l.name',
-            'tag'          => 't.persistent_tag',
-        ];
+        $fields = self::DATATABLES_FIELDS;
 
         $result = $repo->jqueryDataTableFetch(
             $request->query->all(),
@@ -569,17 +559,28 @@ class TeamController extends Controller
         $output  = $result['output'];
 
         foreach ($objects as $team) {
-            $row                = [];
-            $row[]              = $team->getID();
-            $row[]              = $team->getCleanName();
-            $row[]              = $team->getName();
-            $row[]              = $team->getCaptain() ? $team->getCaptain()->getUser()->getLastname() : '';
-            $row[]              = $team->getCaptain() ? $team->getCaptain()->getUser()->getID() : '';
-            $row[]              = $team->getLeague() ? $team->getLeague()->getName() : '';
-            $row[]              = substr($team->getPersistentTag(), 0, 6);
-            $output['aaData'][] = $row;
+            $output['aaData'][] = $this->createDatatablesRow($team);
         }
 
-        return new Response(json_encode($output));
+        return new JsonResponse($output);
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @return array
+     */
+    private function createDatatablesRow(Team $team)
+    {
+        $row   = [];
+        $row[] = $team->getID();
+        $row[] = $team->getCleanName();
+        $row[] = $team->getName();
+        $row[] = $team->getCaptain() ? $team->getCaptain()->getUser()->getLastname() : '';
+        $row[] = $team->getCaptain() ? $team->getCaptain()->getUser()->getID() : '';
+        $row[] = $team->getLeague() ? $team->getLeague()->getName() : '';
+        $row[] = substr($team->getPersistentTag(), 0, 6);
+
+        return $row;
     }
 }

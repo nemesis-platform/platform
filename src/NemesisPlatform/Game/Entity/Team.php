@@ -221,47 +221,6 @@ class Team implements MultiSiteElement
         $this->advert = $advert;
     }
 
-
-    /**
-     * @return Participant[]|ArrayCollection
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-
-    /**
-     * @param $members Participant[]
-     *
-     * @return $this
-     */
-    public function setMembers($members)
-    {
-        $this->members = $members;
-
-        return $this;
-    }
-
-    /**
-     * @return Participant[]|ArrayCollection
-     */
-    public function getRequests()
-    {
-        return $this->requests;
-    }
-
-    /**
-     * @param $members Participant[]
-     *
-     * @return $this
-     */
-    public function setRequests($members)
-    {
-        $this->requests = $members;
-
-        return $this;
-    }
-
     /**
      * @return League
      */
@@ -340,9 +299,9 @@ class Team implements MultiSiteElement
         if (
             !$participation
             || $participation->isFrozen()
-            || in_array($participation, $this->members->toArray())
-            || in_array($participation, $this->requests->toArray())
-            || in_array($participation, $this->invites->toArray())
+            || in_array($participation, $this->members->toArray(), true)
+            || in_array($participation, $this->requests->toArray(), true)
+            || in_array($participation, $this->invites->toArray(), true)
         ) {
             return false;
         }
@@ -458,7 +417,10 @@ class Team implements MultiSiteElement
 
         $participation = $user->getParticipation($this->getSeason());
 
-        if (!$participation || $participation->isFrozen() || in_array($participation, $this->members->toArray())) {
+        if (!$participation ||
+            $participation->isFrozen() ||
+            in_array($participation, $this->members->toArray(), true)
+        ) {
             return false;
         }
 
@@ -527,5 +489,56 @@ class Team implements MultiSiteElement
     public function belongsToSite(SiteInterface $site)
     {
         return $this->getSeason()->getSite() === $site;
+    }
+
+    public function accept(Participant $participant)
+    {
+        if (!$this->getRequests()->contains($participant)) {
+            throw new \InvalidArgumentException('Несуществующая заявка');
+        }
+
+        $this->getMembers()->add($participant);
+        $this->getRequests()->removeElement($participant);
+        $participant->getTeamRequests()->removeElement($this);
+    }
+
+    /**
+     * @return Participant[]|ArrayCollection
+     */
+    public function getRequests()
+    {
+        return $this->requests;
+    }
+
+    /**
+     * @param $members Participant[]
+     *
+     * @return $this
+     */
+    public function setRequests($members)
+    {
+        $this->requests = $members;
+
+        return $this;
+    }
+
+    /**
+     * @return Participant[]|ArrayCollection
+     */
+    public function getMembers()
+    {
+        return $this->members;
+    }
+
+    /**
+     * @param $members Participant[]
+     *
+     * @return $this
+     */
+    public function setMembers($members)
+    {
+        $this->members = $members;
+
+        return $this;
     }
 }

@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -72,10 +73,6 @@ class MobileController extends Controller
             }
 
             $manager->flush();
-//                $this->get('session')->getFlashBag()->add(
-//                    'danger',
-//                    'Лимит проверок исчерпан. Попробуйте завтра или свяжитесь с организаторами'
-//                );
         } else {
             $this->get('session')->getFlashBag()->add(
                 'danger',
@@ -161,22 +158,19 @@ class MobileController extends Controller
      * @param Request $request
      * @param         $id
      *
-     * @return RedirectResponse
+     * @return RedirectResponse|array
+     * @throws AccessDeniedHttpException
+     * @throws BadRequestHttpException
      */
-    public function checkCodeAction(Request $request, $id)
+    public function checkCodeAction(Request $request, Phone $id)
     {
-        $manager = $this->getDoctrine()->getManager();
-        /** @var \NemesisPlatform\Core\Account\Entity\User $user */
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        /** @var \NemesisPlatform\Core\Account\Entity\Phone $phone */
-        $phone = $manager->getRepository(Phone::class)->find($id);
+        $phone = $id;
         if (!$phone || !$phone->isPendingConfirmation()) {
             throw new BadRequestHttpException('Некорректный телефон');
         }
 
-        if ($phone->getUser() !== $user) {
-            throw new AccessDeniedException('Невозможно подтвердить чужой номер телефона');
+        if ($phone->getUser() !== $this->getUser()) {
+            throw new AccessDeniedHttpException('Невозможно подтвердить чужой номер телефона');
         }
 
         $form = $this->createFormBuilder()
@@ -191,55 +185,76 @@ class MobileController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-
-        if ($request->getMethod() === 'POST') {
+        if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $code = $form->get('code')->getData();
+                $this->validatePhone($phone, $form->get('code')->getData());
 
-                $phones = $manager->getRepository(Phone::class)->findBy(
-                    [
-                        'phonenumber' => $phone->getPhonenumber(),
-                        'status'      => [Phone::STATUS_ACTIVE, Phone::STATUS_ARCHIVED],
-                    ]
-                );
-                if ($phone->getCode() == $code) {
-                    if (count($phones) == 0) {
-                        $phone->setStatus(Phone::STATUS_ACTIVE);
-                        $phone->setCode(null);
-                        $phone->getUser()->setPhone($phone);
-
-                        $this->get('session')->getFlashBag()->add(
-                            'success',
-                            'Проверка пройдена успешна. Телефон установлен в качестве активного.'
-                        );
-                    } else {
-                        $phone->setStatus(Phone::STATUS_UNCONFIRMED);
-                        $phone->setCode(null);
-                        $this->get('session')->getFlashBag()->add(
-                            'danger',
-                            'Невозможно подтвердить номер телефона, уже активированного другим участником.'
-                        );
-                    }
-                } else {
-                    $phone->setStatus(Phone::STATUS_UNCONFIRMED);
-                    $phone->setCode(null);
-                    $this->get('session')->getFlashBag()->add(
-                        'danger',
-                        'Проверка кода неудачна. Проверьте телефон, запросите новый код или отмените проверку.'
-                    );
-                }
-                $manager->flush();
             } else {
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Проверка кода неудачна. Попробуйте еще раз.'
-                );
+                $this->get('session')->getFlashBag()->add('danger', 'Проверка кода неудачна. Попробуйте еще раз.');
             }
 
             return $this->redirect($request->server->get('HTTP_REFERER'));
         }
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @param Phone  $phone
+     * @param string $code
+     *
+     * @return Phone
+     */
+    private function validatePhone(Phone $phone, $code)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        $phones = $manager->getRepository(Phone::class)->findBy(
+            [
+                'phonenumber' => $phone->getPhonenumber(),
+                'status'      => [Phone::STATUS_ACTIVE, Phone::STATUS_ARCHIVED],
+            ]
+        );
+        if ($phone->getCode() === $code) {
+            if (count($phones) === 0) {
+                $phone->setStatus(Phone::STATUS_ACTIVE);
+                $phone->setCode(null);
+                $phone->getUser()->setPhone($phone);
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Проверка пройдена успешна. Телефон установлен в качестве активного.'
+                );
+            } else {
+                $this->unconfirmPhone(
+                    $phone,
+                    'Невозможно подтвердить номер телефона, уже активированного другим участником.'
+                );
+            }
+        } else {
+            $this->unconfirmPhone(
+                $phone,
+                'Проверка кода неудачна. Проверьте телефон, запросите новый код или отмените проверку.'
+            );
+        }
+
+        $manager->flush();
+
+        return $phone;
+    }
+
+    /**
+     * @param Phone  $phone
+     * @param string $message
+     */
+    protected function unconfirmPhone(Phone $phone, $message)
+    {
+        $phone->setStatus(Phone::STATUS_UNCONFIRMED);
+        $phone->setCode(null);
+        $this->get('session')->getFlashBag()->add(
+            'danger',
+            $message
+        );
     }
 
     /**

@@ -28,12 +28,25 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ParticipantController extends Controller
 {
+    const DATATABLES_FIELDS = [
+        'id'       => 'ud.id',
+        'fio'      => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
+        'email'    => 'u.email',
+        'season'   => 'season.short_name',
+        'sote'     => 'site.short_name',
+        'created'  => 'ud.created',
+        'status'   => 'u.status',
+        'phone'    => 'p.phonenumber',
+        'category' => 'category.name',
+        //            'teams' => 'GROUP_CONCAT(t.name SEPARATOR \', \')'
+    ];
+
     /**
      * @Route("/list",name="site_admin_participant_list")
      * @Template()
      * @param Request $request
      *
-     * @return Response
+     * @return Response|array
      */
     public function listAction(Request $request)
     {
@@ -108,18 +121,7 @@ class ParticipantController extends Controller
 
         $repo = $manager->getRepository(Participant::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = [
-            'id'       => 'ud.id',
-            'fio'      => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
-            'email'    => 'u.email',
-            'season'   => 'season.short_name',
-            'sote'     => 'site.short_name',
-            'created'  => 'ud.created',
-            'status'   => 'u.status',
-            'phone'    => 'p.phonenumber',
-            'category' => 'category.name',
-            //            'teams' => 'GROUP_CONCAT(t.name SEPARATOR \', \')'
-        ];
+        $fields = self::DATATABLES_FIELDS;
 
         $season = null;
         if ($request->get('season', null)) {
@@ -139,33 +141,44 @@ class ParticipantController extends Controller
         $output  = $result['output'];
 
         foreach ($objects as $user) {
-            $row                = [];
-            $row[]              = $user->getId();
-            $row[]              = $user->getUser()->getFormattedName('%l %f %m');
-            $row[]              = $user->getUser()->getEmail();
-            $row[]              = $user->getSeason()->getShortName();
-            $row[]              = $user->getSeason()->getSite()->getShortName();
-            $row[]              = $user->getCreated()->format('Y.m.d H:i:s');
-            $row[]              = $user->getUser()->getStatus();
-            $row[]              = $user->getUser()->getPhone() ? $user->getUser()->getPhone()->getFullPhoneNumber()
-                : null;
-            $row[]              = $user->getCategory()->getName();
-            $row[]              = array_map(
-                function (Team $team) {
-                    return ['team_id' => $team->getID(), 'team_name' => $team->getName()];
-                },
-                $user->getTeams()->toArray()
-            );
-            $output['aaData'][] = $row;
+            $output['aaData'][] = $this->createDatatablesRow($user);
         }
 
         return new JsonResponse($output);
     }
 
     /**
+     * @param Participant $user
+     *
+     * @return array
+     */
+    private function createDatatablesRow(Participant $user)
+    {
+        $row   = [];
+        $row[] = $user->getId();
+        $row[] = $user->getUser()->getFormattedName('%l %f %m');
+        $row[] = $user->getUser()->getEmail();
+        $row[] = $user->getSeason()->getShortName();
+        $row[] = $user->getSeason()->getSite()->getShortName();
+        $row[] = $user->getCreated()->format('Y.m.d H:i:s');
+        $row[] = $user->getUser()->getStatus();
+        $row[] = $user->getUser()->getPhone() ? $user->getUser()->getPhone()->getFullPhoneNumber()
+            : null;
+        $row[] = $user->getCategory()->getName();
+        $row[] = array_map(
+            function (Team $team) {
+                return ['team_id' => $team->getID(), 'team_name' => $team->getName()];
+            },
+            $user->getTeams()->toArray()
+        );
+
+        return $row;
+    }
+
+    /**
      * @param Participant $data
      *
-     * @return Response
+     * @return Response|array
      * @Route("/{data}/view",name="site_admin_participant_view")
      */
     public function viewAction(Participant $data)
@@ -192,7 +205,7 @@ class ParticipantController extends Controller
      * @param Request $request
      * @Route("/create",name="site_admin_participant_create")
      *
-     * @return Response
+     * @return Response|array
      */
     public function createAction(Request $request)
     {
@@ -213,10 +226,11 @@ class ParticipantController extends Controller
     /**
      * @param Request                                  $request
      * @param \NemesisPlatform\Game\Entity\Participant $data
+     *
      * @Route("/{data}/edit",name="site_admin_participant_edit")
      * @Template()
      *
-     * @return Response
+     * @return Response|array
      */
     public function editAction(Request $request, Participant $data)
     {

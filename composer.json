@@ -11,6 +11,7 @@
   ],
   "autoload": {
     "classmap": [
+      ".sensiolabs/AppKernel.php",
       "app/AppCache.php",
       "app/AppKernel.php"
     ],
