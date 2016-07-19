@@ -1,3 +1,6 @@
+parameters:
+  secret: FixtureSecret
+
 framework:
     secret:       "%secret%"
     router:
