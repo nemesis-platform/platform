@@ -8,6 +8,7 @@
 
 namespace NemesisPlatform\Admin\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +23,7 @@ class MainController extends Controller
     /**
      * @return string
      * @Route("/",name="site_admin_dashboard")
+     * @Method("GET")
      * @Template()
      */
     public function dashboardAction()

@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Core\Account\Entity\Tag;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Team;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class TagEntityController extends Controller
 
     /**
      * @Route("/tag/list", name="site_admin_utils_tag_list")
+     * @Method("GET")
      * @Template()
      */
     public function listTagsAction()
@@ -49,6 +51,7 @@ class TagEntityController extends Controller
     /**
      * @param \NemesisPlatform\Core\Account\Entity\Tag $tag
      * @Route("/tag/find_team/{tag}", name="site_admin_utils_tag_find_team")
+     * @Method("GET")
      * @Template()
      *
      * @return Response
@@ -63,6 +66,7 @@ class TagEntityController extends Controller
     /**
      * @param \NemesisPlatform\Core\Account\Entity\Tag $tag
      * @Route("/tag/find_user/{tag}", name="site_admin_utils_tag_find_user")
+     * @Method("GET")
      * @Template()
      *
      * @return Response
@@ -79,6 +83,7 @@ class TagEntityController extends Controller
      *
      * @return Response
      * @Route("/tag/tag_user", name="site_admin_utils_tag_user")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function tagUsersAction(Request $request)
@@ -149,6 +154,7 @@ class TagEntityController extends Controller
      *
      * @return Response
      * @Route("/tag/tag_team", name="site_admin_utils_tag_team")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function tagTeamsAction(Request $request)
@@ -207,6 +213,7 @@ class TagEntityController extends Controller
      * @return RedirectResponse
      *
      * @Route("/tag/{tag}/team/{team}/remove", name="admin_remove_tag_from_team")
+     * @Method("GET")
      */
     public function untagTeamAction(Team $team, Tag $tag)
     {
@@ -226,6 +233,7 @@ class TagEntityController extends Controller
      * @return RedirectResponse
      *
      * @Route("/tag/{tag}/user/{user}/remove", name="admin_remove_tag_from_user")
+     * @Method("GET")
      */
     public function untagUserAction(User $user, Tag $tag)
     {

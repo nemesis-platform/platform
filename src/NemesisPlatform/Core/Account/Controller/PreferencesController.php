@@ -12,6 +12,7 @@ use DateTime;
 use NemesisPlatform\Core\Account\Entity\Phone;
 use NemesisPlatform\Core\Account\Form\Type\UserAdditionalDataType;
 use NemesisPlatform\Game\Entity\Participant;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,6 +36,7 @@ class PreferencesController extends Controller
     /**
      * @Template()
      * @Route("/seasons", name="site_user_seasons_list")
+     * @Method("GET")
      * @return Response
      */
     public function viewSeasonsAction()
@@ -49,6 +51,7 @@ class PreferencesController extends Controller
      * @param Request     $request
      * @Template()
      * @Route("/{participant}/edit", name="site_user_seasons_edit")
+     * @Method({"GET","POST"})
      * @param Participant $participant
      *
      * @return Response
@@ -100,6 +103,7 @@ class PreferencesController extends Controller
     /**
      * @Template()
      * @Route("/", name="site_user_preferences")
+     * @Method("GET")
      */
     public function showOverviewAction()
     {
@@ -112,6 +116,7 @@ class PreferencesController extends Controller
     /**
      * @Template()
      * @Route("/password_change", name="site_service_change_password")
+     * @Method({"GET","POST"})
      * @param Request $request
      *
      * @return Response
@@ -161,6 +166,7 @@ class PreferencesController extends Controller
 
     /**
      * @Route("/avatar", name="site_preferences_avatar")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      *
@@ -225,6 +231,7 @@ class PreferencesController extends Controller
     /**
      * @param Request $request
      * @Route("/edit_info", name="site_preferences_edit_info")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response
@@ -252,6 +259,7 @@ class PreferencesController extends Controller
     /**
      * @param Request $request
      * @Route("/manage_phones", name="site_preferences_manage_phones")
+     * @Method({"GET","POST"})
      *
      * @return Response
      * @Template()

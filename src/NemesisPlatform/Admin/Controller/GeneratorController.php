@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Admin\Service\Generator\EntityGeneratorInterface;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +22,7 @@ class GeneratorController extends Controller
 {
     /**
      * @Route("/utils/generators/list", name="admin_generators_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -35,6 +37,7 @@ class GeneratorController extends Controller
      * @param         $type
      *
      * @Route("/utils/generators/{type}/generate", name="admin_generators_form")
+     * @Method({"GET","POST"})
      *
      * @return Response
      */

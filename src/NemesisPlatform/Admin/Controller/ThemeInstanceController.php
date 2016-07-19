@@ -13,6 +13,7 @@ use NemesisPlatform\Components\Form\FormTypedInterface;
 use NemesisPlatform\Components\Themes\Entity\ThemeInstance;
 use NemesisPlatform\Components\Themes\Service\CompilableThemeInterface;
 use NemesisPlatform\Components\Themes\Service\ConfigurableThemeInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,7 @@ class ThemeInstanceController extends Controller
     /**
      * @param Request $request
      * @Route("/create", name="switchable_theme_instance_create")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response
@@ -60,6 +62,7 @@ class ThemeInstanceController extends Controller
     /**
      * @return Response
      * @Route("/list", name="switchable_theme_instance_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -75,6 +78,7 @@ class ThemeInstanceController extends Controller
      * @param ThemeInstance $instance
      *
      * @Route("/{instance}/delete", name="switchable_theme_instance_delete")
+     * @Method("GET")
      * @return RedirectResponse
      */
     public function deleteAction(ThemeInstance $instance)
@@ -91,6 +95,7 @@ class ThemeInstanceController extends Controller
      * @param ThemeInstance $instance
      *
      * @Route("/{instance}/regenerate", name="switchable_theme_instance_regenerate")
+     * @Method("GET")
      * @return RedirectResponse
      */
     public function regenerateAction(ThemeInstance $instance)
@@ -112,6 +117,7 @@ class ThemeInstanceController extends Controller
      * @param Request $request
      * @param ThemeInstance $instance
      * @Route("/{instance}/edit", name="switchable_theme_instance_edit")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response
@@ -138,6 +144,7 @@ class ThemeInstanceController extends Controller
      * @param Request $request
      * @param ThemeInstance $instance
      * @Route("/{instance}/configure", name="switchable_theme_instance_configure")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response
@@ -179,6 +186,7 @@ class ThemeInstanceController extends Controller
     /**
      * @param ThemeInstance $instance
      * @Route("/{instance}/clone", name="switchable_theme_instance_clone")
+     * @Method("GET")
      *
      * @return RedirectResponse
      */

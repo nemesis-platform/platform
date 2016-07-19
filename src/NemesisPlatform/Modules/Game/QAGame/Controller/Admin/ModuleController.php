@@ -10,6 +10,7 @@ namespace NemesisPlatform\Modules\Game\QAGame\Controller\Admin;
 
 use NemesisPlatform\Modules\Game\QAGame\Entity\QARound;
 use NemesisPlatform\Modules\Game\QAGame\Entity\QuestionList;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,6 +20,7 @@ class ModuleController extends Controller
 {
     /**
      * @Route("/", name="module_qa_game_admin_dashboard")
+     * @Method("GET")
      * @Template()
      * @return Response
      */

@@ -11,6 +11,7 @@ namespace NemesisPlatform\Core\CMS\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Core\CMS\Entity\Page;
 use NemesisPlatform\Core\CMS\Entity\ProxyPage;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +23,7 @@ class PageController extends Controller
 
     /**
      * @Route("/", name="display_front_page")
+     * @Method("GET")
      * @param $alias string
      * @Template()
      *
@@ -63,6 +65,7 @@ class PageController extends Controller
 
     /**
      * @Route("/register/activated", name="site_service_login_activated")
+     * @Method("GET")
      * @return Response
      * @Template("NemesisCmsBundle:Page:activation_succeeded.html.twig")
      */
@@ -73,6 +76,7 @@ class PageController extends Controller
 
     /**
      * @Route("/register/success", name="site_service_register_success")
+     * @Method("GET")
      * @Template("NemesisCmsBundle:Page:activation_needed.html.twig")
      * @return Response
      */

@@ -10,6 +10,7 @@ namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Admin\Form\Type\CertificateTypeType;
 use NemesisPlatform\Game\Entity\Certificate\CertificateType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +28,7 @@ class CertificateTypeController extends Controller
 {
     /**
      * @Route("/list", name="admin_certificates_types_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -38,6 +40,7 @@ class CertificateTypeController extends Controller
 
     /**
      * @Route("/create", name="admin_certificates_types_create")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @param Request $request
@@ -64,6 +67,7 @@ class CertificateTypeController extends Controller
 
     /**
      * @Route("/{type}/edit", name="admin_certificates_types_edit")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @param Request         $request
@@ -90,6 +94,7 @@ class CertificateTypeController extends Controller
 
     /**
      * @Route("/{type}/delete", name="admin_certificates_types_delete")
+     * @Method("GET")
      * @param CertificateType $type
      *
      * @return RedirectResponse

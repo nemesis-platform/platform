@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use NemesisPlatform\Modules\Game\Core\Entity\DraftRecord;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\DraftRound;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,7 @@ class ApiController extends Controller
 {
     /**
      * @Route("/game/rating_team_search/{round}", name="nemesis_rating_team_search")
+     * @Method("GET")
      *
      * @param Request    $request
      * @param DraftRound $round

@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Admin\Form\Type\ProxyPageType;
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Core\CMS\Entity\ProxyPage;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +28,7 @@ class ProxyPageController extends Controller
 {
     /**
      * @Route("/site/{site}/list", name="admin_proxy_pages_list")
+     * @Method("GET")
      * @Template()
      * @param SiteInterface $site
      *
@@ -43,6 +45,7 @@ class ProxyPageController extends Controller
 
     /**
      * @Route("/site/{site}/create", name="admin_proxy_pages_create")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param SiteInterface    $site
@@ -72,6 +75,7 @@ class ProxyPageController extends Controller
 
     /**
      * @Route("/{page}/delete", name="admin_proxy_pages_delete")
+     * @Method("GET")
      * @param ProxyPage $page
      *
      * @return Response
@@ -87,6 +91,7 @@ class ProxyPageController extends Controller
 
     /**
      * @Route("/{page}/edit", name="admin_proxy_pages_edit")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request   $request
      * @param ProxyPage $page

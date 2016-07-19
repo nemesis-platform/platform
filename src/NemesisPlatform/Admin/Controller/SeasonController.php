@@ -10,6 +10,7 @@ namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Game\Entity\Season;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,6 +26,7 @@ class SeasonController extends Controller
     /**
      * @return array
      * @Route("/list", name="site_admin_season_list")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -37,6 +39,7 @@ class SeasonController extends Controller
      *
      * @return array
      * @Route("/{season}/edit", name="site_admin_season_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, Season $season)
@@ -69,6 +72,7 @@ class SeasonController extends Controller
      *
      * @return array
      * @Route("/{season}/delete", name="site_admin_season_delete")
+     * @Method("GET")
      */
     public function deleteAction(Season $season)
     {
@@ -86,6 +90,7 @@ class SeasonController extends Controller
      *
      * @return array
      * @Route("/site/{site}/create", name="site_admin_season_create")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function createAction(Request $request, $site)

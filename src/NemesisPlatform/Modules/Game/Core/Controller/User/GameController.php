@@ -11,6 +11,7 @@ namespace NemesisPlatform\Modules\Game\Core\Controller\User;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\DecisionRoundInterface;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\Round;
 use NemesisPlatform\Game\Entity\Team;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,7 @@ class GameController extends Controller
      * @Route("/decision/round/{round}/team/{team}", name="core_game_user_decision_round_team")
      * @Route("/decision/round/{round}", name="core_game_user_decision_round")
      * @Route("/decision/team/{team}", name="core_game_user_decision_team")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @param Request                                     $request

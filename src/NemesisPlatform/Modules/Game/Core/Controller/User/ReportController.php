@@ -10,6 +10,7 @@ namespace NemesisPlatform\Modules\Game\Core\Controller\User;
 
 use NemesisPlatform\Modules\Game\Core\Entity\Report;
 use NemesisPlatform\Core\Account\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,6 +29,7 @@ class ReportController extends Controller
 
     /**
      * @Route("/", name="game_core_reports_list")
+     * @Method("GET")
      * @Template()
      * @return Response
      */
@@ -55,6 +57,7 @@ class ReportController extends Controller
      *
      * @return BinaryFileResponse
      * @Route("/{report}/download", name="game_core_report_download")
+     * @Method("GET")
      *
      */
     public function viewAction(Report $report)

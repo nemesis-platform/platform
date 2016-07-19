@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Core\Account\Controller;
 
 use NemesisPlatform\Core\Account\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,6 +27,7 @@ class AccountController extends Controller
      * @return Response
      * @Template()
      * @Route("/", name="site_account_show")
+     * @Method("GET")
      */
     public function showAction()
     {

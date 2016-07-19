@@ -17,6 +17,7 @@ use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use NemesisPlatform\Game\Entity\Team;
 use NemesisPlatform\Game\Repository\TeamRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -53,6 +54,7 @@ class TeamController extends Controller
      *
      * @return Response|array
      * @Route("/{team}/view", name="team_view")
+     * @Method("GET")
      * @Template()
      */
     public function showAction(Team $team)
@@ -63,6 +65,7 @@ class TeamController extends Controller
     /**
      * @Route("/season/{season}/list", name="team_list")
      * @Route("/list", name="team_list_all")
+     * @Method("GET")
      * @Template()
      * @param \NemesisPlatform\Game\Entity\Season $season
      *
@@ -90,6 +93,7 @@ class TeamController extends Controller
      *
      * @return Response|array
      * @Route("/{team}/edit", name="team_edit")
+     * @Method({"GET","POST"})
      * @Template()
      * @Security("is_granted('manage',team)")
      */
@@ -111,6 +115,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/season/{season}/create", name="team_create")
+     * @Method({"GET","POST"})
      * @Security("is_granted('create_team',season)")
      * @Template()
      *
@@ -166,6 +171,7 @@ class TeamController extends Controller
      * @Security("is_granted('accept_request',team)")
      *
      * @Route("/{team}/accept/{data}", name="team_request_accept")
+     * @Method("GET")
      * @param Team        $team
      * @param Participant $data
      *
@@ -205,6 +211,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/decline/{data}", name="team_request_decline")
+     * @Method("GET")
      * @param \NemesisPlatform\Game\Entity\Team $team
      * @param Participant                       $data
      *
@@ -230,6 +237,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/request", name="team_request_send")
+     * @Method("GET")
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
      * @return RedirectResponse
@@ -251,6 +259,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/kick/{data}", name="team_kick")
+     * @Method("GET")
      * @param \NemesisPlatform\Game\Entity\Team        $team
      * @param \NemesisPlatform\Game\Entity\Participant $data
      *
@@ -273,6 +282,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/revoke", name="team_request_revoke")
+     * @Method("GET")
      * @Security("is_granted('revoke_request',team)")
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
@@ -294,6 +304,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/leave", name="team_leave")
+     * @Method("GET")
      * @Security("is_granted('leave',team)")
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
@@ -316,6 +327,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/disband", name="team_disband")
+     * @Method("GET")
      * @Security("is_granted('disband',team)")
      * @param \NemesisPlatform\Game\Entity\Team $team
      *
@@ -338,6 +350,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{team}/invite", name="team_invite_send")
+     * @Method("GET")
      * @Security("is_granted('invite',team)")
      * @return Response
      *
@@ -439,6 +452,7 @@ class TeamController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{team}/invite/{data}/revoke", name="team_invite_revoke")
+     * @Method("GET")
      */
     public function revokeInviteAction(Team $team, Participant $data)
     {
@@ -459,6 +473,7 @@ class TeamController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{team}/invite/accept", name="team_invite_accept")
+     * @Method("GET")
      * @Security("is_granted('accept_invite',team)")
      */
     public function acceptInviteAction(Team $team)
@@ -496,6 +511,7 @@ class TeamController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{team}/invite/reject", name="team_invite_reject")
+     * @Method("GET")
      */
     public function rejectInviteAction(Team $team)
     {
@@ -516,6 +532,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/season/{season}/datatable", name="site_team_datatable")
+     * @Method("GET")
      * @param Request $request
      * @param Season  $season
      *

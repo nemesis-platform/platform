@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Core\CMS\Entity\Menu;
 use NemesisPlatform\Core\CMS\Entity\MenuElement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class MenuController extends Controller
     /**
      * @return Response
      * @Route("/list", name="site_admin_menu_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -45,6 +47,7 @@ class MenuController extends Controller
      *
      * @return Response
      * @Route("/add", name="site_admin_menu_create")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function createAction(Request $request)
@@ -80,6 +83,7 @@ class MenuController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{menu}/delete", name="site_admin_menu_delete")
+     * @Method("GET")
      */
     public function deleteAction(Menu $menu)
     {
@@ -119,6 +123,7 @@ class MenuController extends Controller
      *
      * @return Response
      * @Route("/{menu}/edit", name="site_admin_menu_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, Menu $menu)

@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Core\CMS\Entity\ProxyPage;
 use NemesisPlatform\Game\Entity\SeasonedSite;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +28,7 @@ class SiteController extends Controller
 {
     /**
      * @Route("/create", name="site_admin_site_create")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      *
@@ -60,6 +62,7 @@ class SiteController extends Controller
      *
      * @return array
      * @Route("/{site}/show", name="site_admin_site_show")
+     * @Method("GET")
      * @Template()
      */
     public function showAction($site)
@@ -78,6 +81,7 @@ class SiteController extends Controller
 
     /**
      * @Route("/list", name="site_admin_site_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -92,6 +96,7 @@ class SiteController extends Controller
      *
      * @return array
      * @Route("/{site}/delete", name="site_admin_site_delete")
+     * @Method("GET")
      */
     public function deleteAction($site)
     {
@@ -109,6 +114,7 @@ class SiteController extends Controller
      *
      * @return array
      * @Route("/{site}/edit", name="site_admin_site_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, $site)

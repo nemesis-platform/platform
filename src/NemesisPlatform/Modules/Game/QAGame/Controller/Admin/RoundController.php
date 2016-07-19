@@ -10,6 +10,7 @@ namespace NemesisPlatform\Modules\Game\QAGame\Controller\Admin;
 
 use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Modules\Game\QAGame\Entity\QARound;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class RoundController extends Controller
      * @param Request $request
      *
      * @Route("/create", name="admin_module_qa_game_round_create")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response|array
@@ -59,6 +61,7 @@ class RoundController extends Controller
      * @param $round
      *
      * @Route("/{round}/delete", name="admin_module_qa_game_round_delete")
+     * @Method("GET")
      *
      * @return RedirectResponse
      */
@@ -76,6 +79,7 @@ class RoundController extends Controller
 
     /**
      * @Route("/{round}/edit", name="admin_module_qa_game_round_edit")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @param Request $request
@@ -111,6 +115,7 @@ class RoundController extends Controller
      *
      * @return array
      * @Route("/{round}/view", name="admin_module_qa_game_round_view")
+     * @Method("GET")
      * @Template()
      */
     public function viewAction(QARound $round)

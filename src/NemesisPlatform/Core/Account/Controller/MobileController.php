@@ -11,6 +11,7 @@ namespace NemesisPlatform\Core\Account\Controller;
 use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Core\Account\Entity\ConfirmationSMS;
 use NemesisPlatform\Core\Account\Entity\Phone;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,7 @@ class MobileController extends Controller
 {
     /**
      * @Route("/{id}/send", name="mobile_code_send")
+     * @Method("GET")
      * @param Request $request
      * @param         $id
      *
@@ -88,6 +90,7 @@ class MobileController extends Controller
     /**
      * @param Request $request
      * @Route("/{id}/cancel", name="mobile_code_remove")
+     * @Method("GET")
      * @param         $id
      *
      * @return RedirectResponse
@@ -122,6 +125,7 @@ class MobileController extends Controller
     /**
      * @param Request $request
      * @Route("/{id}/remove", name="mobile_phone_remove")
+     * @Method("GET")
      * @param         $id
      *
      * @return RedirectResponse
@@ -154,6 +158,7 @@ class MobileController extends Controller
 
     /**
      * @Route("/{id}/check", name="mobile_code_check")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param         $id
@@ -261,6 +266,7 @@ class MobileController extends Controller
      * @param Request $request
      * @param         $id
      * @Route("/{id}/switch", name="mobile_phone_switch")
+     * @Method("GET")
      *
      * @return Response
      */

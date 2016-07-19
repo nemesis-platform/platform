@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class FieldsController extends Controller
     /**
      * @Template()
      * @Route("/list", name="storable_forms_field_list")
+     * @Method("GET")
      * @return Response
      */
     public function listAction()
@@ -41,6 +43,7 @@ class FieldsController extends Controller
     /**
      * @Template()
      * @Route("/types", name="storable_forms_field_list_types")
+     * @Method("GET")
      * @return Response
      */
     public function listTypesAction()
@@ -53,6 +56,7 @@ class FieldsController extends Controller
      * @param Request       $request
      * @param AbstractField $field
      * @Route("/{field}/edit", name="storable_forms_field_edit")
+     * @Method({"GET","POST"})
      *
      * @return Response
      * @Template()
@@ -91,6 +95,7 @@ class FieldsController extends Controller
     /**
      * @param Request $request
      * @Route("/{type}/create", name="storable_forms_field_create")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @param         $type
@@ -141,6 +146,7 @@ class FieldsController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{field}/delete", name="storable_forms_field_delete")
+     * @Method("GET")
      */
     public function deleteAction(AbstractField $field)
     {

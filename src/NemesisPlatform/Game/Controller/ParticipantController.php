@@ -15,6 +15,7 @@ use NemesisPlatform\Game\Entity\Rule\Participant\ConfirmedPhoneRule;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use NemesisPlatform\Game\Repository\ParticipantRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -39,6 +40,7 @@ class ParticipantController extends Controller
      *
      * @return Response|array
      * @Route("/{id}/view", name="site_user_view")
+     * @Method("GET")
      * @Template()
      */
     public function showAction($id)
@@ -57,6 +59,7 @@ class ParticipantController extends Controller
      * @return Response|array
      * @Template()
      * @Route("/account/season/{season}/register", name="site_service_update_profile")
+     * @Method({"GET","POST"})
      */
     public function createAction(Request $request, Season $season)
     {
@@ -100,6 +103,7 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/season/{season}/datatable", name="site_user_datatable")
+     * @Method("GET")
      * @param Season  $season
      * @param Request $request
      *
@@ -152,6 +156,7 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/season/{season}/list", name="site_user_list")
+     * @Method("GET")
      * @Route("/list", name="site_user_list_all")*
      * @Template()
      * @param Season|null $season
@@ -180,6 +185,7 @@ class ParticipantController extends Controller
      *
      * @return Response
      * @Route("/season/{season}/autocomplete", name="site_user_autocomplete")
+     * @Method("GET")
      */
     public function autocompleteAction(Request $request, Season $season)
     {

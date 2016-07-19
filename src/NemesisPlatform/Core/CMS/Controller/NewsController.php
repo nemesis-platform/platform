@@ -11,6 +11,7 @@ namespace NemesisPlatform\Core\CMS\Controller;
 use NemesisPlatform\Core\CMS\Entity\News;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use Knp\Component\Pager\Pagination\SlidingPagination;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,6 +24,7 @@ class NewsController extends Controller
 
     /**
      * @Route("/news", name="site_news_list")
+     * @Method("GET")
      * @Template()
      *
      * @param Request $request
@@ -53,6 +55,7 @@ class NewsController extends Controller
 
     /**
      * @Route("/news/{id}", name="site_news_show")
+     * @Method("GET")
      * @Template()
      * @param $newsEntry
      *

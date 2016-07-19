@@ -34,5 +34,6 @@ game:
 page_by_alias:
     path: /{alias}
     defaults: { _controller: NemesisCmsBundle:Page:show }
+    methods: ["GET"]
     requirements:
       alias: .+

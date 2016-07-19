@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Modules\Game\QAGame\Controller\Admin;
 
 use NemesisPlatform\Modules\Game\QAGame\Entity\QuestionList;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,7 @@ class QuestionListController extends Controller
      *
      * @Template()
      * @Route("/create", name="admin_module_qa_game_qlist_create")
+     * @Method({"GET","POST"})
      */
     public function createAction(Request $request)
     {
@@ -60,6 +62,7 @@ class QuestionListController extends Controller
      *
      * @Template()
      * @Route("/{list}/edit", name="admin_module_qa_game_qlist_edit")
+     * @Method({"GET","POST"})
      */
     public function editAction(Request $request, QuestionList $list)
     {
@@ -89,6 +92,7 @@ class QuestionListController extends Controller
      * @return Response
      *
      * @Route("/{list}/delete", name="admin_module_qa_game_qlist_delete")
+     * @Method("GET")
      */
     public function deleteAction(QuestionList $list)
     {

@@ -13,6 +13,7 @@ use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\Team;
 use NemesisPlatform\Game\Repository\TeamRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,6 +41,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/list", name="site_admin_team_list")
+     * @Method("GET")
      * @Template()
      *
      * @param Request $request
@@ -65,6 +67,7 @@ class TeamController extends Controller
      *
      * @return Response|array
      * @Route("/{id}/edit", name="site_admin_team_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, Team $team)
@@ -93,6 +96,7 @@ class TeamController extends Controller
      *
      * @return Response
      * @Route("/autocomplete", name="site_admin_team_datatable")
+     * @Method("GET")
      */
     public function datatableAction(Request $request)
     {

@@ -14,6 +14,7 @@ use NemesisPlatform\Modules\Game\Core\Entity\RatingRecord;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\PeriodicRound;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\Round;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\ScenarioRoundInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,6 +35,7 @@ class RatingController extends Controller
     /**
      * @return mixed
      * @Route("", name="game_core_view_rating")
+     * @Method("GET")
      * @Template()
      */
     public function viewAction()
@@ -44,6 +46,7 @@ class RatingController extends Controller
 
     /**
      * @Route("/table", name="module_ratings_table")
+     * @Method("GET")
      * @param Request $request
      *
      * @return Response

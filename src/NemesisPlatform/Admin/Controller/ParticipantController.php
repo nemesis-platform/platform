@@ -13,6 +13,7 @@ use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Game\Entity\Participant;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\Team;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,6 +44,7 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/list",name="site_admin_participant_list")
+     * @Method("GET")
      * @Template()
      * @param Request $request
      *
@@ -66,6 +68,7 @@ class ParticipantController extends Controller
      *
      * @return JsonResponse
      * @Route("/autocomplete",name="site_admin_participant_autocomplete")
+     * @Method("GET")
      */
     public function autocompleteAction(Request $request)
     {
@@ -111,6 +114,7 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/datable",name="site_admin_participant_datatable")
+     * @Method("GET")
      * @param Request $request
      *
      * @return JsonResponse
@@ -180,6 +184,7 @@ class ParticipantController extends Controller
      *
      * @return Response|array
      * @Route("/{data}/view",name="site_admin_participant_view")
+     * @Method("GET")
      */
     public function viewAction(Participant $data)
     {
@@ -189,6 +194,7 @@ class ParticipantController extends Controller
     /**
      * @param Participant $data
      * @Route("/{data}/remove",name="site_admin_participant_remove")
+     * @Method("GET")
      *
      * @return Response
      */
@@ -204,6 +210,7 @@ class ParticipantController extends Controller
     /**
      * @param Request $request
      * @Route("/create",name="site_admin_participant_create")
+     * @Method({"GET","POST"})
      *
      * @return Response|array
      */
@@ -228,6 +235,7 @@ class ParticipantController extends Controller
      * @param \NemesisPlatform\Game\Entity\Participant $data
      *
      * @Route("/{data}/edit",name="site_admin_participant_edit")
+     * @Method({"GET","POST"})
      * @Template()
      *
      * @return Response|array

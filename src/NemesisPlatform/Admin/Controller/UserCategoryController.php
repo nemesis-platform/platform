@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Game\Entity\League;
 use NemesisPlatform\Game\Entity\UserCategory;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class UserCategoryController extends Controller
     /**
      * @return Response
      * @Route("/list", name="site_admin_usercategory_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction()
@@ -56,6 +58,7 @@ class UserCategoryController extends Controller
      * @param Request                                   $request
      * @param \NemesisPlatform\Game\Entity\UserCategory $category
      * @Route("/{category}/edit", name="site_admin_usercategory_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, UserCategory $category)

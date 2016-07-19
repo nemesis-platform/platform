@@ -10,6 +10,7 @@ namespace NemesisPlatform\Components\ExportImport\Controller;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,14 +29,16 @@ class ImporterController extends Controller
     /**
      * @Template()
      * @Route("/list", name="importers_list")
+     * @Method("GET")
      */
     public function listAction()
     {
-        return array('importers' => $this->get('importer.registry')->all());
+        return ['importers' => $this->get('importer.registry')->all()];
     }
 
     /**
      * @Route("/{type}/import", name="importers_form")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param         $type
@@ -53,7 +56,7 @@ class ImporterController extends Controller
         $importer = $registry->get($type);
         $builder  = $this->createFormBuilder(
             null,
-            array('action' => $this->generateUrl('importers_form', array('type' => $importer->getType())))
+            ['action' => $this->generateUrl('importers_form', ['type' => $importer->getType()])]
         );
 
         if ($importer instanceof FormTypedInterface) {
@@ -63,7 +66,7 @@ class ImporterController extends Controller
             $importer->injectForm($builder);
         }
 
-        $builder->add('submit', 'submit', array('label' => 'importers.do_import'));
+        $builder->add('submit', 'submit', ['label' => 'importers.do_import']);
         $form = $builder->getForm();
 
         $form->handleRequest($request);
@@ -83,9 +86,9 @@ class ImporterController extends Controller
                 }
             }
 
-            return $this->render('ImportBundle:Importer:report.html.twig', array('report' => $result->getReport()));
+            return $this->render('ImportBundle:Importer:report.html.twig', ['report' => $result->getReport()]);
         }
 
-        return array('importer' => $importer, 'form' => $form->createView());
+        return ['importer' => $importer, 'form' => $form->createView()];
     }
 }

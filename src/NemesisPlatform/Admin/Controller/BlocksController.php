@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Core\CMS\Entity\Block\AbstractBlock;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,8 +27,9 @@ class BlocksController extends Controller
 {
     /**
      * @Route("/list_types", name="admin_blocks_list_types")
+     * @Method("GET")
      * @Template()
-     * @return Response
+     * @return Response|array
      */
     public function listTypesAction()
     {
@@ -36,8 +38,9 @@ class BlocksController extends Controller
 
     /**
      * @Route("/list", name="admin_blocks_list")
+     * @Method("GET")
      * @Template()
-     * @return Response
+     * @return Response|array
      */
     public function listAction()
     {
@@ -48,6 +51,7 @@ class BlocksController extends Controller
 
     /**
      * @Route("/{type}/create", name="admin_blocks_create")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param         $type
@@ -66,7 +70,7 @@ class BlocksController extends Controller
         $block = $registry->get($type);
 
         $form = $this->createForm($block->getFormType(), $block)
-                     ->add('submit', 'submit');
+            ->add('submit', 'submit');
 
         $form->handleRequest($request);
 
@@ -84,16 +88,17 @@ class BlocksController extends Controller
 
     /**
      * @Route("/{block}/edit", name="admin_blocks_edit")
+     * @Method({"GET","POST"})
      * @Template()
-     * @param Request $request
-     * @param         $type
+     * @param Request       $request
+     * @param AbstractBlock $block
      *
      * @return Response
      */
     public function editAction(Request $request, AbstractBlock $block)
     {
         $form = $this->createForm($block->getFormType(), $block)
-                     ->add('submit', 'submit');
+            ->add('submit', 'submit');
 
         $form->handleRequest($request);
 

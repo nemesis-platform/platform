@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Core\CMS\Entity\Page;
 use NemesisPlatform\Core\CMS\Entity\PageRevision;
 use LogicException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,7 @@ class PageController extends Controller
      * @return Response
      * @Template()
      * @Route("/list", name="site_admin_page_list")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -46,6 +48,7 @@ class PageController extends Controller
      *
      * @return RedirectResponse
      * @Route("/{page}/delete", name="site_admin_page_delete")
+     * @Method("GET")
      */
     public function deleteAction(Page $page)
     {
@@ -68,6 +71,7 @@ class PageController extends Controller
 
     /**
      * @Route("/{page}/revisions", name="site_admin_revisions_list")
+     * @Method("GET")
      * @Template()
      * @param \NemesisPlatform\Core\CMS\Entity\Page $page
      *
@@ -80,6 +84,7 @@ class PageController extends Controller
 
     /**
      * @Route("/{page}/revisions/{revision}", name="site_admin_revisions_view")
+     * @Method("GET")
      * @Template()
      * @param Page         $page
      * @param PageRevision $revision
@@ -97,6 +102,7 @@ class PageController extends Controller
 
     /**
      * @Route("/{page}/revisions/{revision}/switch", name="site_admin_revision_switch")
+     * @Method("GET")
      * @param \NemesisPlatform\Core\CMS\Entity\Page $page
      * @param PageRevision                               $revision
      *
@@ -127,6 +133,7 @@ class PageController extends Controller
      * @return Response
      * @Template()
      * @Route("/{page}/edit", name="site_admin_page_edit")
+     * @Method({"GET","POST"})
      */
     public function editAction(Request $request, Page $page)
     {
@@ -153,6 +160,7 @@ class PageController extends Controller
 
     /**
      * @Route("/create", name="site_admin_page_create")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      *

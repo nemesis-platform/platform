@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Core\CMS\Entity\File;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,6 +26,7 @@ class CKEditorController extends Controller
 
     /**
      * @Route("/upload",name="ckeditor_upload")
+     * @Method({"POST"})
      * @Template()
      * @param Request $request
      *
@@ -71,6 +73,7 @@ class CKEditorController extends Controller
 
     /**
      * @Route("/browse",name="ckeditor_browse")
+     * @Method("GET")
      * @Template()
      */
     public function browseAction()

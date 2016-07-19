@@ -11,6 +11,7 @@ namespace NemesisPlatform\Admin\Controller;
 use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Core\CMS\Entity\News;
 use NemesisPlatform\Game\Entity\SeasonedSite;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,6 +30,7 @@ class NewsController extends Controller
      * @return Response
      * @Template()
      * @Route("/list", name="site_admin_news_list")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -48,6 +50,7 @@ class NewsController extends Controller
      *
      * @return Response
      * @Route("/{news}/delete", name="site_admin_news_delete")
+     * @Method("GET")
      */
     public function deleteAction(News $news)
     {
@@ -66,6 +69,7 @@ class NewsController extends Controller
      *
      * @return Response
      * @Route("/{news}/edit", name="site_admin_news_edit")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function editAction(Request $request, News $news)
@@ -91,6 +95,7 @@ class NewsController extends Controller
      *
      * @return Response
      * @Route("/create", name="site_admin_news_create")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function createAction(Request $request)

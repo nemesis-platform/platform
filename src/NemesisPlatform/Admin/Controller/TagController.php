@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Core\Account\Entity\Tag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,7 @@ class TagController extends Controller
      * @return Response
      * @Template()
      * @Route("/{tag}/edit", name="tag_edit")
+     * @Method({"GET","POST"})
      */
     public function editAction(Request $request, Tag $tag)
     {
@@ -55,6 +57,7 @@ class TagController extends Controller
      * @return Response
      * @Template()
      * @Route("/create", name="tag_create")
+     * @Method({"GET","POST"})
      */
     public function createAction(Request $request)
     {
@@ -81,6 +84,7 @@ class TagController extends Controller
      *
      * @return Response
      * @Route("/{tag}/delete", name="tag_delete")
+     * @Method("GET")
      */
     public function deleteAction(Tag $tag)
     {

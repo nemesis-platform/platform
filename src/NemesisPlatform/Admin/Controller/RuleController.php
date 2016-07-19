@@ -10,6 +10,7 @@ namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Components\Form\FormTypedInterface;
 use NemesisPlatform\Game\Entity\Rule\AbstractRuleEntity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,6 +29,7 @@ class RuleController extends Controller
     /**
      * @Template()
      * @Route("/", name="admin_rule_list")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -39,6 +41,7 @@ class RuleController extends Controller
     /**
      * @Template()
      * @Route("/types", name="admin_rule_list_types")
+     * @Method("GET")
      */
     public function listTypesAction()
     {
@@ -48,6 +51,7 @@ class RuleController extends Controller
     /**
      * @Template()
      * @Route("/create/{type}", name="admin_rule_create_typed_instance")
+     * @Method({"GET","POST"})
      * @param Request $request
      * @param         $type
      *
@@ -86,6 +90,7 @@ class RuleController extends Controller
     /**
      * @Template()
      * @Route("/{rule}/edit", name="admin_rule_edit_instance")
+     * @Method({"GET","POST"})
      * @param Request            $request
      * @param AbstractRuleEntity $rule
      *

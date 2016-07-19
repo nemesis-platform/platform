@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Core\Account\Controller;
 
 use NemesisPlatform\Core\Account\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Swift_Message;
@@ -32,6 +33,7 @@ class ServiceController extends Controller
 
     /**
      * @Route("/service/password_forgot/{code}", name="site_service_password_restore")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param         $code
@@ -79,6 +81,7 @@ class ServiceController extends Controller
 
     /**
      * @Route("/service/password_forgot", name="site_service_password_restore_request")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      *
@@ -163,7 +166,7 @@ class ServiceController extends Controller
      *
      * @return RedirectResponse
      * @Route("/register/confirm/{code}", name="site_service_check_email")
-     *
+     * @Method("GET")
      */
     public function confirmEmailAction($code)
     {
@@ -187,6 +190,7 @@ class ServiceController extends Controller
      *
      * @return Response
      * @Route("/login",name="login")
+     * @Method("GET")
      * @Template()
      */
     public function loginAction(Request $request)

@@ -12,6 +12,7 @@ use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Core\Account\Form\Type\RegistrationFormType;
 use NemesisPlatform\Game\Entity\Participant;
 use NemesisPlatform\Game\Entity\SeasonedSite;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -32,6 +33,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/register", name="site_register")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      *
@@ -141,6 +143,7 @@ class UserController extends Controller
      * @return Response
      * @Security("is_granted('update_essentials')")
      * @Route("/account/edit", name="site_account_edit")
+     * @Method({"GET","POST"})
      */
     public function editAction(Request $request)
     {

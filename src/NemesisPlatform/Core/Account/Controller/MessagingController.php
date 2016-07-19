@@ -11,6 +11,7 @@ namespace NemesisPlatform\Core\Account\Controller;
 use Doctrine\ORM\EntityRepository;
 use NemesisPlatform\Core\Account\Entity\PrivateMessage;
 use NemesisPlatform\Core\Account\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,7 @@ class MessagingController extends Controller
 {
     /**
      * @Route("/reply/{message}",name="messaging_reply")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request        $request
      * @param PrivateMessage $message
@@ -110,6 +112,7 @@ class MessagingController extends Controller
     /**
      * @param Request $request
      * @Route("/pm/{user}",name="messaging_send")
+     * @Method({"GET","POST"})
      * @param User    $user
      *
      * @return RedirectResponse
@@ -122,13 +125,6 @@ class MessagingController extends Controller
         if (!$user) {
             throw new NotFoundHttpException();
         }
-
-//        if (!$this->isGranted('ROLE_CONFIRMED_PHONE')) {
-//            throw new AccessDeniedHttpException(
-//                'Вы должны иметь подтвержденный номер телефона, чтобы иметь возможность писать личные сообщения'
-//            );
-//        }
-
 
         $message = new PrivateMessage();
         $message->setRecipient($user);
@@ -171,6 +167,7 @@ class MessagingController extends Controller
      * @return array
      * @Template()
      * @Route("/pm",name="messaging_list")
+     * @Method("GET")
      */
     public function listMessagesAction()
     {

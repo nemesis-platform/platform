@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Season;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,6 +42,7 @@ class UserController extends Controller
      *
      * @return Response|array
      * @Route("/list", name="site_admin_user_list")
+     * @Method("GET")
      * @Template()
      */
     public function listAction(Request $request)
@@ -58,6 +60,7 @@ class UserController extends Controller
 
     /**
      * @Route("/{user}/edit", name="site_admin_user_edit")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param User    $user
@@ -86,6 +89,7 @@ class UserController extends Controller
 
     /**
      * @Route("/datatable", name="site_admin_user_datatable")
+     * @Method("GET")
      * @param Request $request
      *
      * @return Response
@@ -137,6 +141,7 @@ class UserController extends Controller
      *
      * @return Response
      * @Route("/autocomplete", name="site_admin_user_autocomplete")
+     * @Method("GET")
      */
     public function autocompleteAction(Request $request)
     {

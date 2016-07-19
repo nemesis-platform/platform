@@ -10,6 +10,7 @@ namespace NemesisPlatform\Components\ExportImport\Controller;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,14 +29,16 @@ class ExporterController extends Controller
     /**
      * @Template()
      * @Route("/list", name="exporters_list")
+     * @Method("GET")
      */
     public function listAction()
     {
-        return array('exporters' => $this->get('exporter.registry')->all());
+        return ['exporters' => $this->get('exporter.registry')->all()];
     }
 
     /**
      * @Route("/{type}/export", name="exporters_form")
+     * @Method({"GET","POST"})
      * @Template()
      * @param Request $request
      * @param         $type
@@ -53,7 +56,7 @@ class ExporterController extends Controller
         $exporter = $registry->get($type);
         $builder  = $this->createFormBuilder(
             null,
-            array('action' => $this->generateUrl('exporters_form', array('type' => $exporter->getType())))
+            ['action' => $this->generateUrl('exporters_form', ['type' => $exporter->getType()])]
         );
 
         if ($exporter instanceof FormTypedInterface) {
@@ -63,7 +66,7 @@ class ExporterController extends Controller
             $exporter->injectForm($builder);
         }
 
-        $builder->add('submit', 'submit', array('label' => 'exporters.do_export'));
+        $builder->add('submit', 'submit', ['label' => 'exporters.do_export']);
 
         $form = $builder->getForm();
 
@@ -73,7 +76,7 @@ class ExporterController extends Controller
             return $exporter->export($form->getData());
         }
 
-        return array('exporter' => $exporter, 'form' => $form->createView());
+        return ['exporter' => $exporter, 'form' => $form->createView()];
     }
 
 }

@@ -9,6 +9,7 @@
 namespace NemesisPlatform\Core\CMS\Controller;
 
 use NemesisPlatform\Core\CMS\Entity\SiteSurvey;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,7 @@ class SurveyController extends Controller
      *
      * @Route("/take/{alias}", name="user_survey_take_by_alias")
      * @Route("/take/i/{id}", name="user_survey_take_by_id")
+     * @Method({"GET","POST"})
      *
      * @Template()
      *
