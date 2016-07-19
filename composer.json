@@ -11,13 +11,17 @@
   ],
   "autoload": {
     "classmap": [
-      ".sensiolabs/AppKernel.php",
       "app/AppCache.php",
       "app/AppKernel.php"
     ],
     "psr-4": {
       "NemesisPlatform\\": "src/NemesisPlatform/"
     }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "app/SensioLabKernel.php"
+    ]
   },
   "repositories": [
     {
