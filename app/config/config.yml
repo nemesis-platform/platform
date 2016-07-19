@@ -23,8 +23,9 @@ framework:
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
-      save_path: "%kernel.cache_dir%/sessions"
+      save_path: "%kernel.root_dir%/../var/sessions"
       cookie_lifetime: 604800
+      name: nemesis_session_id
     fragments:       ~
     http_method_override: true
 
