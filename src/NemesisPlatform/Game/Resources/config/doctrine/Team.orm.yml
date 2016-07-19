@@ -55,7 +55,6 @@ NemesisPlatform\Game\Entity\Team:
     manyToOne:
         season:
             targetEntity: NemesisPlatform\Game\Entity\Season
-            inversedBy: teams
         captain:
             targetEntity: NemesisPlatform\Game\Entity\Participant
             joinColumn:

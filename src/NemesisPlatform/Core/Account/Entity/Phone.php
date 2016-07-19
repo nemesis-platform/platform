@@ -164,7 +164,7 @@ class Phone
      */
     public function getCode()
     {
-        return $this->code;
+        return (string)$this->code;
     }
 
     /**

@@ -221,9 +221,9 @@ class MobileController extends Controller
                 $phone->setCode(null);
                 $phone->getUser()->setPhone($phone);
 
-                $this->get('session')->getFlashBag()->add(
+                $this->addFlash(
                     'success',
-                    'Проверка пройдена успешна. Телефон установлен в качестве активного.'
+                    'Проверка успешно пройдена. Телефон установлен в качестве активного.'
                 );
             } else {
                 $this->unconfirmPhone(
