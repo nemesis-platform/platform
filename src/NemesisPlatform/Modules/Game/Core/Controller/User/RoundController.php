@@ -11,6 +11,7 @@ namespace NemesisPlatform\Modules\Game\Core\Controller\User;
 use Doctrine\ORM\EntityManager;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\DraftRound;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\Round;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class RoundController extends Controller
 {
     /**
      * @Route ("/game/rounds/autocomplete", name="module_rounds_autocomplete")
+     * @Method("GET")
      * @return Response
      */
     public function getRoundsAction()

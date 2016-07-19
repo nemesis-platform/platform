@@ -1,5 +1,5 @@
-parameters:
-  secret: FixtureSecret
+imports:
+    - { resource: parameters.yml }
 
 framework:
     secret:       "%secret%"
