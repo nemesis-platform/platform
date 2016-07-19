@@ -24,6 +24,6 @@ class AppKernel extends \NemesisPlatform\AppKernel
 
     public function getRootDir()
     {
-        return dirname(__DIR__).'/app';
+        return realpath(dirname(__DIR__).'/app/');
     }
 }
