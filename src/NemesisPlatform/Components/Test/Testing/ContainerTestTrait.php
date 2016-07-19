@@ -17,20 +17,25 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 trait ContainerTestTrait
 {
     /**
-     * @param array $configs
-     *
+     * @param array             $configs
      * @param BundleInterface[] $bundles
+     *
      * @return ContainerBuilder
      */
-    protected function buildContainer(array $bundles = array(), array $configs = array())
+    protected function buildContainer(array $bundles = [], array $configs = [])
     {
-        $container = new ContainerBuilder(new ParameterBag(array(
-            'kernel.debug' => false,
-            'kernel.bundles' => $bundles,
-            'kernel.cache_dir' => sys_get_temp_dir(),
-            'kernel.environment' => 'test',
-            'kernel.root_dir' => __DIR__,
-        )));
+        $container = new ContainerBuilder(
+            new ParameterBag(
+                [
+                    'kernel.debug'       => false,
+                    'kernel.bundles'     => $bundles,
+                    'kernel.cache_dir'   => sys_get_temp_dir(),
+                    'kernel.environment' => 'test',
+                    'kernel.root_dir'    => __DIR__,
+                    'secret'             => 'NotSecretParameter',
+                ]
+            )
+        );
         $container->set('annotation_reader', new AnnotationReader());
 
         foreach ($bundles as $bundle) {
@@ -40,21 +45,23 @@ trait ContainerTestTrait
         $container->compile();
         $dumper = new PhpDumper($container);
         $dumper->dump();
+
         return $container;
     }
 
     /**
-     * @param BundleInterface $bundle
+     * @param BundleInterface  $bundle
      * @param ContainerBuilder $container
-     * @param array $configs
+     * @param array            $configs
      */
     protected function loadExtension(BundleInterface $bundle, ContainerBuilder $container, array $configs)
     {
         $extension = $bundle->getContainerExtension();
-        if (!$extension)
+        if (!$extension) {
             return;
+        }
 
-        $config = array_key_exists($extension->getAlias(), $configs) ? $configs[$extension->getAlias()] : array();
-        $extension->load(array($config), $container);
+        $config = array_key_exists($extension->getAlias(), $configs) ? $configs[$extension->getAlias()] : [];
+        $extension->load([$config], $container);
     }
 }

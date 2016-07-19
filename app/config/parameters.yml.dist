@@ -11,7 +11,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: ru
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: NemesisDefaultCSRFTokenChangeThisPlease
     photo_path: uploads/avatars/
     ckeditor_uploads: uploads/ckeditor/
     maintenance_url: [localhost]
