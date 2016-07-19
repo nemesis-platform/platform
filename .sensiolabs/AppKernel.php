@@ -19,7 +19,7 @@ class AppKernel extends \NemesisPlatform\AppKernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(dirname(__DIR__).'/app/config/config_'.$this->getEnvironment().'.yml');
     }
 
     public function getRootDir()
