@@ -8,9 +8,7 @@
 
 namespace NemesisPlatform\Core\Account\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\FlattenException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -21,16 +19,18 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
  *
  * @package NemesisPlatform\Game\Controller\Site
  */
-class ExceptionController extends Controller
+class ExceptionController
 {
     /**
      * @var bool Show error (false) or exception (true) pages by default
      */
-    protected $debug;
+    private $debug;
+    /** @var \Twig_Environment */
+    private $twig;
 
-    public function __construct(ContainerInterface $container, $debug)
+    public function __construct(\Twig_Environment $twig, $debug)
     {
-        $this->setContainer($container);
+        $this->twig  = $twig;
         $this->debug = $debug;
     }
 
@@ -42,6 +42,10 @@ class ExceptionController extends Controller
      * @param DebugLoggerInterface $logger    A DebugLoggerInterface instance
      *
      * @return Response|array
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Syntax
+     * @throws \InvalidArgumentException
      */
     public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null)
     {
@@ -51,15 +55,17 @@ class ExceptionController extends Controller
 
         $http_exception = $exception instanceof HttpExceptionInterface;
 
-        return $this->render(
-            (string)$this->findTemplate($request, $request->getRequestFormat(), $code, $this->debug),
-            [
-                'status_code'    => $code,
-                'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
-                'exception'      => $http_exception || $this->debug ? $exception : null,
-                'logger'         => $logger,
-                'currentContent' => $currentContent,
-            ]
+        return new Response(
+            $this->twig->render(
+                (string)$this->findTemplate($request, $request->getRequestFormat(), $code, $this->debug),
+                [
+                    'status_code'    => $code,
+                    'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                    'exception'      => $http_exception || $this->debug ? $exception : null,
+                    'logger'         => $logger,
+                    'currentContent' => $currentContent,
+                ]
+            )
         );
     }
 
@@ -88,7 +94,7 @@ class ExceptionController extends Controller
      *
      * @return string
      */
-    protected function findTemplate(Request $request, $format, $code, $showException)
+    private function findTemplate(Request $request, $format, $code, $showException)
     {
         $name = $showException ? 'exception' : 'error';
         if ($showException && 'html' === $format) {
@@ -116,11 +122,11 @@ class ExceptionController extends Controller
     }
 
     // to be removed when the minimum required version of Twig is >= 3.0
-    protected function templateExists($template)
+    private function templateExists($template)
     {
         $template = (string)$template;
 
-        $loader = $this->get('twig.loader');
+        $loader = $this->twig->getLoader();
         try {
             $loader->getSource($template);
 
