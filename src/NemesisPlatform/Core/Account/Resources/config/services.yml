@@ -1,4 +1,4 @@
 services:
   twig.controller.exception:
     class: NemesisPlatform\Core\Account\Controller\ExceptionController
-    arguments: [@twig, %kernel.debug%]
+    arguments: [@service_container, %kernel.debug%]
