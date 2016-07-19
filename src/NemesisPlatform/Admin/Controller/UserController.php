@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserController extends Controller
 {
-    const DATATABLES_FIELDS = [
+    private static $datatablesFields = [
         'id'     => 'u.id',
         'fio'    => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
         'email'  => 'u.email',
@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $repo = $manager->getRepository(User::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = self::DATATABLES_FIELDS;
+        $fields = self::$datatablesFields;
 
         $result = $repo->jqueryDataTableFetch(
             $request->query->all(),

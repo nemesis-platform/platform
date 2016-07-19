@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ParticipantController extends Controller
 {
-    const DATATABLES_FIELDS = [
+    private static $datatablesFields = [
         'id'       => 'ud.id',
         'fio'      => 'CONCAT(CONCAT(CONCAT(CONCAT(u.lastname,\' \'),u.firstname),\' \'),u.middlename)',
         'email'    => 'u.email',
@@ -121,7 +121,7 @@ class ParticipantController extends Controller
 
         $repo = $manager->getRepository(Participant::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = self::DATATABLES_FIELDS;
+        $fields = self::$datatablesFields;
 
         $season = null;
         if ($request->get('season', null)) {

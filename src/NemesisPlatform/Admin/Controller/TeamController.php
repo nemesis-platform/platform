@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class TeamController extends Controller
 {
-    const DATATABLES_FIELDS = [
+    private static $datatablesFields = [
         'id'      => 't.id',
         'name'    => 't.name',
         'season'  => 'season.name',
@@ -100,7 +100,7 @@ class TeamController extends Controller
         /** @var TeamRepository $repo */
         $repo = $em->getRepository(Team::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = self::DATATABLES_FIELDS;
+        $fields = self::$datatablesFields;
 
         $site = $this->get('site.manager')->getSite();
 

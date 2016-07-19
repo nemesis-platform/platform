@@ -38,7 +38,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class TeamController extends Controller
 {
-    const DATATABLES_FIELDS = [
+    private static $datatablesFields = [
         'id'           => 't.id',
         'c_name'       => 't.name',
         'r_name'       => 't.name',
@@ -529,7 +529,7 @@ class TeamController extends Controller
         /** @var TeamRepository $repo */
         $repo = $manager->getRepository(Team::class);
         /** @var array $fields These fields accept sorting and searching */
-        $fields = self::DATATABLES_FIELDS;
+        $fields = self::$datatablesFields;
 
         $result = $repo->jqueryDataTableFetch(
             $request->query->all(),
