@@ -127,7 +127,7 @@ class QADecision extends Decision
         $content = '';
 
         foreach ($this->answers as $answer) {
-            //            $content .= $answer->getValue()->getRenderValue().PHP_EOL;
+            $content .= $answer->getValue()->getRenderValue().PHP_EOL;
         }
 
         return $content;

@@ -87,7 +87,6 @@ class ParticipantRepository extends EntityRepository
            */
         if (isset($dataTablesRequest['sSearch']) && $dataTablesRequest['sSearch'] != '') {
             $term = $dataTablesRequest['sSearch'];
-//            $term = mb_convert_encoding($dataTablesRequest['sSearch'], 'utf-8');
 
             $aLike = [];
             $iMax  = count($aColumns);

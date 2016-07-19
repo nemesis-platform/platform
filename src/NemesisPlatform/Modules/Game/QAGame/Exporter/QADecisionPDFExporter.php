@@ -153,8 +153,6 @@ class QADecisionPDFExporter implements ExporterInterface, FormInjectorInterface
 
         $html = $this->twig->render($this->getTemplate(), ['decision' => $decision]);
 
-//        $html = mb_convert_encoding($html, 'UTF-8', 'CP1252');
-
         // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 

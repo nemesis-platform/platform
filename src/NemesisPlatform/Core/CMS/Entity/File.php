@@ -91,6 +91,5 @@ class File
     public function getInternalPath()
     {
         return $this->storage_id;
-//        return REPORTS_STORAGE . '/' . $this->storage_id;
     }
 }

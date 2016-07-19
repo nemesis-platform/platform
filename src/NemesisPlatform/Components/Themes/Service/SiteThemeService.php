@@ -88,12 +88,6 @@ class SiteThemeService
     {
         $this->init();
 
-//        $accessor = new PropertyAccessor();
-//
-//        if ($accessor->isReadable($this->theme, $name)) {
-//            return $accessor->getValue($this->theme, $name);
-//        }
-
         return call_user_func_array(array($this->theme, $name), $arguments);
     }
 }
