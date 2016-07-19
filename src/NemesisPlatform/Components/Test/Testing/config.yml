@@ -1,5 +1,5 @@
 framework:
-    secret:          secret
+    secret:       NotSecretParameter
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
     templating:
