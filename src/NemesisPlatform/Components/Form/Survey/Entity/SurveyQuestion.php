@@ -45,11 +45,6 @@ class SurveyQuestion
         return $this->id;
     }
 
-    public function __toString()
-    {
-        return sprintf('#%d %s', $this->weight, $this->field->getType());
-    }
-
     /**
      * @return int
      */

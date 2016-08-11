@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 05.06.2014
- * Time: 17:03
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\Type;
 

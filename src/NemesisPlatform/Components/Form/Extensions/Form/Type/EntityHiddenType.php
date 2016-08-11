@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 30.05.2014
- * Time: 18:06
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\Type;
-
 
 use Doctrine\Common\Persistence\ObjectManager;
 use NemesisPlatform\Components\Form\Extensions\Form\DataTransformer\EntityToIdTransformer;

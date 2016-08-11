@@ -56,15 +56,6 @@ class ChoiceField extends AbstractField
     }
 
     /**
-     * @return string Name key for the object
-     */
-    public function getType()
-    {
-        return 'choice_field';
-    }
-
-
-    /**
      * @return array
      */
     public function getChoices()

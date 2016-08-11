@@ -16,18 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AbstractFieldType extends AbstractType
 {
-    private $classname;
-
-    /**
-     * AbstractFieldType constructor.
-     *
-     * @param $classname
-     */
-    public function __construct($classname = AbstractField::class)
-    {
-        $this->classname = $classname;
-    }
-
     /** {@inheritdoc} */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,12 +23,6 @@ class AbstractFieldType extends AbstractType
         $builder->add('title', 'text', ['label' => 'Описание']);
         $builder->add('required', 'checkbox', ['required' => false]);
         $builder->add('help_message', 'textarea', ['label' => 'Подсказка', 'required' => false]);
-    }
-
-    /** {@inheritdoc} */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(['data_class' => $this->classname]);
     }
 
     /** {@inheritdoc} */

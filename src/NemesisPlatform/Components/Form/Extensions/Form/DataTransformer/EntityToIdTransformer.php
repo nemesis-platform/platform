@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 30.05.2014
- * Time: 18:05
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\DataTransformer;
 
@@ -30,6 +24,7 @@ class EntityToIdTransformer implements DataTransformerInterface
         $this->class         = $class;
     }
 
+    /** {@inheritdoc} */
     public function transform($entity)
     {
         if (null === $entity) {
@@ -39,6 +34,7 @@ class EntityToIdTransformer implements DataTransformerInterface
         return $entity->getId();
     }
 
+    /** {@inheritdoc} */
     public function reverseTransform($id)
     {
         if (!$id) {

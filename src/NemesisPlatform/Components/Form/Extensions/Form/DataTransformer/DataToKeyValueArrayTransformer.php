@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 02.07.2014
- * Time: 15:07
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\DataTransformer;
-
 
 use Symfony\Component\Form\DataTransformerInterface;
 

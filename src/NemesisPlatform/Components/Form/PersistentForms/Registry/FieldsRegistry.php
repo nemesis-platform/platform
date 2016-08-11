@@ -9,16 +9,17 @@
 namespace NemesisPlatform\Components\Form\PersistentForms\Registry;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
 
 class FieldsRegistry
 {
-    /** @var AbstractField[] */
+    /** @var FieldInterface[] */
     private $types = [];
 
     /**
      * @param string $alias
      *
-     * @return AbstractField
+     * @return FieldInterface
      */
     public function get($alias)
     {
@@ -26,16 +27,16 @@ class FieldsRegistry
     }
 
     /**
-     * @param string        $alias
-     * @param AbstractField $field
+     * @param string         $alias
+     * @param FieldInterface $field
      */
-    public function add($alias, AbstractField $field)
+    public function add($alias, FieldInterface $field)
     {
         $this->types[$alias] = $field;
     }
 
     /**
-     * @return AbstractField[]
+     * @return FieldInterface[]
      */
     public function all()
     {

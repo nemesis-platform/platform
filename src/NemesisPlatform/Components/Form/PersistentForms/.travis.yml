@@ -1,26 +1,19 @@
 language: php
 
 php:
-  - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
 
 env:
   - SYMFONY_VERSION='2.3.*' deps='no'
   - SYMFONY_VERSION='2.5.*' deps='no'
   - SYMFONY_VERSION='2.6.*' deps='no'
-  - SYMFONY_VERSION='2.7.*@dev' deps='no'
+  - SYMFONY_VERSION='2.7.*' deps='no'
+  - SYMFONY_VERSION='2.8.*' deps='no'
 
 matrix:
-    include:
-      - php: 5.5
-        env: SYMFONY_VERSION='~2.8@dev' deps='no'
-      - php: 5.5
-        env: SYMFONY_VERSION='~2.8|~3.0@dev' deps='no'
-      - php: 5.4
-        env: SYMFONY_VERSION='2.3.*' deps='low'
-
     allow_failures:
         - php: hhvm
 
@@ -34,4 +27,4 @@ install:
 
 script:
   - mkdir -p build
-  - phpunit --colors -c phpunit.xml --coverage-text
+  - vendor/bin/phpunit --colors -c phpunit.xml --coverage-text

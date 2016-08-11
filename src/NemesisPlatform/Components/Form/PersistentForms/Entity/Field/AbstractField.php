@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 29.09.2014
- * Time: 14:01
- */
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Field;
 
-
+use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Type\AbstractFieldType;
@@ -17,7 +12,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 
-abstract class AbstractField implements FormTypedInterface
+abstract class AbstractField implements FormTypedInterface, FieldInterface, FormInjectorInterface
 {
     /** @var  int|null */
     private $id;
@@ -38,11 +33,6 @@ abstract class AbstractField implements FormTypedInterface
         return $this->id;
     }
 
-    public function __toString()
-    {
-        return sprintf('"%s" %s', $this->getName(), $this->getType());
-    }
-
     /**
      * @return string
      */
@@ -59,33 +49,28 @@ abstract class AbstractField implements FormTypedInterface
         $this->name = $name;
     }
 
-    /**
-     * @return FormTypeInterface|string FormTypeInterface instance or string which represents registered form type
-     */
-    public function getFormType()
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
-        return new AbstractFieldType(get_class($this));
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options = [])
-    {
-        $options = array_replace_recursive(
-            [
-                'required' => $this->isRequired(),
-                'label'    => $this->getTitle(),
-                'attr'     => ['help_text' => $this->getHelpMessage()],
-            ],
-            $this->getRenderedFormOptions(),
-            $options
-        );
-
-        $field = $builder->create($this->name, $this->getRenderedFormType(), $options);
+        $options = array_replace_recursive($this->getViewFormOptions(), $options);
+        $field   = $builder->create($this->name, $this->getRenderedFormType(), $options);
 
         if (null !== ($transformer = $this->getValueTransformer())) {
             $field->addModelTransformer($transformer);
         }
 
         $builder->add($field);
+    }
+
+    public function getViewFormOptions()
+    {
+        return array_replace_recursive(
+            [
+                'required' => $this->isRequired(),
+                'label'    => $this->getTitle(),
+                'attr'     => ['help_text' => $this->getHelpMessage()],
+            ],
+            $this->getRenderedFormOptions()
+        );
     }
 
     /**
@@ -101,7 +86,7 @@ abstract class AbstractField implements FormTypedInterface
      */
     public function setRequired($required)
     {
-        $this->required = $required;
+        $this->required = (bool)$required;
     }
 
     /**
@@ -121,16 +106,16 @@ abstract class AbstractField implements FormTypedInterface
     }
 
     /**
+     * @return FormTypeInterface|string
+     */
+
+    /**
      * @return string
      */
     public function getHelpMessage()
     {
         return $this->help_message;
     }
-
-    /**
-     * @return FormTypeInterface|string
-     */
 
     /**
      * @param string $help
@@ -153,7 +138,6 @@ abstract class AbstractField implements FormTypedInterface
      */
     abstract protected function getRenderedFormType();
 
-
     /**
      * @return DataTransformerInterface
      */
@@ -163,5 +147,18 @@ abstract class AbstractField implements FormTypedInterface
         $value->setField($this);
 
         return new ValueTransformer($value, 'value');
+    }
+
+    public function getViewForm()
+    {
+        return $this->getFormType();
+    }
+
+    /**
+     * @return FormTypeInterface|string FormTypeInterface instance or string which represents registered form type
+     */
+    public function getFormType()
+    {
+        return AbstractFieldType::class;
     }
 }

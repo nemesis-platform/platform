@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 10.12.2014
- * Time: 12:44
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\DataTransformer;
 
@@ -30,14 +24,7 @@ class EntityToArrayTransformer implements DataTransformerInterface
         $this->path  = $path;
     }
 
-    /**
-     * Transforms Entity to Entity,Label pair
-     *
-     * @param $entity
-     *
-     * @return array
-     * @throws TransformationFailedException
-     */
+    /** {@inheritdoc} */
     public function transform($entity)
     {
 
@@ -56,14 +43,7 @@ class EntityToArrayTransformer implements DataTransformerInterface
         return ['storage' => $entity, 'helper' => $accessor->getValue($entity, $this->path)];
     }
 
-    /**
-     * Transforms Entity,Label to Entity
-     *
-     * @param $array
-     *
-     * @return null|string
-     * @throws TransformationFailedException
-     */
+    /** {@inheritdoc} */
     public function reverseTransform($array)
     {
         if (!is_array($array) || !array_key_exists('storage', $array)) {

@@ -4,7 +4,7 @@ namespace NemesisPlatform;
 
 use NemesisPlatform\Admin\NemesisAdminBundle;
 use NemesisPlatform\Components\ExportImport\ExportImportBundle;
-use NemesisPlatform\Components\Form\Extensions\ExtensionsBundle;
+use NemesisPlatform\Components\Form\Extensions\NemesisFormExtensionsBundle;
 use NemesisPlatform\Components\Form\PersistentForms\PersistentFormsBundle;
 use NemesisPlatform\Components\Form\Survey\SurveyBundle;
 use NemesisPlatform\Components\MultiSite\MultiSiteBundle;
@@ -49,7 +49,7 @@ class AppKernel extends Kernel
             new NemesisGameBundle(),
             new NemesisAdminBundle(),
             new ExportImportBundle(),
-            new ExtensionsBundle(),
+            new NemesisFormExtensionsBundle(),
             new SurveyBundle(),
 
             // Built-ins

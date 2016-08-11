@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 02.07.2014
- * Time: 15:09
- */
 
 namespace NemesisPlatform\Components\Form\Extensions\Form\Type;
-
 
 use NemesisPlatform\Components\Form\Extensions\Form\DataTransformer\DataToKeyValueArrayTransformer;
 use Symfony\Component\Form\AbstractType;
