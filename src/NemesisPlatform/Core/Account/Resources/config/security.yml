@@ -6,14 +6,14 @@ services:
   nemesis.security.anonymous_voter:
       class: NemesisPlatform\Core\Account\Security\Voters\AnonymousVoter
       public:     false
-      arguments: [ @site.manager ]
+      arguments: [ @site.provider ]
       tags:
         - {name: security.voter}
 
   nemesis.security.user_voter:
       class: NemesisPlatform\Core\Account\Security\Voters\UserVoter
       public:     false
-      arguments: [ @site.manager ]
+      arguments: [ @site.provider ]
       tags:
         - {name: security.voter}
 

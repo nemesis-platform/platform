@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel
- * Date: 2014-12-20
- * Time: 14:05
- */
 
 namespace NemesisPlatform\Components\MultiSite\ParamConverter;
 
 use NemesisPlatform\Components\MultiSite\Entity\MultiSiteElement;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SiteParamConverter implements ParamConverterInterface
 {
-
-    /** @var  SiteManagerService */
-    private $siteManager;
+    /** @var  SiteProviderInterface */
+    private $provider;
     /** @var ParamConverterInterface */
     private $converter;
 
@@ -27,12 +20,12 @@ class SiteParamConverter implements ParamConverterInterface
      * SiteParamConverter constructor.
      *
      * @param ParamConverterInterface $converter
-     * @param SiteManagerService      $siteManager
+     * @param SiteProviderInterface   $provider
      */
-    public function __construct(ParamConverterInterface $converter, SiteManagerService $siteManager)
+    public function __construct(ParamConverterInterface $converter, SiteProviderInterface $provider)
     {
-        $this->converter   = $converter;
-        $this->siteManager = $siteManager;
+        $this->converter = $converter;
+        $this->provider  = $provider;
     }
 
     /**
@@ -47,7 +40,7 @@ class SiteParamConverter implements ParamConverterInterface
         $name  = $configuration->getName();
         $class = $configuration->getClass();
 
-        $site = $this->siteManager->getSite();
+        $site = $this->provider->getSite();
 
         if ($this->converter->apply($request, $configuration) === false) {
             return false;

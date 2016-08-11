@@ -9,22 +9,22 @@
 namespace NemesisPlatform\Admin\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Game\Entity\Season;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SiteFilteredSeasonType extends AbstractType
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     private $siteManager;
 
     /**
      * SiteFilteredSeasonType constructor.
      *
-     * @param SiteManagerInterface $siteManager
+     * @param SiteProviderInterface $siteManager
      */
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(SiteProviderInterface $siteManager)
     {
         $this->siteManager = $siteManager;
     }

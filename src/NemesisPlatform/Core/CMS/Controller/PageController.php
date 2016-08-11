@@ -36,7 +36,7 @@ class PageController extends Controller
 
         /** @var ProxyPage $page */
         $page = $manager->getRepository(ProxyPage::class)->findOneBy(
-            ['alias' => $alias, 'site' => $this->get('site.manager')->getSite()]
+            ['alias' => $alias, 'site' => $this->get('site.provider')->getSite()]
         );
 
 
@@ -46,7 +46,7 @@ class PageController extends Controller
 
         /** @var Page $page */
         $page = $manager->getRepository(Page::class)->findOneBy(
-            ['alias' => $alias, 'site' => $this->get('site.manager')->getSite()]
+            ['alias' => $alias, 'site' => $this->get('site.provider')->getSite()]
         );
 
         if (!$page) {

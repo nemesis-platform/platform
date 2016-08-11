@@ -16,10 +16,10 @@ class MaintenanceCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('site.manager')) {
+        if (!$container->has('site.provider')) {
             return;
         }
 
-        $container->getDefinition('site.manager')->replaceArgument(2, new Reference('nemesis.fallback_site_factory'));
+        $container->getDefinition('site.provider')->replaceArgument(2, new Reference('nemesis.fallback_site_factory'));
     }
 }

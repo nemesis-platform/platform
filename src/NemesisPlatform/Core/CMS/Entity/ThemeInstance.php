@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 15.01.2015
- * Time: 15:18
- */
 
-namespace NemesisPlatform\Components\Themes\Entity;
+namespace NemesisPlatform\Core\CMS\Entity;
 
-class ThemeInstance
+use NemesisPlatform\Components\Skins\Entity\SkinConfigurationInterface;
+
+class ThemeInstance implements SkinConfigurationInterface
 {
     /** @var  int|null */
     private $id;
@@ -81,5 +77,35 @@ class ThemeInstance
     public function getId()
     {
         return $this->id;
+    }
+
+    /** {@inheritdoc} */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->config);
+    }
+
+    /** {@inheritdoc} */
+    public function offsetGet($offset)
+    {
+        return $this->config[$offset];
+    }
+
+    /** {@inheritdoc} */
+    public function offsetSet($offset, $value)
+    {
+        $this->config[$offset] = $value;
+    }
+
+    /** {@inheritdoc} */
+    public function offsetUnset($offset)
+    {
+        unset($this->config[$offset]);
+    }
+
+    /** {@inheritdoc} */
+    public function getConfiguration()
+    {
+        return $this->config;
     }
 }

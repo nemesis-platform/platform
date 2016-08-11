@@ -7,7 +7,7 @@ NemesisPlatform\Core\CMS\Entity\File:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         mime:
             type: string

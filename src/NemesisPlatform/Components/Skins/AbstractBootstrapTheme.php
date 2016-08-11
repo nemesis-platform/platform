@@ -1,24 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 15.01.2015
- * Time: 15:31
- */
 
-namespace NemesisPlatform\Components\Themes;
+namespace NemesisPlatform\Components\Skins;
 
-use NemesisPlatform\Components\Themes\Service\CompilableThemeInterface;
-use NemesisPlatform\Components\Themes\Service\ThemeInterface;
+use NemesisPlatform\Components\Skins\Service\CompilableThemeInterface;
+use NemesisPlatform\Components\Skins\Service\LayoutStorageInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Twig_Environment;
 
-abstract class AbstractBootstrapTheme implements ThemeInterface, CompilableThemeInterface
+abstract class AbstractBootstrapTheme implements LayoutStorageInterface, CompilableThemeInterface
 {
-    /** @var  Twig_Environment */
+    /** @var  \Twig_Environment */
     protected $twig;
 
-    public function __construct(Twig_Environment $twig)
+    public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
     }

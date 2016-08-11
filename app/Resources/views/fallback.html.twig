@@ -17,11 +17,6 @@
         {% stylesheets '@font_awesome' %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
         {% endstylesheets %}
-        <style>
-            .ui-autocomplete-loading {
-                background: url('{% image '@NemesisCoreBundle/Resources/public/images/ui/ajax-loader.gif' %}{{ asset_url }}{% endimage %}') no-repeat right center
-            }
-        </style>
     {% endblock %}
 </head>
 <body>
@@ -76,7 +71,6 @@
 
 {% block javascripts %}
     {{ macros.js_scripts() }}
-    {{ macros.js_trackers() }}
     {{ macros.js_menu_activator() }}
 {% endblock %}
 </body>

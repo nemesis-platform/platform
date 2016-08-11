@@ -34,6 +34,8 @@ class NemesisCmsExtension extends Extension implements PrependExtensionInterface
         $loader->load('blocks.yml');
         $loader->load('services.yml');
         $loader->load('menu.yml');
+
+        $container->setAlias('nemesis.theme_provider', 'nmemesis.cms.skin_provider');
     }
 
     /**
@@ -54,8 +56,8 @@ class NemesisCmsExtension extends Extension implements PrependExtensionInterface
                             ],
                             'form_themes' => [
                                 'NemesisCoreBundle:Form:rules_checkbox.html.twig',
-//                                '@bootstrap_bridge/table.html.twig',
-//                                '@bootstrap_bridge/table_row.html.twig',
+                                //                                '@bootstrap_bridge/table.html.twig',
+                                //                                '@bootstrap_bridge/table_row.html.twig',
                             ],
                             'paths'       => [
 //                                '%kernel.root_dir%/../src/ScayTrase/BraincraftedBootstrapBridge/Resources/views/Form' => 'bootstrap_bridge',

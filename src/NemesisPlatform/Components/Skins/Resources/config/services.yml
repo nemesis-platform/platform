@@ -1,0 +1,8 @@
+services:
+  nemesis.skin_registry:
+    class:  NemesisPlatform\Components\Skins\Service\SkinRegistry
+
+  nemesis.theme_provider:
+    class: NemesisPlatform\Components\Skins\Service\SkinProviderInterface
+    synthetic: true
+

@@ -34,7 +34,7 @@ class NewsController extends Controller
     public function listAction(Request $request)
     {
         /** @var SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         $query = $this->getDoctrine()->getRepository(News::class)
                       ->createQueryBuilder('news')

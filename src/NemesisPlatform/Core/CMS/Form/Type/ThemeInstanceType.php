@@ -6,20 +6,20 @@
  * Time: 11:36
  */
 
-namespace NemesisPlatform\Components\Themes\Form\Type;
+namespace NemesisPlatform\Core\CMS\Form\Type;
 
-use NemesisPlatform\Components\Themes\Entity\ThemeInstance;
-use NemesisPlatform\Components\Themes\Service\ThemeRegistry;
+use NemesisPlatform\Components\Skins\Service\SkinRegistry;
+use NemesisPlatform\Core\CMS\Entity\ThemeInstance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ThemeInstanceType extends AbstractType
 {
-    /** @var  ThemeRegistry */
+    /** @var  SkinRegistry */
     private $registry;
 
-    public function __construct(ThemeRegistry $registry)
+    public function __construct(SkinRegistry $registry)
     {
         $this->registry = $registry;
     }

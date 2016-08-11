@@ -29,7 +29,7 @@ class RoundController extends Controller
         $manager = $this->getDoctrine()->getManager();
 
         /** @var \NemesisPlatform\Game\Entity\SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         $rounds = $manager->getRepository(Round::class)->findBy(
             ['season' => $site->getSeasons()->toArray()],

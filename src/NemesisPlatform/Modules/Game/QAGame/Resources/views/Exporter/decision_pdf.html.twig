@@ -52,12 +52,12 @@
 
 
 {% if site_manager.site.themeInstance %}
-    {% set theme = theme_registry.get(site_manager.site.themeInstance.theme) %}
+    {% set theme = skin_registry.get(site_manager.site.themeInstance.theme) %}
     {% if theme.setConfiguration is defined %}
         {{ theme.setConfiguration(site_manager.site.themeInstance.config) }}
     {% endif %}
 {% else %}
-    {% set theme = theme_registry.get(site_manager.site.theme) %}
+    {% set theme = skin_registry.get(site_manager.site.theme) %}
 {% endif %}
 
 

@@ -27,7 +27,7 @@ services:
     class: NemesisPlatform\Admin\Service\Generator\ChainedSeasonGenerator
     arguments:
       - @doctrine.orm.entity_manager
-      - @site.manager
+      - @site.provider
       - @nemesis.user_generator
       - @nemesis.participant_generator
       - @nemesis.team_generator

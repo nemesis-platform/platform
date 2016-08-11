@@ -1,5 +1,5 @@
 {% if is_granted('ROLE_ADMIN') %}
-    {% set theme = theme_registry.get('admin_bootstrap_theme') %}
+    {% set theme = skin_registry.get('admin_bootstrap_theme') %}
     {% import 'NemesisCmsBundle::macros.html.twig' as macros %}
     <!DOCTYPE html>
     <html lang="ru">

@@ -9,22 +9,22 @@
 namespace NemesisPlatform\Modules\Game\Core\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\Round;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RoundChoiceType extends AbstractType
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     protected $siteManager;
 
     /**
      * RoundChoiceType constructor.
      *
-     * @param SiteManagerInterface $siteManager
+     * @param SiteProviderInterface $siteManager
      */
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(SiteProviderInterface $siteManager)
     {
         $this->siteManager = $siteManager;
     }

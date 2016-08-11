@@ -6,7 +6,7 @@ NemesisPlatform\Core\CMS\Entity\PageRevision:
           type: integer
           id: true
           generator:
-              strategy: IDENTITY
+              strategy: AUTO
   fields:
     content:
       type: text

@@ -10,3 +10,15 @@ services:
     parent: nemesis_platform.theme.boostrap_abstract
     tags:
       - { name: theme, alias: basic_bootstrap_theme }
+
+  nemesis.switchable_theme.theme_instance_type:
+    class: NemesisPlatform\Core\CMS\Form\Type\ThemeInstanceType
+    arguments: [ "@nemesis.skin_registry", "@form.factory" ]
+    tags:
+    - { name: form.type, alias: switchable_theme_instance }
+
+  nmemesis.cms.skin_provider:
+    class: NemesisPlatform\Core\CMS\Theme\SiteThemeService
+    arguments:
+    - "@site.provider"
+    - "@nemesis.skin_registry"

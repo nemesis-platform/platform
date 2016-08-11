@@ -5,7 +5,7 @@ NemesisPlatform\Core\CMS\Entity\ProxyPage:
           type: integer
           id: true
           generator:
-              strategy: IDENTITY
+              strategy: AUTO
   fields:
     alias:
       type: string

@@ -7,4 +7,4 @@ services:
 
   nemesis.game_manager:
     class: NemesisPlatform\Modules\Game\Core\Service\GameManager
-    arguments: [@doctrine.orm.entity_manager, @site.manager, @security.token_storage, @security.authorization_checker]
+    arguments: [@doctrine.orm.entity_manager, @site.provider, @security.token_storage, @security.authorization_checker]

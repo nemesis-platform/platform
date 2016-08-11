@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 15.01.2015
- * Time: 15:31
- */
 
-namespace NemesisPlatform\Components\Themes;
+namespace NemesisPlatform\Components\Skins;
 
 use Assetic\Asset\AssetCollection;
-use NemesisPlatform\Components\Themes\Service\ConfigurableThemeInterface;
+use NemesisPlatform\Components\Skins\Service\ConfigurableThemeInterface;
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
 abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme implements ConfigurableThemeInterface
@@ -17,7 +11,7 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
     /** @var  AssetCollection */
     protected $asset;
     /** @var */
-    protected $configuration = array();
+    protected $configuration = [];
 
     /** @var  AssetFactory */
     protected $factory;
@@ -36,10 +30,10 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
         parent::__construct($twig);
         $this->factory       = $factory;
         $this->writeTo       = $writeTo;
-        $this->configuration = array(
+        $this->configuration = [
             'lessfile'  => 'zeroconfig',
-            'variables' => array(),
-        );
+            'variables' => [],
+        ];
     }
 
     public function getCssFile()
@@ -55,9 +49,9 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
     protected function getAsset()
     {
         if (!$this->asset) {
-            $inputs  = array($this->getBootstrapLessFile());
-            $filters = array('lessphp');
-            $options = array('output' => 'css/*.css');
+            $inputs  = [$this->getBootstrapLessFile()];
+            $filters = ['lessphp'];
+            $options = ['output' => 'css/*.css'];
 
             $this->asset = $this->factory->createAsset($inputs, $filters, $options);
         }
@@ -67,15 +61,7 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
 
     protected function getBootstrapLessFile()
     {
-        return $this->writeTo.'/less/'.$this->getType().'_'.$this->configuration['lessfile'].'.less';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return 'basic_bootstrap_theme';
+        return $this->writeTo.'/less/basic_bootstrap_theme_'.$this->configuration['lessfile'].'.less';
     }
 
     public function compile()
@@ -101,7 +87,7 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
 
     protected function getConfigurationLessFile()
     {
-        return $this->writeTo.'/less/'.$this->getType().'_'.$this->configuration['lessfile'].'_configuration.less';
+        return $this->writeTo.'/less/basic_bootstrap_theme_'.$this->configuration['lessfile'].'_configuration.less';
     }
 
     abstract protected function getConfigurationLessTemplate();
@@ -110,18 +96,13 @@ abstract class AbstractConfigurableBootstrapTheme extends AbstractBootstrapTheme
     {
         return array_merge_recursive(
             parent::getCompilationOptions(),
-            array(
-                'configuration' => $this->getConfiguration(),
-            )
+            [
+                'configuration' => $this->configuration,
+            ]
         );
     }
 
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    public function setConfiguration($config)
+    public function configure(array $config)
     {
         $this->configuration = array_replace_recursive($this->configuration, $config);
     }

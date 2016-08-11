@@ -37,7 +37,7 @@ class ApiController extends Controller
         }
 
         /** @var SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         if (!$site->getSeasons()->contains($round->getSeason())) {
             throw new NotFoundHttpException('Round not found');

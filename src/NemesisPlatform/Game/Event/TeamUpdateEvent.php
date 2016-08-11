@@ -9,7 +9,7 @@
 namespace NemesisPlatform\Game\Event;
 
 use Doctrine\ORM\EntityManagerInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use NemesisPlatform\Game\Repository\TeamListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -20,13 +20,13 @@ class TeamUpdateEvent
     private $security;
     /** @var EntityManagerInterface */
     private $manager;
-    /** @var  SiteManagerService */
+    /** @var  SiteProvider */
     private $site_manager;
 
     public function __construct(
         TokenStorageInterface $security,
         EntityManagerInterface $manager,
-        SiteManagerService $site_manager
+        SiteProvider $site_manager
     ) {
         $this->security     = $security;
         $this->manager      = $manager;

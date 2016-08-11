@@ -6,7 +6,7 @@ NemesisPlatform\Core\CMS\Entity\Block\AbstractBlock:
           type: integer
           id: true
           generator:
-              strategy: IDENTITY
+              strategy: AUTO
   fields:
     description:
       type: string

@@ -34,4 +34,4 @@ NemesisPlatform\Core\CMS\Entity\NemesisSite:
         weight: ASC
   manyToOne:
     themeInstance:
-      targetEntity: NemesisPlatform\Components\Themes\Entity\ThemeInstance
+      targetEntity: NemesisPlatform\Core\CMS\Entity\ThemeInstance

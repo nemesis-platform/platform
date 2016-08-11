@@ -2,7 +2,7 @@ services:
 
   nemesis.registry.menu:
     class: NemesisPlatform\Core\CMS\Registry\MenuRegistry
-    arguments: [@doctrine.orm.entity_manager, @site.manager]
+    arguments: [@doctrine.orm.entity_manager, @site.provider]
 
   menu_element.messaging_menu:
     class: NemesisPlatform\Core\Account\Menu\Account\MessagingMenu

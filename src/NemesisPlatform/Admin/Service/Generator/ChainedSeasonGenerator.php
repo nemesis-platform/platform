@@ -10,7 +10,7 @@ namespace NemesisPlatform\Admin\Service\Generator;
 
 use Doctrine\ORM\EntityManagerInterface;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Game\Entity\Season;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -24,19 +24,19 @@ class ChainedSeasonGenerator implements EntityGeneratorInterface, FormInjectorIn
     private $participantGenerator;
     /** @var TeamGenerator */
     private $teamGenerator;
-    /** @var SiteManagerInterface */
+    /** @var SiteProviderInterface */
     private $siteManager;
 
     /**
      * @param EntityManagerInterface $manager
-     * @param SiteManagerInterface   $siteManager
+     * @param SiteProviderInterface  $siteManager
      * @param UserGenerator          $userGenerator
      * @param ParticipantGenerator   $participantGenerator
      * @param TeamGenerator          $teamGenerator
      */
     public function __construct(
         EntityManagerInterface $manager,
-        SiteManagerInterface $siteManager,
+        SiteProviderInterface $siteManager,
         UserGenerator $userGenerator,
         ParticipantGenerator $participantGenerator,
         TeamGenerator $teamGenerator

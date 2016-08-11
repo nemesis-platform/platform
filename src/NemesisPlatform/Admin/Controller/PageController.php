@@ -37,7 +37,7 @@ class PageController extends Controller
     public function listAction()
     {
         $pages = $this->getDoctrine()->getManager()->getRepository(Page::class)->findBy(
-            ['site' => $this->get('site.manager')->getSite()]
+            ['site' => $this->get('site.provider')->getSite()]
         );
 
         return ['pages' => $pages];

@@ -10,7 +10,7 @@ namespace NemesisPlatform\Core\CMS\Registry;
 
 use ArrayAccess;
 use Doctrine\ORM\EntityManagerInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Core\CMS\Entity\Menu;
 use NemesisPlatform\Core\CMS\Entity\MenuElement;
 
@@ -21,10 +21,10 @@ class MenuRegistry implements ArrayAccess
     private $menuEntries;
     /** @var EntityManagerInterface */
     private $manager;
-    /** @var SiteManagerService */
+    /** @var SiteProvider */
     private $detector;
 
-    public function __construct(EntityManagerInterface $manager, SiteManagerService $detector)
+    public function __construct(EntityManagerInterface $manager, SiteProvider $detector)
     {
         $this->menuEntries = [];
         $this->manager     = $manager;

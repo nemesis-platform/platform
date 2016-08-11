@@ -15,7 +15,7 @@ use NemesisPlatform\Components\ExportImport\Service\ImporterInterface;
 use NemesisPlatform\Components\ExportImport\Service\ImportResultInterface;
 use NemesisPlatform\Components\ExportImport\Service\SimpleResult;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Certificate\CertificateType;
 use NemesisPlatform\Game\Entity\Certificate\ParticipantCertificate;
@@ -39,18 +39,18 @@ class ParticipantCertificateImporter implements ImporterInterface, FormInjectorI
 
     /** @var EntityManagerInterface */
     protected $manager;
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     protected $siteManager;
 
     /**
      * SharesImporter constructor.
      *
-     * @param SiteManagerInterface   $siteManager
+     * @param SiteProviderInterface  $siteManager
      * @param FormFactoryInterface   $factory
      * @param EntityManagerInterface $manager
      */
     public function __construct(
-        SiteManagerInterface $siteManager,
+        SiteProviderInterface $siteManager,
         FormFactoryInterface $factory,
         EntityManagerInterface $manager
     ) {

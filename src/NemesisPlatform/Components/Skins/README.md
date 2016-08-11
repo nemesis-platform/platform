@@ -18,11 +18,11 @@ Current version supports theme configuration, so themes can be preconfigured (an
 
 ### Commons
 
-To use theme switch you should simply extend a template name, returned by ``` ThemeRegistry::getTemplate(theme,layout) ``` method. This method returns a string representing really extended template (i.e. ```SomeTheme::some_layout.html.twig```) or null
+To use theme switch you should simply extend a template name, returned by ``` SkinRegistry::getTemplate(theme,layout) ``` method. This method returns a string representing really extended template (i.e. ```SomeTheme::some_layout.html.twig```) or null
 
 ```twig
 {# YourBundle::base.twig.html #}
-{% extends theme_registry.template('theme_identifier','layout') %}
+{% extends skin_registry.template('theme_identifier','layout') %}
 ```
 
 ### Fallback layout
@@ -31,7 +31,7 @@ To use theme switch in case you are not shure, that template exists you can use 
 
 ```twig
 {# YourBundle::base.twig.html #}
-{% extends [theme_registry.template('theme_identifier','layout'), 'YourBundle::fallback.html.twig'] %}
+{% extends [skin_registry.template('theme_identifier','layout'), 'YourBundle::fallback.html.twig'] %}
 ```
 
 ### Configurable themes
@@ -40,5 +40,5 @@ To use theme with theme configurations (theme instances) you should provide ```T
 
 ```twig
 {# YourBundle::base.twig.html #}
-{% extends theme_registry.template(themeInstance,'layout') %}
+{% extends skin_registry.template(themeInstance,'layout') %}
 ```

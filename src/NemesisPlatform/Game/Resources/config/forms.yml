@@ -24,6 +24,6 @@ services:
 
   storable_forms.fields.team_description_type:
     class: NemesisPlatform\Game\Form\Type\MemberDescriptionFormType
-    arguments: [ @security.token_storage, @site.manager ]
+    arguments: [ @security.token_storage, @site.provider ]
     tags:
     - { name: form.type, alias: team_members_description }

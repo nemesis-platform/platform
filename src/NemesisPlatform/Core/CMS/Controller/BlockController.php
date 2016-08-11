@@ -25,7 +25,7 @@ class BlockController extends Controller
     public function renderSideNewsAction($count = 3)
     {
         $news = $this->getDoctrine()->getManager()->getRepository(News::class)->getLastNews(
-            $this->get('site.manager')->getSite()->getSeasons()->toArray(),
+            $this->get('site.provider')->getSite()->getSeasons()->toArray(),
             $count
         );
 

@@ -42,7 +42,7 @@ class UserController extends Controller
     public function registerAction(Request $request)
     {
         /** @var SeasonedSite $site */
-        $site         = $this->get('site.manager')->getSite();
+        $site         = $this->get('site.provider')->getSite();
         $activeSeason = $site->getActiveSeason();
 
         if (!$activeSeason) {
@@ -121,12 +121,12 @@ class UserController extends Controller
     protected function createRegistrationMessage($user, $html, $text)
     {
         return Swift_Message::newInstance()
-            ->setSubject('Регистрация - '.$this->get('site.manager')->getSite()->getFullName())
+            ->setSubject('Регистрация - '.$this->get('site.provider')->getSite()->getFullName())
             ->setFrom(
-                $this->get('site.manager')->getSite()->getContactEmail(),
-                $this->get('site.manager')->getSite()->getFullName()
+                $this->get('site.provider')->getSite()->getContactEmail(),
+                $this->get('site.provider')->getSite()->getFullName()
             )
-            ->setReplyTo($this->get('site.manager')->getSite()->getContactEmail())
+            ->setReplyTo($this->get('site.provider')->getSite()->getContactEmail())
             ->setTo($user->getEmail())
             ->setContentType('text/plain; charset=UTF-8')
             ->setBody(

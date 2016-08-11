@@ -10,8 +10,8 @@ namespace NemesisPlatform\Admin\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 use NemesisPlatform\Admin\Form\Type\Block\SiteBlockType;
-use NemesisPlatform\Components\Themes\Service\ThemeInterface;
-use NemesisPlatform\Components\Themes\Service\ThemeRegistry;
+use NemesisPlatform\Components\Skins\Service\ThemeInterface;
+use NemesisPlatform\Components\Skins\Service\SkinRegistryInterface;
 use NemesisPlatform\Core\CMS\Entity\Block\AreaProviderInterface;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use Symfony\Component\Form\AbstractType;
@@ -22,12 +22,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SiteType extends AbstractType
 {
-    /** @var  ThemeRegistry */
-    private $themeRegistry;
+    /** @var  SkinRegistryInterface */
+    private $SkinRegistryInterface;
 
-    public function __construct(ThemeRegistry $themeRegistry)
+    public function __construct(SkinRegistryInterface $SkinRegistryInterface)
     {
-        $this->themeRegistry = $themeRegistry;
+        $this->SkinRegistryInterface = $SkinRegistryInterface;
     }
 
 
@@ -53,12 +53,12 @@ class SiteType extends AbstractType
             [
                 'choices' =>
                     array_combine(
-                        array_keys($this->themeRegistry->all()),
+                        array_keys($this->SkinRegistryInterface->all()),
                         array_map(
                             function (ThemeInterface $theme) {
                                 return 'theme.'.$theme->getType();
                             },
-                            $this->themeRegistry->all()
+                            $this->SkinRegistryInterface->all()
                         )
                     ),
                 'label' => 'Оформление',
@@ -93,8 +93,8 @@ class SiteType extends AbstractType
                         $areas['Зоны, обрабатываемые сайтом'] = array_combine($site->getAreas(), $site->getAreas());
                     }
 
-                    if ($this->themeRegistry->has($site->getTheme())) {
-                        $theme = $this->themeRegistry->get($site->getTheme());
+                    if ($this->SkinRegistryInterface->has($site->getTheme())) {
+                        $theme = $this->SkinRegistryInterface->get($site->getTheme());
                         if ($theme instanceof AreaProviderInterface) {
                             $areas['Зоны, темы '.$theme->getType()] = array_combine(
                                 $theme->getAreas(),

@@ -36,7 +36,7 @@ class UserCategoryController extends Controller
     public function listAction()
     {
         /** @var \NemesisPlatform\Game\Entity\SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
         /** @var League[] $leagues */
         $leagues = [];
         foreach ($site->getSeasons() as $season) {

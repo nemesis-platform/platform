@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use NemesisPlatform\Components\ExportImport\Service\ExporterInterface;
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\Survey\Entity\Survey;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Core\CMS\Entity\SiteSurvey;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,15 +21,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SurveyExporter extends AbstractCSVExporter implements ExporterInterface, FormInjectorInterface
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     private $siteManager;
 
     /**
      * SurveyExporter constructor.
      *
-     * @param SiteManagerInterface $siteManager
+     * @param SiteProviderInterface $siteManager
      */
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(SiteProviderInterface $siteManager)
     {
         $this->siteManager = $siteManager;
     }

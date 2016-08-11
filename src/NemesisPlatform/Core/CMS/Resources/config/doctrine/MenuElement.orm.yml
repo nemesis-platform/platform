@@ -5,7 +5,7 @@ NemesisPlatform\Core\CMS\Entity\MenuElement:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
       type:
         type: integer

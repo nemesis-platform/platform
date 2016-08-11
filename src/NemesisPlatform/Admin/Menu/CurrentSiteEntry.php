@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Admin\Menu;
 
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Core\CMS\Entity\MenuElement;
 use NemesisPlatform\Game\Service\FallbackSite;
 use Symfony\Component\Routing\RouterInterface;
@@ -16,10 +16,10 @@ use Symfony\Component\Routing\RouterInterface;
 class CurrentSiteEntry extends MenuElement
 {
     /**
-     * @param SiteManagerService $siteManager
-     * @param RouterInterface    $router
+     * @param SiteProvider    $siteManager
+     * @param RouterInterface $router
      */
-    public function __construct(SiteManagerService $siteManager, RouterInterface $router)
+    public function __construct(SiteProvider $siteManager, RouterInterface $router)
     {
         parent::__construct();
 

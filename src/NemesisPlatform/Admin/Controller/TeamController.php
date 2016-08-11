@@ -56,7 +56,7 @@ class TeamController extends Controller
         }
 
         /** @var SiteInterface[] $sites */
-        $sites = [$this->get('site.manager')->getSite()];
+        $sites = [$this->get('site.provider')->getSite()];
 
         return ['season' => $season, 'sites' => $sites];
     }
@@ -106,7 +106,7 @@ class TeamController extends Controller
         /** @var array $fields These fields accept sorting and searching */
         $fields = self::$datatablesFields;
 
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         $season = null;
         if ($request->get('season', null)) {

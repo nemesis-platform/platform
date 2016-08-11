@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 19.01.2015
- * Time: 12:54
- */
 
 namespace NemesisPlatform\Core\CMS\Theme;
 
@@ -14,23 +8,12 @@ use Symfony\Component\Filesystem\Filesystem;
 class BasicTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 {
     /** @var string[] */
-    private $layouts
-        = [
-            'base'  => 'NemesisCmsBundle:Theme\Basic:base.html.twig',
-            'front' => 'NemesisCmsBundle:Theme\Basic:front.html.twig',
-        ];
+    private $layouts = [
+        'base'  => 'NemesisCmsBundle:Theme\Basic:base.html.twig',
+        'front' => 'NemesisCmsBundle:Theme\Basic:front.html.twig',
+    ];
 
-    private $areas
-        = ['footer', 'sidebar'];
-
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return 'basic_bootstrap_theme';
-    }
+    private $areas = ['footer', 'sidebar'];
 
     /**
      * @return string[]

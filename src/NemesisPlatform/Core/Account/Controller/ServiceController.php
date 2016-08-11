@@ -111,11 +111,11 @@ class ServiceController extends Controller
 
                 $message = Swift_Message::newInstance()
                                         ->setSubject(
-                                            'Восстановление пароля - '.$this->get('site.manager')->getSite()->getName()
+                                            'Восстановление пароля - '.$this->get('site.provider')->getSite()->getName()
                                         )
                                         ->setFrom(
-                                            $this->get('site.manager')->getSite()->getEmail(),
-                                            $this->get('site.manager')->getSite()->getName()
+                                            $this->get('site.provider')->getSite()->getEmail(),
+                                            $this->get('site.provider')->getSite()->getName()
                                         )
                                         ->setTo($user->getEmail())
                                         ->setBody(

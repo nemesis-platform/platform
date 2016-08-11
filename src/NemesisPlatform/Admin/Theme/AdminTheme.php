@@ -80,15 +80,7 @@ class AdminTheme extends NemesisBootstrapTheme implements AreaProviderInterface
 
     protected function getBootstrapLessFile()
     {
-        return $this->kernelRootDir.'/../web/less/'.$this->getType().'.less';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return 'admin_bootstrap_theme';
+        return $this->kernelRootDir.'/../web/less/admin_bootstrap_theme.less';
     }
 
     /**

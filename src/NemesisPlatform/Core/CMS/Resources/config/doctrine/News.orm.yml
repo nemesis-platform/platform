@@ -6,7 +6,7 @@ NemesisPlatform\Core\CMS\Entity\News:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         body:
             type: text

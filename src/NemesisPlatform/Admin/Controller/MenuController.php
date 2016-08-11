@@ -36,7 +36,7 @@ class MenuController extends Controller
     public function listAction()
     {
         $menus = $this->getDoctrine()->getManager()->getRepository(Menu::class)->findBy(
-            ['site' => $this->get('site.manager')->getSite()]
+            ['site' => $this->get('site.provider')->getSite()]
         );
 
         return ['menus' => $menus];

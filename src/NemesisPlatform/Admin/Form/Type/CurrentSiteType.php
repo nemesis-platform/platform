@@ -9,21 +9,21 @@
 namespace NemesisPlatform\Admin\Form\Type;
 
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CurrentSiteType extends AbstractType
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     private $siteManager;
 
     /**
      * CurrentSiteType constructor.
      *
-     * @param SiteManagerInterface $siteManager
+     * @param SiteProviderInterface $siteManager
      */
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(SiteProviderInterface $siteManager)
     {
         $this->siteManager = $siteManager;
     }

@@ -8,8 +8,8 @@
 
 namespace NemesisPlatform\Admin\Form\Type;
 
-use NemesisPlatform\Components\Themes\Service\ThemeInterface;
-use NemesisPlatform\Components\Themes\Service\ThemeRegistry;
+use NemesisPlatform\Components\Skins\Service\LayoutStorageInterface;
+use NemesisPlatform\Components\Skins\Service\SkinRegistryInterface;
 use NemesisPlatform\Core\CMS\Entity\NemesisSite;
 use NemesisPlatform\Core\CMS\Entity\Page;
 use NemesisPlatform\Core\CMS\Entity\PageRevision;
@@ -24,21 +24,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class PageType extends AbstractType
 {
-    /** @var  ThemeRegistry */
-    private $themeRegistry;
+    /** @var  SkinRegistryInterface */
+    private $SkinRegistryInterface;
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
     /**
      * PageType constructor.
      *
-     * @param ThemeRegistry         $themeRegistry
+     * @param SkinRegistryInterface $SkinRegistryInterface
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(ThemeRegistry $themeRegistry, TokenStorageInterface $tokenStorage)
+    public function __construct(SkinRegistryInterface $SkinRegistryInterface, TokenStorageInterface $tokenStorage)
     {
-        $this->themeRegistry = $themeRegistry;
-        $this->tokenStorage  = $tokenStorage;
+        $this->SkinRegistryInterface = $SkinRegistryInterface;
+        $this->tokenStorage          = $tokenStorage;
     }
 
     /**
@@ -77,8 +77,8 @@ class PageType extends AbstractType
                     $site = $page->getSite();
 
                     if ($site instanceof NemesisSite) {
-                        /** @var ThemeInterface|null $theme */
-                        $theme = $this->themeRegistry->get(
+                        /** @var LayoutStorageInterface|null $theme */
+                        $theme = $this->SkinRegistryInterface->get(
                             $site->getThemeInstance() ? $site->getThemeInstance()->getTheme() : $site->getTheme()
                         );
 

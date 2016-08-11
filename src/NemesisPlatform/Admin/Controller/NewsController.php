@@ -35,7 +35,7 @@ class NewsController extends Controller
     public function listAction()
     {
         /** @var SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
         /** @var \NemesisPlatform\Core\CMS\Entity\News[] $news */
         $news = $this->getDoctrine()->getManager()->getRepository(News::class)->findBy(
             ['season' => $site->getSeasons()->toArray()],

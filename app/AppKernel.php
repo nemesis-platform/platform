@@ -8,7 +8,7 @@ use NemesisPlatform\Components\Form\Extensions\ExtensionsBundle;
 use NemesisPlatform\Components\Form\PersistentForms\PersistentFormsBundle;
 use NemesisPlatform\Components\Form\Survey\SurveyBundle;
 use NemesisPlatform\Components\MultiSite\MultiSiteBundle;
-use NemesisPlatform\Components\Themes\SwitchableThemeBundle;
+use NemesisPlatform\Components\Skins\SwitchableSkinsBundle;
 use NemesisPlatform\Core\Account\NemesisCoreBundle;
 use NemesisPlatform\Core\CMS\NemesisCmsBundle;
 use NemesisPlatform\Game\NemesisGameBundle;
@@ -40,7 +40,7 @@ class AppKernel extends Kernel
             // Nemesis core
             new MultiSiteBundle(),
             new PersistentFormsBundle(),
-            new SwitchableThemeBundle(),
+            new SwitchableSkinsBundle(),
 
             new NemesisCoreBundle(),
             new NemesisCmsBundle(),

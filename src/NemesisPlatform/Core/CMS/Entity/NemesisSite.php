@@ -10,7 +10,6 @@ namespace NemesisPlatform\Core\CMS\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
-use NemesisPlatform\Components\Themes\Entity\ThemeInstance;
 use NemesisPlatform\Core\CMS\Entity\Block\AreaProviderInterface;
 use NemesisPlatform\Core\CMS\Entity\Block\SiteBlock;
 use Ramsey\Uuid\Uuid;

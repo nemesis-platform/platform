@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Game\ParamConverter;
 
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,14 +20,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SeasonParamConverter extends DoctrineParamConverter
 {
 
-    /** @var  SiteManagerService */
+    /** @var  SiteProvider */
     private $siteManager;
 
     /**
      * @param ManagerRegistry $registry
-     * @param SiteManagerService $siteManager
+     * @param SiteProvider    $siteManager
      */
-    public function __construct(ManagerRegistry $registry, SiteManagerService $siteManager)
+    public function __construct(ManagerRegistry $registry, SiteProvider $siteManager)
     {
         parent::__construct($registry);
         $this->siteManager = $siteManager;

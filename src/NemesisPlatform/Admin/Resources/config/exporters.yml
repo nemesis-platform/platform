@@ -19,7 +19,7 @@ services:
   nemesis.survey.exporter:
     class: NemesisPlatform\Admin\Exporter\SurveyExporter
     arguments:
-    - @site.manager
+    - @site.provider
     tags:
     - { name: exporter }
 

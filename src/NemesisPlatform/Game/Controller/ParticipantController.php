@@ -166,7 +166,7 @@ class ParticipantController extends Controller
     public function listAction(Season $season = null)
     {
         /** @var SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         if (count($site->getSeasons()) === 0) {
             throw new AccessDeniedHttpException('В данном проекте нет сезонов');
@@ -189,7 +189,7 @@ class ParticipantController extends Controller
      */
     public function autocompleteAction(Request $request, Season $season)
     {
-        if (!in_array($season, $this->get('site.manager')->getSite()->getSeasons()->toArray())) {
+        if (!in_array($season, $this->get('site.provider')->getSite()->getSeasons()->toArray())) {
             throw new NotFoundHttpException('Сезон не найден');
         }
 

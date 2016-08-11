@@ -35,7 +35,7 @@ class SurveyController extends Controller
     {
         return [
             'surveys' => $this->getDoctrine()->getManager()->getRepository(SiteSurvey::class)->findBy(
-                ['site' => $this->get('site.manager')->getSite()]
+                ['site' => $this->get('site.provider')->getSite()]
             ),
         ];
     }

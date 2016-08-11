@@ -1,7 +1,7 @@
 services:
   form_type.site_type:
     class: NemesisPlatform\Admin\Form\Type\SiteType
-    arguments: ["@scaytrase.theme_registry"]
+    arguments: ["@nemesis.skin_registry"]
     tags:
     - { name: form.type, alias: site }
 
@@ -41,18 +41,18 @@ services:
 
   form_type.nemesis.site_season:
     class: NemesisPlatform\Admin\Form\Type\SiteFilteredSeasonType
-    arguments: [@site.manager]
+    arguments: [@site.provider]
     tags:
     - { name: form.type, alias: site_seasons }
 
   form_type.current_site_type:
     class: NemesisPlatform\Admin\Form\Type\CurrentSiteType
-    arguments: [@site.manager]
+    arguments: [@site.provider]
     tags:
     - { name: form.type, alias: current_site }
 
   form_type.page_type:
     class: NemesisPlatform\Admin\Form\Type\PageType
-    arguments: [@scaytrase.theme_registry, @security.token_storage]
+    arguments: [@nemesis.skin_registry, @security.token_storage]
     tags:
     - { name: form.type, alias: page_type }

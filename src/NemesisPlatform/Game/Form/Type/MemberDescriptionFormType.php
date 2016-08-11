@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Game\Form\Type;
 
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Core\Account\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,16 +20,16 @@ class MemberDescriptionFormType extends AbstractType
 {
     /** @var  TokenStorageInterface */
     private $tokenStorage;
-    /** @var SiteManagerInterface */
+    /** @var SiteProviderInterface */
     private $siteManager;
 
     /**
      * MemberDescriptionFormType constructor.
      *
      * @param TokenStorageInterface $tokenStorage
-     * @param SiteManagerInterface  $siteManager
+     * @param SiteProviderInterface $siteManager
      */
-    public function __construct(TokenStorageInterface $tokenStorage, SiteManagerInterface $siteManager)
+    public function __construct(TokenStorageInterface $tokenStorage, SiteProviderInterface $siteManager)
     {
         $this->tokenStorage = $tokenStorage;
         $this->siteManager  = $siteManager;

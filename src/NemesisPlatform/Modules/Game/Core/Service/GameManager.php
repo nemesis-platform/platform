@@ -9,7 +9,7 @@
 namespace NemesisPlatform\Modules\Game\Core\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Modules\Game\Core\Entity\RatingRecord;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\DecisionRoundInterface;
 use NemesisPlatform\Modules\Game\Core\Entity\Round\DraftRound;
@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class GameManager
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     private $siteManager;
     /** @var  TokenStorageInterface */
     private $tokenStorage;
@@ -41,14 +41,15 @@ class GameManager
 
     /**
      * GameManager constructor.
-     * @param EntityManagerInterface $manager
-     * @param SiteManagerInterface $siteManager
-     * @param TokenStorageInterface $tokenStorage
+     *
+*@param EntityManagerInterface              $manager
+     * @param SiteProviderInterface         $siteManager
+     * @param TokenStorageInterface         $tokenStorage
      * @param AuthorizationCheckerInterface $authChecker
      */
     public function __construct(
         EntityManagerInterface $manager,
-        SiteManagerInterface $siteManager,
+        SiteProviderInterface $siteManager,
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authChecker
     ) {

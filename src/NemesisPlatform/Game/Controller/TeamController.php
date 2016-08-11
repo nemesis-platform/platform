@@ -74,7 +74,7 @@ class TeamController extends Controller
     public function listAction(Season $season = null)
     {
         /** @var SeasonedSite $site */
-        $site = $this->get('site.manager')->getSite();
+        $site = $this->get('site.provider')->getSite();
 
         if (count($site->getSeasons()) === 0) {
             throw new AccessDeniedHttpException('В данном проекте нет сезонов');

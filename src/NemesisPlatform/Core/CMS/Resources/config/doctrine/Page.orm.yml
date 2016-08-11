@@ -6,7 +6,7 @@ NemesisPlatform\Core\CMS\Entity\Page:
           type: integer
           id: true
           generator:
-              strategy: IDENTITY
+              strategy: AUTO
   fields:
     title:
       type: string

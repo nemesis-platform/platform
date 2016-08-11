@@ -10,9 +10,9 @@ namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
-use NemesisPlatform\Components\Themes\Entity\ThemeInstance;
-use NemesisPlatform\Components\Themes\Service\CompilableThemeInterface;
-use NemesisPlatform\Components\Themes\Service\ConfigurableThemeInterface;
+use NemesisPlatform\Components\Skins\Service\CompilableThemeInterface;
+use NemesisPlatform\Components\Skins\Service\ConfigurableThemeInterface;
+use NemesisPlatform\Core\CMS\Entity\ThemeInstance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -100,10 +100,10 @@ class ThemeInstanceController extends Controller
      */
     public function regenerateAction(ThemeInstance $instance)
     {
-        $theme = $this->get('scaytrase.theme_registry')->get($instance->getTheme());
+        $theme = $this->get('nemesis.skin_registry')->get($instance->getTheme());
 
         if ($theme instanceof ConfigurableThemeInterface) {
-            $theme->setConfiguration($instance->getConfig());
+            $theme->configure($instance->getConfig());
         }
 
         if ($theme instanceof CompilableThemeInterface) {
@@ -153,7 +153,7 @@ class ThemeInstanceController extends Controller
     {
         $builder = $this->createFormBuilder($instance);
 
-        $theme = $this->get('scaytrase.theme_registry')->get($instance->getTheme());
+        $theme = $this->get('nemesis.skin_registry')->get($instance->getTheme());
 
         $config = $builder->create('config', 'form');
         if ($theme instanceof FormTypedInterface) {

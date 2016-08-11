@@ -9,7 +9,7 @@
 namespace NemesisPlatform\Core\CMS\Theme;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
-use NemesisPlatform\Components\Themes\AbstractConfigurableBootstrapTheme;
+use NemesisPlatform\Components\Skins\AbstractConfigurableBootstrapTheme;
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Game\Security\Voters\Team;
 
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Core\Account\Entity\User;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Security\Voters\TeamVoterInterface;
@@ -19,10 +19,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ParticipantVoter implements TeamVoterInterface, VoterInterface
 {
 
-    /** @var  SiteManagerService */
+    /** @var  SiteProvider */
     private $siteManager;
 
-    public function __construct(SiteManagerService $siteManager)
+    public function __construct(SiteProvider $siteManager)
     {
         $this->siteManager = $siteManager;
     }

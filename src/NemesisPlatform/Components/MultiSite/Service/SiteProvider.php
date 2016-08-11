@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 18.08.2014
- * Time: 18:30
- */
 
 namespace NemesisPlatform\Components\MultiSite\Service;
 
@@ -14,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class SiteManagerService implements SiteManagerInterface
+class SiteProvider implements SiteProviderInterface
 {
     /** @var null|SiteInterface */
     private $site;

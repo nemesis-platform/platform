@@ -7,7 +7,7 @@ services:
 
     admin_menu.current_site:
       class: NemesisPlatform\Admin\Menu\CurrentSiteEntry
-      arguments: [@site.manager, @router]
+      arguments: [@site.provider, @router]
       tags:
       - { name: menu_element, menu: admin_menu }
 

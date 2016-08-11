@@ -9,17 +9,17 @@ services:
     arguments:
     - @security.token_storage
     - @doctrine.orm.entity_manager
-    - @site.manager
+    - @site.provider
     tags:
     - { name: kernel.event_listener, event: kernel.request, method: updateUserTeams, priority: -255 }
 
   nemesis.account_manager:
     class: NemesisPlatform\Game\Service\AccountManagerService
-    arguments: [@site.manager, @doctrine.orm.entity_manager, @security.token_storage]
+    arguments: [@site.provider, @doctrine.orm.entity_manager, @security.token_storage]
 
   season.filter_converter:
     class:    NemesisPlatform\Game\ParamConverter\SeasonParamConverter
-    arguments: [@doctrine,@site.manager]
+    arguments: [@doctrine,@site.provider]
     tags:
     - { name: request.param_converter, priority: 1, converter: season_converter }
 

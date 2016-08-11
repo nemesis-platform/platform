@@ -58,7 +58,7 @@ class ParticipantController extends Controller
         }
 
         /** @var SiteInterface[] $sites */
-        $sites = [$this->get('site.manager')->getSite()];
+        $sites = [$this->get('site.provider')->getSite()];
 
         return ['season' => $season, 'sites' => $sites];
     }
@@ -90,7 +90,7 @@ class ParticipantController extends Controller
         $query->orWhere('u.lastname LIKE :term')->setParameter('term', '%'.$request->query->get('term').'%');
         $query->orWhere('u.middlename LIKE :term')->setParameter('term', '%'.$request->query->get('term').'%');
 
-        $query->andWhere('site = :site')->setParameter('site', $this->get('site.manager')->getSite());
+        $query->andWhere('site = :site')->setParameter('site', $this->get('site.provider')->getSite());
 
         return new JsonResponse(
             array_map(
@@ -135,7 +135,7 @@ class ParticipantController extends Controller
         $result = $repo->jqueryDataTableFetch(
             $request->query->all(),
             $fields,
-            $this->get('site.manager')->getSite(),
+            $this->get('site.provider')->getSite(),
             $season,
             (bool)$request->query->get('everyone', false)
         );

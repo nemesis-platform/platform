@@ -6,7 +6,7 @@ NemesisPlatform\Core\CMS\Entity\Block\SiteBlock:
           type: integer
           id: true
           generator:
-              strategy: IDENTITY
+              strategy: AUTO
 
   fields:
     area:

@@ -1,10 +1,10 @@
-NemesisPlatform\Components\Themes\Entity\ThemeInstance:
+NemesisPlatform\Core\CMS\Entity\ThemeInstance:
   id:
     id:
       type: integer
       id: true
       generator:
-        strategy: IDENTITY
+        strategy: AUTO
   type: entity
   inheritanceType: SINGLE_TABLE
   fields:

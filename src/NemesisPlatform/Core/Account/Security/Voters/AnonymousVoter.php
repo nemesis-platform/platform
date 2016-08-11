@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Core\Account\Security\Voters;
 
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerService;
+use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Game\Entity\SeasonedSite;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -17,10 +17,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AnonymousVoter implements UserVoterInterface, VoterInterface
 {
 
-    /** @var SiteManagerService */
+    /** @var SiteProvider */
     private $siteManager;
 
-    public function __construct(SiteManagerService $siteManager)
+    public function __construct(SiteProvider $siteManager)
     {
         $this->siteManager = $siteManager;
     }

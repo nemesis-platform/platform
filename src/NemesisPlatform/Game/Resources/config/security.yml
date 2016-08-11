@@ -2,7 +2,7 @@ services:
   nemesis.security.participant_voter:
       class: NemesisPlatform\Game\Security\Voters\Team\ParticipantVoter
       public:     false
-      arguments: [ @site.manager ]
+      arguments: [ @site.provider ]
       tags:
         - {name: security.voter}
 

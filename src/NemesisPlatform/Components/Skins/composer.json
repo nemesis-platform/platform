@@ -1,0 +1,28 @@
+{
+  "name": "nemesis-platform/twig-skins",
+  "description": "Web-configurable forms",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pavel Batanov",
+      "email": "pavel@batanov.me"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/framework-bundle": "~2.3",
+    "symfony/console": "~2.3",
+    "symfony/form": "~2.3",
+    "sensio/framework-extra-bundle": "~3.0"
+  },
+  "suggest": {
+    "twig/twig": "for rendering theme with twig templates",
+    "symfony/assetic-bundle": "For compilable and configurable themes"
+  },
+  "autoload": {
+    "psr-4": {
+      "NemesisPlatform\\Components\\Skins\\": "./"
+    }
+  }
+}

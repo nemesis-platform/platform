@@ -9,13 +9,13 @@
 namespace NemesisPlatform\Game\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use NemesisPlatform\Components\MultiSite\Service\SiteManagerInterface;
+use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
 use NemesisPlatform\Game\Entity\Team;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AccountManagerService
 {
-    /** @var  SiteManagerInterface */
+    /** @var  SiteProviderInterface */
     private $siteManager;
     /** @var  EntityManagerInterface */
     private $manager;
@@ -25,12 +25,12 @@ class AccountManagerService
     /**
      * AccountManagerService constructor.
      *
-     * @param SiteManagerInterface   $siteManager
+     * @param SiteProviderInterface  $siteManager
      * @param EntityManagerInterface $manager
      * @param TokenStorageInterface  $tokenStorage
      */
     public function __construct(
-        SiteManagerInterface $siteManager,
+        SiteProviderInterface $siteManager,
         EntityManagerInterface $manager,
         TokenStorageInterface $tokenStorage
     ) {
