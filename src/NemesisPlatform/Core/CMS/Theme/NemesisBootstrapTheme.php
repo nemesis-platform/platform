@@ -34,7 +34,7 @@ abstract class NemesisBootstrapTheme extends AbstractConfigurableBootstrapTheme 
         $this->kernelRootDir = $kernelRootDir;
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder->add(
             'variables',

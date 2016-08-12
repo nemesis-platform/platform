@@ -148,7 +148,7 @@ class UserGenerator implements EntityGeneratorInterface, FormInjectorInterface
         return 'Генератор учетных записей пользователей';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add(

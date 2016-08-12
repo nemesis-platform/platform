@@ -157,7 +157,7 @@ class ChainedSeasonGenerator implements EntityGeneratorInterface, FormInjectorIn
         return 'chained_season_generator';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add('season', 'site_seasons', ['label' => 'Сезон', 'required' => false])

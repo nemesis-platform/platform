@@ -126,7 +126,7 @@ class ParticipantCertificateImporter implements ImporterInterface, FormInjectorI
         }
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add(

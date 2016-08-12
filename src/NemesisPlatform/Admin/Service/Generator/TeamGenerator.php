@@ -106,7 +106,7 @@ class TeamGenerator implements EntityGeneratorInterface, FormInjectorInterface
         return 'Генератор команд';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add(

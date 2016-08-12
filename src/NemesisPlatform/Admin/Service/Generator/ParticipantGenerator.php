@@ -105,7 +105,7 @@ class ParticipantGenerator implements EntityGeneratorInterface, FormInjectorInte
         return 'Генератор анкет сезонов пользователей';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add('season', 'site_seasons', ['label' => 'Сезон'])

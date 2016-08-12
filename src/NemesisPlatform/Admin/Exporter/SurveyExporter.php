@@ -141,7 +141,7 @@ class SurveyExporter extends AbstractCSVExporter implements ExporterInterface, F
         return 'site_survey_exporter';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder->add(
             'survey',

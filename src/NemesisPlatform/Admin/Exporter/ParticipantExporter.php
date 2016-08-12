@@ -238,7 +238,7 @@ class ParticipantExporter implements ExporterInterface, FormInjectorInterface
         return 'Экспорт участников';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
             ->add(

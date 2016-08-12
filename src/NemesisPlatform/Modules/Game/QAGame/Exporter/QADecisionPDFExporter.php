@@ -177,7 +177,7 @@ class QADecisionPDFExporter implements ExporterInterface, FormInjectorInterface
         return 'qa_decision_pdf_exporter';
     }
 
-    public function injectForm(FormBuilderInterface $builder)
+    public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder->add(
             'round',
