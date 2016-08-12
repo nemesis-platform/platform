@@ -8,13 +8,15 @@
 
 namespace NemesisPlatform\Components\Form\Survey\Form\Type;
 
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
+use NemesisPlatform\Components\Form\Survey\Entity\SurveyQuestion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SurveyQuestionType extends AbstractType
 {
-
     /**
      * Returns the name of this type.
      *
@@ -31,8 +33,11 @@ class SurveyQuestionType extends AbstractType
             'field',
             'entity',
             [
-                'label' => 'Поле',
-                'class' => 'ScayTrase\StoredFormsBundle\Entity\Field\AbstractField',
+                'label'        => 'Поле',
+                'class'        => AbstractField::class,
+                'choice_label' => function (FieldInterface $field) {
+                    return sprintf('%s [%s]', $field->getTitle(), $field->getName());
+                },
             ]
         );
         $builder->add('weight', 'integer', ['label' => 'Вес']);
@@ -40,8 +45,6 @@ class SurveyQuestionType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyQuestion']);
+        $resolver->setDefaults(['data_class' => SurveyQuestion::class]);
     }
-
-
 }

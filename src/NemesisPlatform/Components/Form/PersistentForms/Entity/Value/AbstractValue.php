@@ -1,22 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 29.09.2014
- * Time: 13:59
- */
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Value;
 
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\ValueInterface;
 
-use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
-
-abstract class AbstractValue
+abstract class AbstractValue implements ValueInterface
 {
     /** @var  int|null */
     private $id;
-    /** @var  AbstractField */
+    /** @var  FieldInterface */
     private $field;
+
+    /**
+     * AbstractValue constructor.
+     *
+     * @param FieldInterface $field
+     */
+    public function __construct(FieldInterface $field)
+    {
+        $this->field = $field;
+    }
 
     /**
      * @return int|null
@@ -27,7 +31,7 @@ abstract class AbstractValue
     }
 
     /**
-     * @return AbstractField
+     * @return FieldInterface
      */
     public function getField()
     {
@@ -35,16 +39,28 @@ abstract class AbstractValue
     }
 
     /**
-     * @param AbstractField $field
+     * @param FieldInterface $field
      */
-    public function setField($field)
+    public function setField(FieldInterface $field)
     {
         $this->field = $field;
     }
 
+    abstract public function setValue($value);
+
+    /** {@inheritdoc} */
+    public function getRawValue()
+    {
+        return $this->getValue();
+    }
+
     abstract public function getValue();
 
-    abstract public function setValue($value);
+    /** {@inheritdoc} */
+    public function getRenderedValue()
+    {
+        return $this->getRenderValue();
+    }
 
     abstract public function getRenderValue();
 }

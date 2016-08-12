@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 02.06.2015
- * Time: 14:08
- */
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Form\Type;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,11 +26,11 @@ class TableRowType extends AbstractType
         $fields = $options['fields'];
 
         foreach ($fields as $field) {
-            if (!$field instanceof AbstractField) {
+            if (!$field instanceof FieldInterface) {
                 throw new \LogicException('Option field should contain array of AbstractFields entities');
             }
 
-            $field->buildForm($builder);
+            $field->injectForm($builder);
         }
     }
 

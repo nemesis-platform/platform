@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\TableValue;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
-use NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableFieldType;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableFieldConfigurationType;
 use NemesisPlatform\Components\Form\PersistentForms\Form\Type\TableType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -54,7 +54,7 @@ class TableField extends AbstractField
 
     public function getFormType()
     {
-        return TableFieldType::class;
+        return TableFieldConfigurationType::class;
     }
 
     /**

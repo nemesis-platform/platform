@@ -164,8 +164,8 @@
     {% endjavascripts %}
 
     {% javascripts
-    '@ExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
-    '@ExtensionsBundle/Resources/public/js/jquery.hider.js'
+    '@NemesisFormExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
+    '@NemesisFormExtensionsBundle/Resources/public/js/jquery.hider.js'
     '@NemesisCmsBundle/Resources/public/js/utils/jquery.countdown.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -186,6 +186,13 @@
         $(function () {
             $('[data-toggle="popover"]').popover();
         })
+    </script>
+
+    {% javascripts '@symfony_collection' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $('.sf-collection').collection();
     </script>
 {% endmacro %}
 

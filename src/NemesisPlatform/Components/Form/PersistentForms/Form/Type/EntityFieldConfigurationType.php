@@ -10,7 +10,7 @@ namespace NemesisPlatform\Components\Form\PersistentForms\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AbstractEntityFieldType extends AbstractFieldType
+class EntityFieldConfigurationType extends FieldConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,5 +18,4 @@ class AbstractEntityFieldType extends AbstractFieldType
 
         $builder->add('classname', 'text');
     }
-
 }

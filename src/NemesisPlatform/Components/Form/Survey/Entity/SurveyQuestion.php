@@ -8,7 +8,7 @@
 
 namespace NemesisPlatform\Components\Form\Survey\Entity;
 
-use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
 
 class SurveyQuestion
 {
@@ -16,7 +16,7 @@ class SurveyQuestion
     private $id;
     /** @var int */
     private $weight = 0;
-    /** @var  AbstractField */
+    /** @var  FieldInterface */
     private $field;
     /** @var  Survey */
     private $survey;
@@ -62,7 +62,7 @@ class SurveyQuestion
     }
 
     /**
-     * @return AbstractField
+     * @return FieldInterface
      */
     public function getField()
     {
@@ -70,7 +70,7 @@ class SurveyQuestion
     }
 
     /**
-     * @param AbstractField $field
+     * @param FieldInterface $field
      */
     public function setField($field)
     {

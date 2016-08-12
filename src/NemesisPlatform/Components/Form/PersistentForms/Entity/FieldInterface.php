@@ -9,4 +9,16 @@ interface FieldInterface
 
     /** @return array options to configure VIEW form */
     public function getViewFormOptions();
+
+    /**
+     * @param string $name
+     * @param string $title
+     *
+     * @return FieldInterface
+     */
+    public static function create($name = null, $title = null);
+
+    public function getName();
+
+    public function getTitle();
 }

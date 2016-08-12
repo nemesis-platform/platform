@@ -8,6 +8,7 @@
 
 namespace NemesisPlatform\Game\ParamConverter;
 
+use NemesisPlatform\Components\MultiSite\Entity\MultiSiteElement;
 use NemesisPlatform\Components\MultiSite\Service\SiteProvider;
 use NemesisPlatform\Game\Entity\Season;
 use NemesisPlatform\Game\Entity\SeasonedSite;
@@ -36,14 +37,14 @@ class SeasonParamConverter extends DoctrineParamConverter
     /**
      * Stores the object in the request.
      *
-     * @param Request $request The request
+     * @param Request        $request       The request
      * @param ParamConverter $configuration Contains the name, class and options of the object
      *
      * @return bool    True if the object has been successfully set, else false
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $name = $configuration->getName();
+        $name  = $configuration->getName();
         $class = $configuration->getClass();
 
 
@@ -85,7 +86,7 @@ class SeasonParamConverter extends DoctrineParamConverter
     public function supports(ParamConverter $configuration)
     {
         return in_array(
-            'ScayTrase\MultiSiteBundle\Entity\SiteBoundInterface',
+            MultiSiteElement::class,
             class_implements($configuration->getClass()),
             true
         );

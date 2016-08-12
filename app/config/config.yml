@@ -34,10 +34,12 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        photo_storage: "%photo_path%"
-        ckeditor_uploads: "%ckeditor_uploads%"
+      photo_storage: "%photo_path%"
+      ckeditor_uploads: "%ckeditor_uploads%"
     form:
-         resources: ['bootstrap_3_horizontal_layout.html.twig']
+       resources:
+       - 'bootstrap_3_horizontal_layout.html.twig'
+       - '@vendor_dir/npm-asset/symfony-collection/jquery.collection.html.twig'
     paths:
       "%kernel.root_dir%/../web/": web_dir
       "%kernel.root_dir%/../vendor/": vendor_dir
@@ -84,6 +86,7 @@ assetic:
           - '%vendor_dir%/npm-asset/jasny-bootstrap/js/rowlink.js'
           - '%vendor_dir%/npm-asset/jasny-bootstrap/js/transition.js'
         bootstrap_switch: '%vendor_dir%/npm-asset/bootstrap-switch/dist/js/bootstrap-switch.js'
+        symfony_collection: '%vendor_dir%/npm-asset/symfony-collection/jquery.collection.js'
 
 # Doctrine Configuration
 doctrine:
@@ -95,6 +98,8 @@ doctrine:
            NemesisPlatform\Components\MultiSite\Entity\SiteInterface: NemesisPlatform\Core\CMS\Entity\NemesisSite
            NemesisPlatform\Core\Account\Entity\NamedUserInterface: NemesisPlatform\Core\Account\Entity\User
            Symfony\Component\Security\Core\User\UserInterface: NemesisPlatform\Core\Account\Entity\User
+           NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface: NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField
+           \NemesisPlatform\Components\Form\PersistentForms\Entity\ValueInterface: NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
            NemesisPlatform\Components\Skins\Entity\SkinConfigurationInterface: NemesisPlatform\Core\CMS\Entity\ThemeInstance
 
         auto_generate_proxy_classes: "%kernel.debug%"

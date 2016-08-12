@@ -8,7 +8,6 @@
 
 namespace NemesisPlatform\Components\Form\PersistentForms\Registry;
 
-use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
 
 class FieldsRegistry
@@ -20,10 +19,20 @@ class FieldsRegistry
      * @param string $alias
      *
      * @return FieldInterface
+     * @throws \OutOfBoundsException
      */
     public function get($alias)
     {
+        if (!$this->has($alias)) {
+            throw new \OutOfBoundsException('No type '.$alias.' registered');
+        }
+
         return $this->types[$alias];
+    }
+
+    public function has($alias)
+    {
+        return array_key_exists($alias, $this->types);
     }
 
     /**

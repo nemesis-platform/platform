@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pavel Batanov <pavel@batanov.me>
- * Date: 22.05.2015
- * Time: 14:23
- */
 
 namespace NemesisPlatform\Components\Form\Survey\Entity;
 
-use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\ValueInterface;
 
 class SurveyAnswer
 {
-    /** @var  AbstractValue */
+    /** @var  ValueInterface */
     private $value;
     /** @var  SurveyResult */
     private $parent;
@@ -20,15 +14,15 @@ class SurveyAnswer
     /**
      * SurveyAnswer constructor.
      *
-     * @param AbstractValue $value
+     * @param ValueInterface $value
      */
-    public function __construct(AbstractValue $value)
+    public function __construct(ValueInterface $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return AbstractValue
+     * @return ValueInterface
      */
     public function getValue()
     {
@@ -36,9 +30,9 @@ class SurveyAnswer
     }
 
     /**
-     * @param AbstractValue $value
+     * @param ValueInterface $value
      */
-    public function setValue(AbstractValue $value)
+    public function setValue(ValueInterface $value)
     {
         $this->value = $value;
     }

@@ -8,6 +8,7 @@
 
 namespace NemesisPlatform\Core\CMS\Controller;
 
+use NemesisPlatform\Components\Form\Survey\Form\Type\SurveyType;
 use NemesisPlatform\Core\CMS\Entity\SiteSurvey;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -28,7 +29,7 @@ class SurveyController extends Controller
 {
     /**
      * @param \NemesisPlatform\Core\CMS\Entity\SiteSurvey $survey
-     * @param Request                                          $request
+     * @param Request                                     $request
      *
      * @Route("/take/{alias}", name="user_survey_take_by_alias")
      * @Route("/take/i/{id}", name="user_survey_take_by_id")
@@ -50,7 +51,7 @@ class SurveyController extends Controller
             throw new AccessDeniedHttpException('This survey is available only for registered users');
         }
 
-        $form = $this->createForm('survey', null, ['survey' => $survey]);
+        $form = $this->createForm(SurveyType::class, null, ['survey' => $survey]);
         $form->add(
             'submit',
             'submit',

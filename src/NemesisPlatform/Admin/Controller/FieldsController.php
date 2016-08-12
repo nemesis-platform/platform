@@ -10,7 +10,10 @@ namespace NemesisPlatform\Admin\Controller;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
 use NemesisPlatform\Components\Form\FormTypedInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\ConfigurableFieldInterface;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\FieldConfigurationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -53,24 +56,21 @@ class FieldsController extends Controller
 
 
     /**
-     * @param Request       $request
-     * @param AbstractField $field
      * @Route("/{field}/edit", name="storable_forms_field_edit")
      * @Method({"GET","POST"})
-     *
-     * @return Response
      * @Template()
+     *
+     * @param Request                                                 $request
+     * @param AbstractField|FieldInterface|ConfigurableFieldInterface $field
+     *
+     * @return RedirectResponse|array
      */
     public function editAction(Request $request, AbstractField $field)
     {
-        if ($field instanceof FormInjectorInterface) {
-            $builder = $this->createFormBuilder();
-            $field->injectForm($builder);
-            $form = $builder->getForm();
-        } elseif ($field instanceof FormTypedInterface) {
-            $form = $this->createForm($field->getFormType());
+        if ($field instanceof ConfigurableFieldInterface) {
+            $form = $this->createForm($field->getConfigurationForm(), $field, $field->getConfigurationFormOptions());
         } else {
-            $form = $this->createForm('form');
+            $form = $this->createForm(FieldConfigurationType::class);
         }
 
         $form->setData($field);
@@ -87,20 +87,19 @@ class FieldsController extends Controller
             );
         }
 
-        /** @var FormInjectorInterface|FormTypedInterface|AbstractField $field */
 
-        return ['form' => $form->createView(), 'field' => $field];
+        return ['form' => $form->createView(), 'field' => $field, 'class' => get_class($field)];
     }
 
     /**
-     * @param Request $request
      * @Route("/{type}/create", name="storable_forms_field_create")
      * @Method({"GET","POST"})
      * @Template()
      *
-     * @param         $type
+     * @param Request $request
+     * @param string  $type
      *
-     * @return Response
+     * @return array|RedirectResponse
      */
     public function createAction(Request $request, $type)
     {
@@ -109,20 +108,16 @@ class FieldsController extends Controller
             throw new NotFoundHttpException('Field type not found');
         }
 
+        $fieldType = $registry->get($type);
+
         /** @var AbstractField|FormInjectorInterface|FormTypedInterface $field */
-        $field = clone $registry->get($type);
+        $field = $fieldType::create();
 
-        if ($field instanceof FormInjectorInterface) {
-            $builder = $this->createFormBuilder();
-            $field->injectForm($builder);
-            $form = $builder->getForm();
-        } elseif ($field instanceof FormTypedInterface) {
-            $form = $this->createForm($field->getFormType());
+        if ($field instanceof ConfigurableFieldInterface) {
+            $form = $this->createForm($field->getConfigurationForm(), $field, $field->getConfigurationFormOptions());
         } else {
-            $form = $this->createForm('form');
+            $form = $this->createForm(FieldConfigurationType::class);
         }
-
-        $form->setData($field);
 
         $form->add('submit', 'submit', ['label' => 'Создать']);
 
@@ -138,7 +133,7 @@ class FieldsController extends Controller
             );
         }
 
-        return ['form' => $form->createView(), 'type' => $type];
+        return ['form' => $form->createView(), 'type' => $type, 'alias' => $type];
     }
 
     /**

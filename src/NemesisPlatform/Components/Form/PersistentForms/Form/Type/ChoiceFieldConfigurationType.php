@@ -12,7 +12,7 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\ChoiceFiel
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ChoiceFieldType extends AbstractFieldType
+class ChoiceFieldConfigurationType extends FieldConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,6 +28,7 @@ class ChoiceFieldType extends AbstractFieldType
                 'type'         => new ChoiceFieldOptionType(),
                 'allow_add'    => true,
                 'allow_delete' => true,
+                'attr'         => ['class' => 'sf-collection'],
             ]
         );
     }

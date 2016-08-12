@@ -10,6 +10,7 @@ namespace NemesisPlatform\Admin\Form\Type;
 
 use NemesisPlatform\Components\MultiSite\Entity\SiteInterface;
 use NemesisPlatform\Components\MultiSite\Service\SiteProviderInterface;
+use NemesisPlatform\Core\CMS\Entity\NemesisSite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -37,11 +38,14 @@ class CurrentSiteType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'class'     => SiteInterface::class,
-                'read_only' => true,
-                'required'  => true,
-                'label'     => 'Сайт',
-                'data'      => $this->siteManager->getSite(),
+                'class'        => NemesisSite::class,
+                'read_only'    => true,
+                'required'     => true,
+                'label'        => 'Сайт',
+                'choice_label' => function (SiteInterface $site) {
+                    return sprintf('[%s] %s', $site->getDomain(), $site->getShortName());
+                },
+                'data'         => $this->siteManager->getSite(),
             ]
         );
     }

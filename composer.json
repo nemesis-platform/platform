@@ -68,6 +68,7 @@
     "npm-asset/datatables": "~1.10",
     "npm-asset/jquery-sortable": "~0.9.13",
     "npm-asset/nestedSortable": "~2.0",
+    "npm-asset/symfony-collection": "~2.0",
     "bower-asset/jquery-validator": "~1.0",
     "bower-asset/fontawesome": "~4.5"
   },

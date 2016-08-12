@@ -79,8 +79,8 @@
         {% endjavascripts %}
 
         {% javascripts
-        '@ExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
-        '@ExtensionsBundle/Resources/public/js/jquery.hider.js' %}
+        '@NemesisFormExtensionsBundle/Resources/public/js/jquery.entity_autocomplete.js'
+        '@NemesisFormExtensionsBundle/Resources/public/js/jquery.hider.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -113,7 +113,12 @@
             $('.fileinput').fileinput();
             $(".switch-checkbox").bootstrapSwitch();
         </script>
-
+        {% javascripts '@symfony_collection' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+            $('.sf-collection').collection();
+        </script>
     {% endblock %}
     </body>
     </html>

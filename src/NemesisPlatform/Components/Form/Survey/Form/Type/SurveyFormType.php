@@ -41,10 +41,9 @@ class SurveyFormType extends AbstractType
                 'type'         => new SurveyQuestionType(),
                 'allow_add'    => true,
                 'allow_delete' => true,
+                'prototype'    => true,
                 'by_reference' => false,
-                'options'      => [
-                    'attr' => ['style' => 'inline'],
-                ],
+                'attr'         => ['class' => 'sf-collection'],
             ]
         );
     }

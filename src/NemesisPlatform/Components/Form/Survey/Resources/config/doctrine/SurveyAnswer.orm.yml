@@ -8,7 +8,7 @@ NemesisPlatform\Components\Form\Survey\Entity\SurveyAnswer:
 
   oneToOne:
     value:
-      targetEntity: \NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue
+      targetEntity: \NemesisPlatform\Components\Form\PersistentForms\Entity\ValueInterface
       cascade: [all]
       fetch: EAGER
 

@@ -24,7 +24,7 @@ class SampleDependentFixture implements FixtureInterface, DependentFixtureInterf
     public function getDependencies()
     {
         return array(
-            'ScayTrase\Tests\PHP53\SampleFixture'
+            'NemesisPlatform\Components\Test\Tests\PHP53\SampleFixture'
         );
     }
 

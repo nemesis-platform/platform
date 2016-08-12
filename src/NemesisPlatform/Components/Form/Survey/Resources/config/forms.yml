@@ -2,8 +2,8 @@ services:
   scaytrase.form_type.survey:
     class: NemesisPlatform\Components\Form\Survey\Form\Type\SurveyType
     arguments:
-      - @security.token_storage
-      - @doctrine.orm.entity_manager
+      - "@security.token_storage"
+      - "@doctrine.orm.entity_manager"
     tags:
     - { name: form.type, alias: survey }
 

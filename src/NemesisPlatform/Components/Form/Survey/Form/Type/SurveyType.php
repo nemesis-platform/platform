@@ -9,8 +9,10 @@
 namespace NemesisPlatform\Components\Form\Survey\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
+use NemesisPlatform\Components\Form\FormInjectorInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\MapperAwareInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\TransformerAwareInterface;
 use NemesisPlatform\Components\Form\Survey\Entity\Survey;
-use NemesisPlatform\Components\Form\Survey\Entity\SurveyAnswer;
 use NemesisPlatform\Components\Form\Survey\Entity\SurveyResult;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,10 +37,8 @@ class SurveyType extends AbstractType
      * @param TokenStorageInterface  $tokenStorage
      * @param EntityManagerInterface $manager
      */
-    public function __construct(
-        TokenStorageInterface $tokenStorage,
-        EntityManagerInterface $manager
-    ) {
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager)
+    {
         $this->tokenStorage = $tokenStorage;
         $this->manager      = $manager;
     }
@@ -57,15 +57,32 @@ class SurveyType extends AbstractType
             null,
             [
                 'required'       => true,
-                'mapped'         => false,
                 'compound'       => true,
                 'label'          => false,
                 'error_bubbling' => true,
+                'mapped'         => false,
             ]
         );
 
         foreach ($survey->getQuestions() as $question) {
-            $question->getField()->buildForm($questions, ['mapped' => false]);
+            $field = $question->getField();
+            if ($field instanceof FormInjectorInterface) {
+                $field->injectForm($questions, []);
+            } else {
+                $questions->add(
+                    $field->getName(),
+                    $field->getViewForm(),
+                    array_merge($field->getViewFormOptions())
+                );
+
+                if ($field instanceof MapperAwareInterface) {
+                    $questions->get($field->getName())->setDataMapper($field->getFormMapper());
+                }
+
+                if ($field instanceof TransformerAwareInterface) {
+                    $questions->get($field->getName())->addModelTransformer($field->getFormTransformer());
+                }
+            }
         }
 
         $builder->add($questions);
@@ -75,7 +92,7 @@ class SurveyType extends AbstractType
         if ($survey->isEditAllowed()) {
             $savedResult = $this
                 ->manager
-                ->getRepository('SurveyBundle:SurveyResult')
+                ->getRepository(SurveyResult::class)
                 ->findOneBy(
                     [
                         'author' => $user,
@@ -130,8 +147,10 @@ class SurveyType extends AbstractType
                         continue;
                     }
 
-                    $answer = new SurveyAnswer($value->getData());
-                    $result->addAnswer($answer);
+                    dump($value);
+
+//                    $answer = new SurveyAnswer($value->getData());
+//                    $result->addAnswer($answer);
                 }
             }
         );
@@ -146,9 +165,9 @@ class SurveyType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'ScayTrase\SurveyBundle\Entity\SurveyResult']);
+        $resolver->setDefaults(['data_class' => SurveyResult::class]);
         $resolver->setRequired(['survey']);
-        $resolver->setAllowedTypes(['survey' => 'ScayTrase\SurveyBundle\Entity\Survey']);
+        $resolver->setAllowedTypes(['survey' => Survey::class]);
     }
 
     /**

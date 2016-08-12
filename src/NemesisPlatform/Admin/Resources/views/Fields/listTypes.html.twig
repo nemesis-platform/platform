@@ -10,9 +10,9 @@
 
 {% block body %}
     <ul>
-        {% for type in types %}
+        {% for alias, type in types %}
             <li>
-                <a href="{{ path('storable_forms_field_create', {'type':type.type}) }}">{{ type.type }}</a>
+                <a href="{{ path('storable_forms_field_create', {'type':alias}) }}">{{ 'storable_field.'~alias |trans }}</a>
             </li>
         {% endfor %}
     </ul>

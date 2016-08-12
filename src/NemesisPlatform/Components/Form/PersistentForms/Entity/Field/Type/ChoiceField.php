@@ -10,14 +10,13 @@ namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\ChoiceValue;
-use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormTypeInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\ChoiceFieldConfigurationType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ChoiceField extends AbstractField
 {
     /** @var  array */
-    private $choices;
+    private $choices = [];
     /** @var bool */
     private $expanded = false;
     /** @var bool */
@@ -79,35 +78,12 @@ class ChoiceField extends AbstractField
     public function setChoices(array $choices)
     {
         foreach ($choices as $key => $value) {
-            if (is_array($value)) {
-                $value = array_flip($value);
-            }
-
             $this->choices[$key] = $value;
         }
         $this->choices = $choices;
     }
 
-    /**
-     * @return FormTypeInterface|string FormTypeInterface instance or string which represents registered form type
-     */
-    public function getFormType()
-    {
-        return 'field_choice_settings';
-    }
-
-    /**
-     * @return string|FormTypeInterface
-     */
-    protected function getRenderedFormType()
-    {
-        return 'choice';
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRenderedFormOptions()
+    public function getViewFormOptions()
     {
         $choices = [];
 
@@ -128,7 +104,7 @@ class ChoiceField extends AbstractField
         }
 
         return array_replace_recursive(
-            parent::getRenderedFormOptions(),
+            parent::getViewFormOptions(),
             [
                 'choices_as_values' => true,
                 'choices'           => $choices,
@@ -136,17 +112,20 @@ class ChoiceField extends AbstractField
                 'multiple'          => $this->multiple,
             ]
         );
-
     }
 
-    /**
-     * @return DataTransformerInterface
-     */
-    protected function getValueTransformer()
+    public function getViewForm()
     {
-        $value = new ChoiceValue();
-        $value->setField($this);
+        return ChoiceType::class;
+    }
 
-        return new ValueTransformer($value, 'value');
+    public function getConfigurationForm()
+    {
+        return ChoiceFieldConfigurationType::class;
+    }
+
+    public function getDataClass()
+    {
+        return ChoiceValue::class;
     }
 }

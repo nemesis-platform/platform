@@ -13,7 +13,7 @@ use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type\TableField
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TableFieldType extends AbstractFieldType
+class TableFieldConfigurationType extends FieldConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

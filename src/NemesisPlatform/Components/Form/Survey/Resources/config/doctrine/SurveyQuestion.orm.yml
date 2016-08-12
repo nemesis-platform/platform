@@ -13,7 +13,7 @@ NemesisPlatform\Components\Form\Survey\Entity\SurveyQuestion:
 
   manyToOne:
     field:
-      targetEntity: \NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField
+      targetEntity: NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface
 
     survey:
       targetEntity: NemesisPlatform\Components\Form\Survey\Entity\Survey

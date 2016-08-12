@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e4b2d49fc92447a4fb9069d1df8f271d",
-    "content-hash": "daf921b8d5fbd2b4cd2ac84ea72d1d6b",
+    "hash": "bc418cdcba429199f8e9b7f3a70ee9b1",
+    "content-hash": "7256a6fc9bcf642968dfd9bd09d01473",
     "packages": [
         {
             "name": "bower-asset/fontawesome",
@@ -1807,8 +1807,8 @@
             "version": "2.2.4.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery/zipball/f5416725afefb0c8ff3beb4ed4ff4b8ab3d22f0d",
-                "reference": "f5416725afefb0c8ff3beb4ed4ff4b8ab3d22f0d",
+                "url": "https://api.github.com/repos/jquery/jquery/zipball/",
+                "reference": null,
                 "shasum": null
             },
             "type": "library"
@@ -1863,6 +1863,22 @@
                 "type": "tar",
                 "url": "https://registry.npmjs.org/raphael/-/raphael-2.2.0.tgz",
                 "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "npm-asset/symfony-collection",
+            "version": "2.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ninsuo/symfony-collection.git",
+                "reference": "d62482502effc06b4e46e0d063db2affc126c816"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ninsuo/symfony-collection/zipball/d62482502effc06b4e46e0d063db2affc126c816",
+                "reference": "d62482502effc06b4e46e0d063db2affc126c816",
                 "shasum": null
             },
             "type": "library"

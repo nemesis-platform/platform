@@ -9,7 +9,7 @@
 namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Field\Type;
 
 use NemesisPlatform\Components\Form\PersistentForms\Entity\Field\AbstractField;
-use NemesisPlatform\Components\Form\PersistentForms\Form\Type\AbstractEntityFieldType;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\EntityFieldConfigurationType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -22,7 +22,7 @@ abstract class AbstractEntityField extends AbstractField
 
     public function getFormType()
     {
-        return new AbstractEntityFieldType(get_class($this));
+        return new EntityFieldConfigurationType(get_class($this));
     }
 
     /**

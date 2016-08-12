@@ -3,16 +3,21 @@
 namespace NemesisPlatform\Components\Form\PersistentForms\Entity\Field;
 
 use NemesisPlatform\Components\Form\FormInjectorInterface;
-use NemesisPlatform\Components\Form\FormTypedInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\ConfigurableFieldInterface;
 use NemesisPlatform\Components\Form\PersistentForms\Entity\FieldInterface;
-use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\Type\PlainValue;
-use NemesisPlatform\Components\Form\PersistentForms\Form\Transformer\ValueTransformer;
-use NemesisPlatform\Components\Form\PersistentForms\Form\Type\AbstractFieldType;
-use Symfony\Component\Form\DataTransformerInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\MapperAwareInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\TransformerAwareInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\Value\AbstractValue;
+use NemesisPlatform\Components\Form\PersistentForms\Entity\ValueInterface;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Mapper\CallbackDataMapper;
+use NemesisPlatform\Components\Form\PersistentForms\Form\Type\FieldConfigurationType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 
-abstract class AbstractField implements FormTypedInterface, FieldInterface, FormInjectorInterface
+abstract class AbstractField
+    implements FormInjectorInterface, FieldInterface, ConfigurableFieldInterface, MapperAwareInterface
 {
     /** @var  int|null */
     private $id;
@@ -24,6 +29,24 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
     private $help_message;
     /** @var  bool */
     private $required = true;
+
+    /**
+     * AbstractField constructor.
+     *
+     * @param string $name
+     * @param string $title
+     */
+    public function __construct($name = null, $title = 'New field')
+    {
+        $this->name  = $name ?: 'field_'.bin2hex(random_bytes(5));
+        $this->title = $title;
+    }
+
+    /** {@inheritdoc} */
+    public static function create($name = null, $title = null)
+    {
+        return new static($name, $title);
+    }
 
     /**
      * @return int|null
@@ -52,10 +75,14 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
     public function injectForm(FormBuilderInterface $builder, array $options = [])
     {
         $options = array_replace_recursive($this->getViewFormOptions(), $options);
-        $field   = $builder->create($this->name, $this->getRenderedFormType(), $options);
+        $field   = $builder->create($this->name, $this->getViewForm(), $options);
 
-        if (null !== ($transformer = $this->getValueTransformer())) {
-            $field->addModelTransformer($transformer);
+        if (get_called_class() instanceof TransformerAwareInterface) {
+            $field->addModelTransformer($this->getFormTransformer());
+        }
+
+        if (get_called_class() instanceof MapperAwareInterface) {
+            $field->setDataMapper($this->getFormMapper());
         }
 
         $builder->add($field);
@@ -63,14 +90,19 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
 
     public function getViewFormOptions()
     {
-        return array_replace_recursive(
-            [
-                'required' => $this->isRequired(),
-                'label'    => $this->getTitle(),
-                'attr'     => ['help_text' => $this->getHelpMessage()],
-            ],
-            $this->getRenderedFormOptions()
-        );
+        return [
+            'mapped'     => true,
+            'empty_data' => null,
+            'data_class' => $this->getDataClass(),
+            'required'   => $this->isRequired(),
+            'label'      => $this->getTitle(),
+            'attr'       => ['help_text' => $this->getHelpMessage()],
+        ];
+    }
+
+    public function getDataClass()
+    {
+        return AbstractValue::class;
     }
 
     /**
@@ -90,6 +122,10 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
     }
 
     /**
+     * @return FormTypeInterface|string
+     */
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -104,10 +140,6 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
     {
         $this->title = $title;
     }
-
-    /**
-     * @return FormTypeInterface|string
-     */
 
     /**
      * @return string
@@ -125,40 +157,46 @@ abstract class AbstractField implements FormTypedInterface, FieldInterface, Form
         $this->help_message = $help;
     }
 
-    /**
-     * @return array
-     */
-    protected function getRenderedFormOptions()
-    {
-        return [];
-    }
-
-    /**
-     * @return string|FormTypeInterface
-     */
-    abstract protected function getRenderedFormType();
-
-    /**
-     * @return DataTransformerInterface
-     */
-    protected function getValueTransformer()
-    {
-        $value = new PlainValue();
-        $value->setField($this);
-
-        return new ValueTransformer($value, 'value');
-    }
-
     public function getViewForm()
     {
-        return $this->getFormType();
+        return FormType::class;
     }
 
-    /**
-     * @return FormTypeInterface|string FormTypeInterface instance or string which represents registered form type
-     */
-    public function getFormType()
+    public function getFormMapper()
     {
-        return AbstractFieldType::class;
+        return new CallbackDataMapper(
+            function ($data, $forms) {
+                /** @var FormInterface @forms */
+                dump($data);
+                dump($forms);
+
+                if (!$data instanceof ValueInterface) {
+                    return;
+                }
+
+                $forms->setValue($data->getRawValue());
+            },
+            function ($forms, &$data) {
+                /** @var FormInterface $forms */
+                dump($data);
+                dump($forms);
+                $class = $this->getDataClass();
+                /** @var AbstractValue $data */
+                $data = new $class($this);
+                $data->setValue($forms->getData());
+            }
+        );
+    }
+
+    public function getConfigurationForm()
+    {
+        return FieldConfigurationType::class;
+    }
+
+    public function getConfigurationFormOptions()
+    {
+        return [
+            'data_class' => get_called_class(),
+        ];
     }
 }
